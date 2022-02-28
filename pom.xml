@@ -12,7 +12,7 @@
     <artifactId>OtusSpringHW</artifactId>
     <version>2022-02-SNAPSHOT</version>
 
-    <description>Code Examples</description>
+    <description>Home Work course of Spring development 2022-02 OTUS</description>
 
     <developers>
         <developer>
@@ -32,6 +32,9 @@
         <junit.ver>5.6.0</junit.ver>
     </properties>
 
+    <!--Родительский артеффакт -->
+    <packaging>pom</packaging>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -46,9 +49,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <!--Родительский артеффакт -->
-    <packaging>pom</packaging>
 
     <build>
         <pluginManagement>
