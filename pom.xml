@@ -21,7 +21,7 @@
     </developers>
 
     <modules>
-<!--        <module>HW01-********</module>-->
+        <module>studenttest</module>
     </modules>
 
     <properties>
