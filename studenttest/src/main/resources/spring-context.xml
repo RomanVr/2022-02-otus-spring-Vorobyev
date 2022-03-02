@@ -4,16 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="parseCsv" class="ru.homework.ParseCsv">
+    <bean id="parseCsv" class="ru.homework.parse.ParseCsv">
         <constructor-arg name="fileNameQuestion" value="questions.csv" />
         <constructor-arg name="delimiter" value="\\t" />
     </bean>
 
-    <bean id="convertToMap" class="ru.homework.ConvertToMap">
+    <bean id="convertToMap" class="ru.homework.convert.ConvertToMap">
         <constructor-arg name="parseCsv" ref="parseCsv"/>
     </bean>
 
-    <bean id="outPutQuestions" class="ru.homework.OutPutQuestions">
+    <bean id="outPutQuestions" class="ru.homework.output.OutPutQuestions">
         <constructor-arg name="convertToMap" ref="convertToMap"/>
         <constructor-arg name="separatorLine" value="------------------------------"/>
     </bean>

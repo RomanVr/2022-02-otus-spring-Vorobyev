@@ -1,14 +1,9 @@
-package ru.homework;
+package ru.homework.parse;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Getter
@@ -19,7 +14,12 @@ public class ParseCsv {
 
     public List<List<String>> getDataFromCsv() {
         List<List<String>> dataList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(getPathFromFile())))) {
+        try (BufferedReader br =
+                     new BufferedReader(
+                             new InputStreamReader(
+                                     Objects.requireNonNull(
+                                             this.getClass().getResourceAsStream(
+                                                     getPathFromFile()))))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(delimiter);
@@ -32,12 +32,6 @@ public class ParseCsv {
     }
 
     private String getPathFromFile() {
-        URI uri = null;
-        try {
-            uri = getClass().getResource(String.format("/%s", getFileNameQuestion())).toURI();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return String.valueOf(Paths.get(uri));
+        return String.format("/%s", getFileNameQuestion());
     }
 }
