@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.homework.parse.ParseCsv;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @AllArgsConstructor
 public class ConvertToMap {
     private final ParseCsv parseCsv;
 
-    public Map<String, List<String>> getQuestionsAnswers () {
+    public Map<String, List<String>> getQuestionsAnswers() {
         Map<String, List<String>> questionsAnswers = new HashMap<>();
 
         List<List<String>> dataFromCsv = parseCsv.getDataFromCsv();
