@@ -10,10 +10,10 @@ class ParseCsvTest {
 
     private static final String DELIMITER = ",";
     private static final String FILENAME = "file.csv";
-    private ParseCsv parseCsv;
+    private ParseCsvImpl parseCsv;
     @BeforeEach
     void init() {
-        parseCsv = new ParseCsv(DELIMITER, FILENAME);
+        parseCsv = new ParseCsvImpl(DELIMITER, FILENAME);
     }
 
     @DisplayName("Должен создаваться разделитель")
