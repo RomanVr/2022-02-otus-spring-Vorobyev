@@ -1,7 +1,8 @@
 package ru.homework.parse;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,10 +13,18 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
-@AllArgsConstructor
+@Component
 public class ParseCsvImpl implements ParseCsv{
     private final String delimiter;
     private final String fileNameQuestion;
+
+    public ParseCsvImpl(
+            @Value("${parse.delimiter}") String delimiter,
+            @Value("${parse.fileNameQuestion}") String fileNameQuestion
+    ) {
+        this.delimiter = delimiter;
+        this.fileNameQuestion = fileNameQuestion;
+    }
 
     @Override
     public List<List<String>> getDataFromCsv() {

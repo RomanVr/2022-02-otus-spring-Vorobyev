@@ -1,7 +1,8 @@
 package ru.homework.convert;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.homework.parse.ParseCsv;
 
 import java.util.HashMap;
@@ -9,9 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-@AllArgsConstructor
+@Component
 public class ConvertToMapImpl implements ConvertToMap{
     private final ParseCsv parseCsv;
+
+    @Autowired
+    public ConvertToMapImpl(ParseCsv parseCsv) {
+        this.parseCsv = parseCsv;
+    }
 
     @Override
     public Map<String, List<String>> getQuestionsAnswers() {

@@ -2,6 +2,9 @@ package ru.homework.output;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import ru.homework.convert.ConvertToMap;
 
 import java.io.BufferedReader;
@@ -14,10 +17,18 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
-@AllArgsConstructor
+@Component
 public class OutPutQuestionsImpl implements OutPutQuestions {
     private final ConvertToMap convertToMap;
     private final String separatorLine;
+
+    @Autowired
+    public OutPutQuestionsImpl(
+            ConvertToMap convertToMap,
+            @Value("${outPut.separatorLine}") String separatorLine) {
+        this.convertToMap = convertToMap;
+        this.separatorLine = separatorLine;
+    }
 
     @Override
     public List<String> outputQuestions() {
