@@ -1,11 +1,11 @@
-package ru.homework.service;
+package ru.homework.examService;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.homework.entyties.Exam;
-import ru.homework.entyties.Person;
-import ru.homework.entyties.Question;
+import ru.homework.entities.Exam;
+import ru.homework.entities.Person;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,11 +15,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExamServiceImpl implements ExamService {
     private final Exam exam;
     private Person person;
-    private static final String DELIMITER_ANSWERS = ",";
+    private static String DELIMITER_ANSWERS;
 
     @Autowired
     public ExamServiceImpl (final Exam exam) {
         this.exam = exam;
+    }
+
+    @Value("${exam.delimiter}")
+    public void setDelimiterAnswers(final String delimiterAnswers){
+        ExamServiceImpl.DELIMITER_ANSWERS = delimiterAnswers;
     }
 
     @Override
@@ -30,6 +35,11 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public void setPersonName(String name) {
         this.person.setName(name);
+    }
+
+    @Override
+    public String getNamePerson() {
+        return person.getName();
     }
 
     @Override

@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.homework.service.ExamService;
+import ru.homework.examService.ExamService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,17 +29,6 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     @Override
-    public boolean isContinue(){
-        System.out.print("Please enter 'exit' to end exam - ");
-        String readLine = getReadLine();
-        if(readLine.equals("exit")) {
-            return false;
-        }
-        System.out.println("\n\n\n\n\n");
-        return true;
-    }
-
-    @Override
     public void startExam(){
         examService.startExam();
         System.out.println("Exam: " + examService.getNameExam());
@@ -60,7 +49,7 @@ public class TakeExamInConsole implements TakeExam {
         Set<Integer> idQuestion = questions.keySet();
         for (Integer id : idQuestion) {
             List<String> answerOptions = examService.getAnswersByIdQuestion(id);
-            System.out.println("№_" + (id+1) + " - " + questions.get(id));
+            System.out.println(getNumberSymbolAddOne(id) + " - " + questions.get(id));
             System.out.println("Your answer option ");
             AtomicInteger numberOption = new AtomicInteger(1);
             answerOptions.forEach(
@@ -78,14 +67,30 @@ public class TakeExamInConsole implements TakeExam {
         Map<Integer, String> answers = examService.getAnswersPerson();
         Set<Integer> idAnswers = answers.keySet();
         System.out.println("Your answers: ");
-        idAnswers.forEach(idAnswer -> System.out.println("№_" + (idAnswer+1) + " - " + answers.get(idAnswer)));
+        idAnswers.forEach(idAnswer -> System.out.println(getNumberSymbolAddOne(idAnswer) + " - " + answers.get(idAnswer)));
         outConsoleSeparateLine();
     }
 
     @Override
     public void outPutResult() {
-        System.out.println("Result - " + examService.getResult());
+        System.out.println("Result for " + examService.getNamePerson() + " - " + examService.getResult());
         outConsoleSeparateLine();
+        examService.savePerson();
+    }
+
+    @Override
+    public boolean isContinue(){
+        System.out.print("Please enter 'exit' to end exam - ");
+        String readLine = getReadLine();
+        if(readLine.equals("exit")) {
+            return false;
+        }
+        System.out.println("\n\n\n\n\n");
+        return true;
+    }
+
+    private String getNumberSymbolAddOne(final int number){
+        return "№_" + (number+1);
     }
 
     private void outConsoleSeparateLine(){

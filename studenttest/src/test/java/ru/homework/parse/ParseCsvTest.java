@@ -26,4 +26,8 @@ class ParseCsvTest {
     void getFileNameQuestion() {
         assertEquals(FILENAME, parseCsv.getFileNameQuestion());
     }
+
+    @Test
+    void getDataFromCsv() {
+    }
 }

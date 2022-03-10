@@ -1,8 +1,8 @@
-package ru.homework.service;
+package ru.homework.questionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.homework.entyties.Question;
+import ru.homework.entities.Question;
 import ru.homework.parse.ParseCsv;
 
 import java.util.ArrayList;

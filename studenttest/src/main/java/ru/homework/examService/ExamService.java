@@ -1,4 +1,4 @@
-package ru.homework.service;
+package ru.homework.examService;
 
 import java.util.List;
 import java.util.Map;
@@ -21,4 +21,6 @@ public interface ExamService {
     String getResult();
 
     String getNameExam();
+
+    String getNamePerson();
 }

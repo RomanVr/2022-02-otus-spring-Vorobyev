@@ -1,6 +1,6 @@
-package ru.homework.service;
+package ru.homework.questionService;
 
-import ru.homework.entyties.Question;
+import ru.homework.entities.Question;
 
 import java.util.List;
 

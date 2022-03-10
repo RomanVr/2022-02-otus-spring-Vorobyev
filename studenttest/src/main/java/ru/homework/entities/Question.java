@@ -1,4 +1,4 @@
-package ru.homework.entyties;
+package ru.homework.entities;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

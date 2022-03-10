@@ -1,10 +1,10 @@
-package ru.homework.entyties;
+package ru.homework.entities;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.homework.service.QuestionService;
+import ru.homework.questionService.QuestionService;
 
 import java.util.ArrayList;
 import java.util.List;
