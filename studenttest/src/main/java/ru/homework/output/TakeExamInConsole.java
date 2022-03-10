@@ -30,7 +30,7 @@ public class TakeExamInConsole implements TakeExam {
 
     @Override
     public boolean isContinue(){
-        System.out.print("Please enter exit to end exam? - ");
+        System.out.print("Please enter 'exit' to end exam - ");
         String readLine = getReadLine();
         if(readLine.equals("exit")) {
             return false;
@@ -60,7 +60,7 @@ public class TakeExamInConsole implements TakeExam {
         Set<Integer> idQuestion = questions.keySet();
         for (Integer id : idQuestion) {
             List<String> answerOptions = examService.getAnswersByIdQuestion(id);
-            System.out.println("№_" + ++id + " - " + questions.get(id));
+            System.out.println("№_" + (id+1) + " - " + questions.get(id));
             System.out.println("Your answer option ");
             AtomicInteger numberOption = new AtomicInteger(1);
             answerOptions.forEach(
@@ -78,7 +78,7 @@ public class TakeExamInConsole implements TakeExam {
         Map<Integer, String> answers = examService.getAnswersPerson();
         Set<Integer> idAnswers = answers.keySet();
         System.out.println("Your answers: ");
-        idAnswers.forEach(idAnswer -> System.out.println(idAnswer + " - " + answers.get(idAnswer)));
+        idAnswers.forEach(idAnswer -> System.out.println("№_" + (idAnswer+1) + " - " + answers.get(idAnswer)));
         outConsoleSeparateLine();
     }
 
