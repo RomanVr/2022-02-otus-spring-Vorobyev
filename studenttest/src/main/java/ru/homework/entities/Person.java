@@ -12,8 +12,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Component
 public class Person {
-    private String name;
     private final Map<Integer, String> answers;
+    private String name;
 
     public void addAnswer(Integer idAnswer, String answer) {
         this.answers.put(idAnswer, answer);

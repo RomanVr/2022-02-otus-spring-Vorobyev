@@ -14,8 +14,8 @@ import java.util.List;
 public class Exam {
     private final String nameExam;
     private final QuestionService questionService;
-    private List<Question> questions;
     private final List<Person> persons;
+    private List<Question> questions;
 
     @Autowired
     public Exam(
@@ -33,9 +33,9 @@ public class Exam {
         this.persons.add(person);
     }
 
-    public List<String> getAnswersByIdQuestion(final int id){
-      Question question = findQuestionById(id);
-      return question.getAnswerOptions();
+    public List<String> getAnswersByIdQuestion(final int id) {
+        Question question = findQuestionById(id);
+        return question.getAnswerOptions();
     }
 
     public String getRightAnswerById(final int id) {

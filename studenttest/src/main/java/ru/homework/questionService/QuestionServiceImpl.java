@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-public class QuestionServiceImpl implements QuestionService{
+public class QuestionServiceImpl implements QuestionService {
     private final List<List<String>> questionsAndAnswers;
 
     @Autowired
@@ -34,8 +34,8 @@ public class QuestionServiceImpl implements QuestionService{
             }
             question.setId(id.getAndAdd(1));
             question.setQuestionName(lineData.get(0));
-            question.setAnswerOptions(answerOptions);
             question.setRightAnswers(rightAnswer);
+            question.setAnswerOptions(answerOptions);
             questions.add(question);
         });
         return questions;

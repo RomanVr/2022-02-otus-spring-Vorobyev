@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @Getter
 @Component
-public class ParseCsvImpl implements ParseCsv{
+public class ParseCsvImpl implements ParseCsv {
     private final String delimiter;
     private final String fileNameQuestion;
 

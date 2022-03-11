@@ -4,6 +4,6 @@ import ru.homework.entities.Question;
 
 import java.util.List;
 
-public interface QuestionService{
+public interface QuestionService {
     List<Question> getQuestions();
 }

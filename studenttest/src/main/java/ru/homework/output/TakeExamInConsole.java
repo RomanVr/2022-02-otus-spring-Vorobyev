@@ -19,24 +19,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TakeExamInConsole implements TakeExam {
     private final ExamService examService;
     private final String separatorLine;
+    private final String numberQuestion;
 
     @Autowired
     public TakeExamInConsole(
             ExamService examService,
-            @Value("${outPut.separatorLine}") String separatorLine) {
+            @Value("${outPut.separatorLine}") String separatorLine,
+            @Value("${exam.number}") String numberQuestion) {
         this.examService = examService;
         this.separatorLine = separatorLine;
+        this.numberQuestion = numberQuestion;
     }
 
     @Override
-    public void startExam(){
+    public void startExam() {
         examService.startExam();
         System.out.println("Exam: " + examService.getNameExam());
         outConsoleSeparateLine();
     }
 
     @Override
-    public void askName(){
+    public void askName() {
         System.out.print("Enter your name: ");
         String readLine = getReadLine();
         examService.setPersonName(readLine);
@@ -79,23 +82,24 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     @Override
-    public boolean isContinue(){
+    public boolean isContinue() {
         System.out.print("Please enter 'exit' to end exam - ");
         String readLine = getReadLine();
-        if(readLine.equals("exit")) {
+        if (readLine.equals("exit")) {
             return false;
         }
         System.out.println("\n\n\n\n\n");
         return true;
     }
 
-    private String getNumberSymbolAddOne(final int number){
-        return "№_" + (number+1);
+    private String getNumberSymbolAddOne(final int number) {
+        return this.numberQuestion + (number + 1);
     }
 
-    private void outConsoleSeparateLine(){
+    private void outConsoleSeparateLine() {
         System.out.println(getSeparatorLine());
     }
+
     private String getReadLine() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
