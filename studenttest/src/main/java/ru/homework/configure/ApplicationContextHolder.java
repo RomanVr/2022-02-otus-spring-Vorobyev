@@ -9,7 +9,7 @@ public class ApplicationContextHolder {
     private static AnnotationConfigApplicationContext ctx;
 
     @Autowired
-    public ApplicationContextHolder(AnnotationConfigApplicationContext applicationContext) {
+    public ApplicationContextHolder(final AnnotationConfigApplicationContext applicationContext) {
         ApplicationContextHolder.ctx = applicationContext;
     }
 

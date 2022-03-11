@@ -8,7 +8,7 @@ public interface ExamService {
 
     void setPersonName(final String userName);
 
-    void addAnswer(Integer idQuestion, String answer);
+    void addAnswer(final Integer idQuestion, final String answer);
 
     void savePerson();
 
@@ -16,7 +16,7 @@ public interface ExamService {
 
     Map<Integer, String> getAnswersPerson();
 
-    List<String> getAnswersByIdQuestion(int idQuestions);
+    List<String> getAnswersByIdQuestion(final int idQuestions);
 
     String getResult();
 

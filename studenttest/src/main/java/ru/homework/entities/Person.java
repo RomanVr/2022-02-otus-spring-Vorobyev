@@ -15,7 +15,7 @@ public class Person {
     private final Map<Integer, String> answers;
     private String name;
 
-    public void addAnswer(Integer idAnswer, String answer) {
+    public void addAnswer(final Integer idAnswer, final String answer) {
         this.answers.put(idAnswer, answer);
     }
 }

@@ -35,7 +35,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void setPersonName(String name) {
+    public void setPersonName(final String name) {
         this.person.setName(name);
     }
 
@@ -62,7 +62,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public List<String> getAnswersByIdQuestion(int idQuestions) {
+    public List<String> getAnswersByIdQuestion(final int idQuestions) {
         return exam.getAnswersByIdQuestion(idQuestions);
     }
 
@@ -90,7 +90,7 @@ public class ExamServiceImpl implements ExamService {
         return arrayEqual(dataAnswers, rightAnswer);
     }
 
-    private boolean arrayEqual(String[] dataAnswers, String[] rightAnswer) {
+    private boolean arrayEqual(final String[] dataAnswers, final String[] rightAnswer) {
         if (dataAnswers.length != rightAnswer.length) return false;
         Arrays.sort(dataAnswers);
         Arrays.sort(rightAnswer);
@@ -109,4 +109,3 @@ public class ExamServiceImpl implements ExamService {
         return exam.getNameExam();
     }
 }
-

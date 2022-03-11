@@ -19,8 +19,8 @@ public class ParseCsvImpl implements ParseCsv {
     private final String fileNameQuestion;
 
     public ParseCsvImpl(
-            @Value("${parse.delimiter}") String delimiter,
-            @Value("${parse.fileNameQuestion}") String fileNameQuestion
+            @Value("${parse.delimiter}") final String delimiter,
+            @Value("${parse.fileNameQuestion}") final String fileNameQuestion
     ) {
         this.delimiter = delimiter;
         this.fileNameQuestion = fileNameQuestion;

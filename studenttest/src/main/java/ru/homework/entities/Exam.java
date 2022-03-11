@@ -19,8 +19,8 @@ public class Exam {
 
     @Autowired
     public Exam(
-            @Value("${exam.name}") String nameExam,
-            QuestionService questionService
+            @Value("${exam.name}") final String nameExam,
+            final QuestionService questionService
     ) {
         this.nameExam = nameExam;
         this.questionService = questionService;
@@ -43,7 +43,7 @@ public class Exam {
         return question.getRightAnswers();
     }
 
-    private Question findQuestionById(int id) {
+    private Question findQuestionById(final int id) {
         Question findQuestion = null;
         for (Question question : this.questions) {
             if (question.getId() == id) {
