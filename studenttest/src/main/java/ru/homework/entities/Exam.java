@@ -13,9 +13,8 @@ import java.util.List;
 @Component
 public class Exam {
     private final String nameExam;
-    private final QuestionService questionService;
     private final List<Person> persons;
-    private List<Question> questions;
+    private final List<Question> questions;
 
     @Autowired
     public Exam(
@@ -23,10 +22,9 @@ public class Exam {
             final QuestionService questionService
     ) {
         this.nameExam = nameExam;
-        this.questionService = questionService;
 
         this.persons = new ArrayList<>();
-        this.setQuestions();
+        this.questions = questionService.getQuestions();
     }
 
     public void addPerson(final Person person) {
@@ -52,9 +50,5 @@ public class Exam {
             }
         }
         return findQuestion;
-    }
-
-    private void setQuestions() {
-        this.questions = questionService.getQuestions();
     }
 }

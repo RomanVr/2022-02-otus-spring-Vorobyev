@@ -30,6 +30,11 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    public String getNameExam() {
+        return exam.getNameExam();
+    }
+
+    @Override
     public void startExam() {
         this.person = this.ctx.getBean(Person.class);
     }
@@ -102,10 +107,5 @@ public class ExamServiceImpl implements ExamService {
 
     private String getRightAnswerById(final int id) {
         return exam.getRightAnswerById(id);
-    }
-
-    @Override
-    public String getNameExam() {
-        return exam.getNameExam();
     }
 }
