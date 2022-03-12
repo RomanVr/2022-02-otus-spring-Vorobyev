@@ -1,4 +1,4 @@
-package ru.homework.entities;
+package ru.homework.domain;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;

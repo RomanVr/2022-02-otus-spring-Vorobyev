@@ -2,9 +2,9 @@ package ru.homework.questionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import ru.homework.configure.ApplicationContextHolder;
-import ru.homework.entities.Question;
+import ru.homework.domain.Question;
 import ru.homework.parse.ParseCsv;
 
 import java.util.ArrayList;
@@ -17,9 +17,12 @@ public class QuestionServiceImpl implements QuestionService {
     private final ApplicationContext ctx;
 
     @Autowired
-    public QuestionServiceImpl(final ParseCsv parseCsv) {
+    public QuestionServiceImpl(
+            final ParseCsv parseCsv,
+            final AnnotationConfigApplicationContext applicationContext
+    ) {
         this.questionsAndAnswers = parseCsv.getDataFromCsv();
-        this.ctx = ApplicationContextHolder.getApplicationContext();
+        this.ctx = applicationContext;
     }
 
     @Override

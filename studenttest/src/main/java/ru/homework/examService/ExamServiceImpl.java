@@ -4,10 +4,11 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import ru.homework.configure.ApplicationContextHolder;
-import ru.homework.entities.Exam;
-import ru.homework.entities.Person;
+import ru.homework.domain.Exam;
+import ru.homework.domain.Person;
+import ru.homework.domain.Question;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,22 +17,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class ExamServiceImpl implements ExamService {
     private final Exam exam;
-    private final String DELIMITER_ANSWERS;
+    private final String delimiterAnswers;
     private final ApplicationContext ctx;
     private Person person;
 
     @Autowired
     public ExamServiceImpl(
             final Exam exam,
+            final AnnotationConfigApplicationContext applicationContext,
             @Value("${exam.delimiter}") final String delimiterAnswers) {
         this.exam = exam;
-        this.DELIMITER_ANSWERS = delimiterAnswers;
-        this.ctx = ApplicationContextHolder.getApplicationContext();
+        this.delimiterAnswers = delimiterAnswers;
+        this.ctx = applicationContext;
     }
 
     @Override
     public String getNameExam() {
-        return exam.getNameExam();
+        return this.exam.getNameExam();
     }
 
     @Override
@@ -62,7 +64,10 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Map<Integer, String> getQuestions() {
         Map<Integer, String> questions = new HashMap<>();
-        exam.getQuestions().forEach(question -> questions.put(question.getId(), question.getQuestionName()));
+        List<Question> questionList = exam.getQuestions();
+        for (Question question : questionList) {
+            questions.put(question.getId(), question.getQuestionName());
+        }
         return questions;
     }
 
@@ -82,7 +87,7 @@ public class ExamServiceImpl implements ExamService {
         Set<Integer> idAnswers = answersPerson.keySet();
         AtomicInteger result = new AtomicInteger(0);
         idAnswers.forEach(id -> {
-            String[] dataAnswers = answersPerson.get(id).split(DELIMITER_ANSWERS);
+            String[] dataAnswers = answersPerson.get(id).split(delimiterAnswers);
             if (isCorrect(id, dataAnswers)) {
                 result.addAndGet(1);
             }
@@ -90,8 +95,12 @@ public class ExamServiceImpl implements ExamService {
         return result.toString();
     }
 
+    private String getRightAnswerById(final int id) {
+        return exam.getRightAnswerById(id);
+    }
+
     private boolean isCorrect(final int id, final String[] dataAnswers) {
-        String[] rightAnswer = getRightAnswerById(id).split(DELIMITER_ANSWERS);
+        String[] rightAnswer = getRightAnswerById(id).split(delimiterAnswers);
         return arrayEqual(dataAnswers, rightAnswer);
     }
 
@@ -103,9 +112,5 @@ public class ExamServiceImpl implements ExamService {
             if (!Objects.equals(dataAnswers[i], rightAnswer[i])) return false;
         }
         return true;
-    }
-
-    private String getRightAnswerById(final int id) {
-        return exam.getRightAnswerById(id);
     }
 }
