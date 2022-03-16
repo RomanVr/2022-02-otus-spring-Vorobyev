@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ExamService {
-    void startExam();
+    void getNewPerson();
 
     void setPersonName(final String userName);
 

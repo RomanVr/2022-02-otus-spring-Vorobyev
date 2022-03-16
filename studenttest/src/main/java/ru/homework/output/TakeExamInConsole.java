@@ -33,17 +33,23 @@ public class TakeExamInConsole implements TakeExam {
 
     @Override
     public void startExam() {
-        examService.startExam();
-        System.out.println("Exam: " + examService.getNameExam());
-        outConsoleSeparateLine();
+        do {
+            this.examService.getNewPerson();
+            System.out.println("Exam: " + examService.getNameExam());
+            this.outConsoleSeparateLine();
+            this.askName();
+            this.outputQuestions();
+            this.outPutAnswersClient();
+            this.outPutResult();
+        } while (this.isContinue());
     }
 
     @Override
     public void askName() {
         System.out.print("Enter your name: ");
         String readLine = getReadLine();
-        examService.setPersonName(readLine);
-        outConsoleSeparateLine();
+        this.examService.setPersonName(readLine);
+        this.outConsoleSeparateLine();
     }
 
     @Override
@@ -77,8 +83,8 @@ public class TakeExamInConsole implements TakeExam {
     @Override
     public void outPutResult() {
         System.out.println("Result for " + examService.getNamePerson() + " - " + examService.getResult());
-        outConsoleSeparateLine();
-        examService.savePerson();
+        this.outConsoleSeparateLine();
+        this.examService.savePerson();
     }
 
     @Override

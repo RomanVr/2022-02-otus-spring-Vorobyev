@@ -13,13 +13,6 @@ public class Main {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
         TakeExam takeExam = context.getBean(TakeExamInConsole.class);
-
-        do {
-            takeExam.startExam();
-            takeExam.askName();
-            takeExam.outputQuestions();
-            takeExam.outPutAnswersClient();
-            takeExam.outPutResult();
-        } while (takeExam.isContinue());
+        takeExam.startExam();
     }
 }

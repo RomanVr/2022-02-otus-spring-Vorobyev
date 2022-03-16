@@ -37,7 +37,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void startExam() {
+    public void getNewPerson() {
         this.person = this.ctx.getBean(Person.class);
     }
 

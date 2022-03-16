@@ -86,8 +86,8 @@ class ExamServiceImplTest {
 
     @DisplayName("Должен создаваться пользователь")
     @Test
-    void startExam() {
-        this.examService.startExam();
+    void getNewPerson() {
+        this.examService.getNewPerson();
         this.examService.setPersonName(this.nameUser);
         assertEquals(this.nameUser, examService.getNamePerson());
     }
@@ -95,7 +95,7 @@ class ExamServiceImplTest {
     @DisplayName("Должны добавляться ответы пользователя")
     @Test
     void addAnswer() {
-        this.examService.startExam();
+        this.examService.getNewPerson();
         int id = 1;
         String answer = "good";
         int sizeAnswers = 1;
@@ -127,7 +127,7 @@ class ExamServiceImplTest {
     void arrayEqualToTrue(String answer) {
         int id = 0;
         String resultRight = "1";
-        this.examService.startExam();
+        this.examService.getNewPerson();
         this.examService.addAnswer(id, answer);
         assertEquals(resultRight, examService.getResult());
     }
@@ -138,7 +138,7 @@ class ExamServiceImplTest {
     void arrayEqualToFalse(String answer) {
         int id = 0;
         String resultRight = "0";
-        this.examService.startExam();
+        this.examService.getNewPerson();
         this.examService.addAnswer(id, answer);
         assertEquals(resultRight, examService.getResult());
     }
