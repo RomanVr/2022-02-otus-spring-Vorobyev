@@ -9,9 +9,6 @@ import ru.homework.domain.Person;
 import ru.homework.domain.Question;
 import ru.homework.questionService.QuestionService;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -81,7 +78,7 @@ public class TakeExamInConsole implements TakeExam {
 
     @Override
     public void outPutAnswersClient(Person person) {
-        this.outputConsole("Your answers: ");
+        this.outputConsoleLn("Your answers: ");
         person.getAnswers()
                 .forEach(
                         (idAnswer, answer)
@@ -146,12 +143,8 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     private String getReadLine() {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            return reader.readLine();
-        } catch (IOException e) {
-            return e.getMessage();
-        }
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
     }
 
     private void outputConsole(String str) {
