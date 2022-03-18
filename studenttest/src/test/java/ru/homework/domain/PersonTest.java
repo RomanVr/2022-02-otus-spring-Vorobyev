@@ -1,31 +1,22 @@
-package ru.homework.entities;
+package ru.homework.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.homework.domain.Person;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Класс Пользователя")
 class PersonTest {
 
-    private final String namePerson = "User";
     private Person person;
+
     @BeforeEach
     void setUp() {
         this.person = new Person(new HashMap<>());
-    }
-
-    @DisplayName("Должен добавляться ответ пользователя")
-    @Test
-    void addAnswer() {
-        String answer = "213123";
-        int id = 1;
-        person.addAnswer(id, answer);
-        assertEquals(answer, person.getAnswers().get(id));
     }
 
     @DisplayName("Должен создаваться answers Map<Integer, String>")
@@ -37,7 +28,8 @@ class PersonTest {
     @DisplayName("Должно выводиться имя пользователя")
     @Test
     void getName() {
-        this.person.setName(this.namePerson);
-        assertEquals(this.namePerson, person.getName());
+        String namePerson = "User";
+        this.person.setName(namePerson);
+        assertEquals(namePerson, person.getName());
     }
 }

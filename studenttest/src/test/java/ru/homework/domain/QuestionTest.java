@@ -1,9 +1,8 @@
-package ru.homework.entities;
+package ru.homework.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.homework.domain.Question;
 
 import java.util.Arrays;
 

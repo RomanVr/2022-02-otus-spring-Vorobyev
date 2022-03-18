@@ -6,15 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.homework.domain.Question;
 import ru.homework.parse.ParseCsv;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 @DisplayName("Класс Сервис вопросов")
@@ -22,8 +20,6 @@ import static org.mockito.BDDMockito.given;
 class QuestionServiceImplTest {
     @Mock
     private ParseCsv parseCsv;
-    @Mock
-    private AnnotationConfigApplicationContext applicationContext;
 
     private QuestionService questionService;
 
@@ -34,8 +30,7 @@ class QuestionServiceImplTest {
         options.add(Arrays.asList("3", "4", "8"));
         options.add(Arrays.asList("5", "6", "9"));
         given(parseCsv.getDataFromCsv()).willReturn(options);
-        given(applicationContext.getBean(Question.class)).willReturn(new Question());
-        questionService = new QuestionServiceImpl(parseCsv, applicationContext);
+        questionService = new QuestionServiceImpl(parseCsv);
     }
 
     @DisplayName("Должен создаваться список вопросов")
