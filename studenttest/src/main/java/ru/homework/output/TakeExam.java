@@ -1,15 +1,17 @@
 package ru.homework.output;
 
+import ru.homework.domain.Person;
+
 public interface TakeExam {
     boolean isContinue();
 
-    void startExam();
+    void runExam();
 
-    void askName();
+    void askName(Person person);
 
-    void outputQuestions();
+    void outputQuestions(Person person);
 
-    void outPutAnswersClient();
+    void outPutAnswersClient(Person person);
 
-    void outPutResult();
+    void outPutResult(Person person);
 }

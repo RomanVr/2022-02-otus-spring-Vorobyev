@@ -4,97 +4,110 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.homework.examService.ExamService;
+import ru.homework.domain.Exam;
+import ru.homework.domain.Person;
+import ru.homework.domain.Question;
+import ru.homework.questionService.QuestionService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Component
 public class TakeExamInConsole implements TakeExam {
-    private final ExamService examService;
+    private final List<Question> questions;
+    private final String delimiterAnswers;
     private final String separatorLine;
     private final String numberQuestion;
+    private final String nameExam;
 
     @Autowired
     public TakeExamInConsole(
-            ExamService examService,
-            @Value("${outPut.separatorLine}") String separatorLine,
-            @Value("${exam.number}") String numberQuestion) {
-        this.examService = examService;
+            final QuestionService questionService,
+            @Value("${exam.name}") final String nameExam,
+            @Value("${exam.delimiterAnswers}") final String delimiterAnswers,
+            @Value("${outPut.separatorLine}") final String separatorLine,
+            @Value("${exam.symbolNumber}") final String numberQuestion) {
+        this.questions = questionService.getQuestions();
+        this.delimiterAnswers = delimiterAnswers;
+        this.nameExam = nameExam;
         this.separatorLine = separatorLine;
         this.numberQuestion = numberQuestion;
     }
 
     @Override
-    public void startExam() {
+    public void runExam() {
+        Exam exam = new Exam(new ArrayList<>());
+        exam.setNameExam(this.nameExam);
         do {
-            this.examService.getNewPerson();
-            System.out.println("Exam: " + examService.getNameExam());
+            Person currentPerson = new Person(new HashMap<>());
+            this.outputConsoleLn("Exam: " + exam.getNameExam());
             this.outConsoleSeparateLine();
-            this.askName();
-            this.outputQuestions();
-            this.outPutAnswersClient();
-            this.outPutResult();
+            this.askName(currentPerson);
+            this.outputQuestions(currentPerson);
+            this.outPutAnswersClient(currentPerson);
+            this.outPutResult(currentPerson);
+            exam.getPersons().add(currentPerson);
         } while (this.isContinue());
     }
 
     @Override
-    public void askName() {
-        System.out.print("Enter your name: ");
+    public void askName(Person person) {
+        this.outputConsole("Enter your name: ");
         String readLine = getReadLine();
-        this.examService.setPersonName(readLine);
+        person.setName(readLine);
         this.outConsoleSeparateLine();
     }
 
     @Override
-    public void outputQuestions() {
-        Map<Integer, String> questions = examService.getQuestions();
-        Set<Integer> idQuestion = questions.keySet();
-        for (Integer id : idQuestion) {
-            List<String> answerOptions = examService.getAnswersByIdQuestion(id);
-            System.out.println(getNumberSymbolAddOne(id) + " - " + questions.get(id));
-            System.out.println("Your answer option ");
+    public void outputQuestions(Person person) {
+        for (Question question : this.questions) {
+            List<String> answerOptions = question.getAnswerOptions();
+            this.outputConsoleLn(getNumberSymbolAddOne(question.getId()) + " - " + question.getQuestionName());
+            this.outputConsoleLn("Your answer option ");
             AtomicInteger numberOption = new AtomicInteger(1);
             answerOptions.forEach(
-                    option -> System.out.println(
+                    option -> this.outputConsoleLn(
                             numberOption.getAndAdd(1) + " - " + option));
-            System.out.print("Your answer - ");
+            this.outputConsole("Your answer - ");
             String answer = getReadLine();
-            examService.addAnswer(id, answer);
+            person.getAnswers().put(question.getId(), answer);
             outConsoleSeparateLine();
         }
     }
 
     @Override
-    public void outPutAnswersClient() {
-        Map<Integer, String> answers = examService.getAnswersPerson();
-        Set<Integer> idAnswers = answers.keySet();
-        System.out.println("Your answers: ");
-        idAnswers.forEach(idAnswer -> System.out.println(getNumberSymbolAddOne(idAnswer) + " - " + answers.get(idAnswer)));
-        outConsoleSeparateLine();
+    public void outPutAnswersClient(Person person) {
+        this.outputConsole("Your answers: ");
+        person.getAnswers()
+                .forEach(
+                        (idAnswer, answer)
+                                -> this.outputConsoleLn(getNumberSymbolAddOne(idAnswer) + " - " + answer));
+        this.outConsoleSeparateLine();
     }
 
     @Override
-    public void outPutResult() {
-        System.out.println("Result for " + examService.getNamePerson() + " - " + examService.getResult());
+    public void outPutResult(Person person) {
+        this.outputConsoleLn(
+                "Result for "
+                        + person.getName()
+                        + " - "
+                        + getResult(person.getAnswers())
+        );
         this.outConsoleSeparateLine();
-        this.examService.savePerson();
     }
 
     @Override
     public boolean isContinue() {
-        System.out.print("Please enter 'exit' to end exam - ");
+        this.outputConsole("Please enter 'exit' to end exam - ");
         String readLine = getReadLine();
         if (readLine.equals("exit")) {
             return false;
         }
-        System.out.println("\n\n\n\n\n");
+        this.outputConsole("\n\n\n\n\n");
         return true;
     }
 
@@ -103,7 +116,33 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     private void outConsoleSeparateLine() {
-        System.out.println(getSeparatorLine());
+        this.outputConsoleLn(getSeparatorLine());
+    }
+
+    private String getResult(Map<Integer, String> answers) {
+        Set<Integer> idAnswers = answers.keySet();
+        AtomicInteger result = new AtomicInteger(0);
+        idAnswers.forEach(id -> {
+            String[] dataAnswers = answers.get(id).split(delimiterAnswers);
+            String[] rightAnswers = questions
+                    .get(id)
+                    .getRightAnswers()
+                    .split(this.delimiterAnswers);
+            if (arraysEqual(dataAnswers, rightAnswers)) {
+                result.addAndGet(1);
+            }
+        });
+        return result.toString();
+    }
+
+    private boolean arraysEqual(final String[] dataAnswers, final String[] rightAnswer) {
+        if (dataAnswers.length != rightAnswer.length) return false;
+        Arrays.sort(dataAnswers);
+        Arrays.sort(rightAnswer);
+        for (int i = 0; i < dataAnswers.length; i += 1) {
+            if (!Objects.equals(dataAnswers[i], rightAnswer[i])) return false;
+        }
+        return true;
     }
 
     private String getReadLine() {
@@ -113,5 +152,13 @@ public class TakeExamInConsole implements TakeExam {
         } catch (IOException e) {
             return e.getMessage();
         }
+    }
+
+    private void outputConsole(String str) {
+        System.out.print(str);
+    }
+
+    private void outputConsoleLn(String str) {
+        System.out.println(str);
     }
 }
