@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import ru.homework.domain.Exam;
 import ru.homework.domain.Person;
 import ru.homework.domain.Question;
+import ru.homework.ioService.IOService;
+import ru.homework.output.utils.ResultService;
 import ru.homework.questionService.QuestionService;
 
 import java.util.*;
@@ -16,6 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class TakeExamInConsole implements TakeExam {
     private final List<Question> questions;
+    private final IOService ioService;
     private final String delimiterAnswers;
     private final String separatorLine;
     private final String numberQuestion;
@@ -24,11 +27,13 @@ public class TakeExamInConsole implements TakeExam {
     @Autowired
     public TakeExamInConsole(
             final QuestionService questionService,
+            final IOService ioService,
             @Value("${exam.name}") final String nameExam,
             @Value("${exam.delimiterAnswers}") final String delimiterAnswers,
             @Value("${outPut.separatorLine}") final String separatorLine,
             @Value("${exam.symbolNumber}") final String numberQuestion) {
         this.questions = questionService.getQuestions();
+        this.ioService = ioService;
         this.delimiterAnswers = delimiterAnswers;
         this.nameExam = nameExam;
         this.separatorLine = separatorLine;
@@ -41,21 +46,23 @@ public class TakeExamInConsole implements TakeExam {
         exam.setNameExam(this.nameExam);
         do {
             Person currentPerson = new Person(new HashMap<>());
-            this.outputConsoleLn("Exam: " + exam.getNameExam());
+            this.ioService.outputString("Exam: " + exam.getNameExam());
             this.outConsoleSeparateLine();
             this.askName(currentPerson);
             this.outputQuestions(currentPerson);
+            this.ioService.outputString("Your answers: ");
             this.outPutAnswersClient(currentPerson);
+            this.outConsoleSeparateLine();
             this.outPutResult(currentPerson);
+            this.outConsoleSeparateLine();
             exam.getPersons().add(currentPerson);
         } while (this.isContinue());
     }
 
     @Override
     public void askName(Person person) {
-        this.outputConsole("Enter your name: ");
-        String readLine = getReadLine();
-        person.setName(readLine);
+        String name = this.ioService.readWithPrompt("Enter your name: ");
+        person.setName(name);
         this.outConsoleSeparateLine();
     }
 
@@ -63,57 +70,44 @@ public class TakeExamInConsole implements TakeExam {
     public void outputQuestions(Person person) {
         for (Question question : this.questions) {
             List<String> answerOptions = question.getAnswerOptions();
-            this.outputConsoleLn(getNumberSymbolAddOne(question.getId()) + " - " + question.getQuestionName());
-            this.outputConsoleLn("Your answer option ");
+            this.ioService.outputString(getNumberSymbolAddOne(question.getId()) + " - " + question.getQuestionName());
+            this.ioService.outputString("Your answer option ");
             AtomicInteger numberOption = new AtomicInteger(1);
             answerOptions.forEach(
-                    option -> this.outputConsoleLn(
+                    option -> this.ioService.outputString(
                             numberOption.getAndAdd(1) + " - " + option));
-            this.outputConsole("Your answer - ");
-            String answer = getReadLine();
+            String answer = this.ioService.readWithPrompt("Your answer - ");
             person.getAnswers().put(question.getId(), answer);
-            outConsoleSeparateLine();
+            this.outConsoleSeparateLine();
         }
     }
 
     @Override
     public void outPutAnswersClient(Person person) {
-        this.outputConsoleLn("Your answers: ");
         person.getAnswers()
                 .forEach(
                         (idAnswer, answer)
-                                -> this.outputConsoleLn(getNumberSymbolAddOne(idAnswer) + " - " + answer));
-        this.outConsoleSeparateLine();
+                                -> this.ioService.outputString(getNumberSymbolAddOne(idAnswer) + " - " + answer));
     }
 
     @Override
     public void outPutResult(Person person) {
-        this.outputConsoleLn(
+        this.ioService.outputString(
                 "Result for "
                         + person.getName()
                         + " - "
                         + getResult(person.getAnswers())
         );
-        this.outConsoleSeparateLine();
     }
 
     @Override
     public boolean isContinue() {
-        this.outputConsole("Please enter 'exit' to end exam - ");
-        String readLine = getReadLine();
+        String readLine = this.ioService.readWithPrompt("Please enter 'exit' to end exam - ");
         if (readLine.equals("exit")) {
             return false;
         }
-        this.outputConsole("\n\n\n\n\n");
+        this.ioService.outputString("\n\n\n\n\n");
         return true;
-    }
-
-    private String getNumberSymbolAddOne(final int number) {
-        return this.numberQuestion + (number + 1);
-    }
-
-    private void outConsoleSeparateLine() {
-        this.outputConsoleLn(getSeparatorLine());
     }
 
     private String getResult(Map<Integer, String> answers) {
@@ -125,33 +119,18 @@ public class TakeExamInConsole implements TakeExam {
                     .get(id)
                     .getRightAnswers()
                     .split(this.delimiterAnswers);
-            if (arraysEqual(dataAnswers, rightAnswers)) {
+            if (ResultService.arraysEqual(dataAnswers, rightAnswers)) {
                 result.addAndGet(1);
             }
         });
         return result.toString();
     }
 
-    private boolean arraysEqual(final String[] dataAnswers, final String[] rightAnswer) {
-        if (dataAnswers.length != rightAnswer.length) return false;
-        Arrays.sort(dataAnswers);
-        Arrays.sort(rightAnswer);
-        for (int i = 0; i < dataAnswers.length; i += 1) {
-            if (!Objects.equals(dataAnswers[i], rightAnswer[i])) return false;
-        }
-        return true;
+    private String getNumberSymbolAddOne(final int number) {
+        return this.numberQuestion + (number + 1);
     }
 
-    private String getReadLine() {
-        Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
-    }
-
-    private void outputConsole(String str) {
-        System.out.print(str);
-    }
-
-    private void outputConsoleLn(String str) {
-        System.out.println(str);
+    private void outConsoleSeparateLine() {
+        this.ioService.outputString(getSeparatorLine());
     }
 }

@@ -12,7 +12,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//@TestPropertySource(properties = {"pathfile=file.csv", "delimiter=,"})
 @TestPropertySource("classpath:application–test.properties")
 @ExtendWith(SpringExtension.class)
 @DisplayName("Класс чтения csv")
