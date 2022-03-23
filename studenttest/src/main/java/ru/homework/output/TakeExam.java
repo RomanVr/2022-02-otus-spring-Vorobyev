@@ -7,7 +7,7 @@ public interface TakeExam {
 
     void runExam();
 
-    void askName(Person person);
+    String askName();
 
     void outputQuestions(Person person);
 

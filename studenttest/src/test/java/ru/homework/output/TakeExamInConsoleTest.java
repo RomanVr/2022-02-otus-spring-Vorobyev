@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 @TestPropertySource("classpath:application–test.properties")
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @DisplayName("Класс проведения экзамена в консоли")
-class LTakeExamInConsoleTest {
+class TakeExamInConsoleTest {
     private Person person;
     @Mock
     private QuestionServiceImpl questionService;
@@ -54,7 +54,7 @@ class LTakeExamInConsoleTest {
                 delimiterAnswers,
                 separatorLine,
                 numberQuestion);
-        person = new Person(new HashMap<>());
+        person = new Person(new HashMap<>(), "name");
     }
 
     @Test
@@ -66,8 +66,7 @@ class LTakeExamInConsoleTest {
     void askName() {
         String name = "UserName";
         given(ioService.readWithPrompt(anyString())).willReturn(name);
-        this.takeExam.askName(this.person);
-        assertEquals(name, person.getName());
+        assertEquals(name, this.takeExam.askName());
     }
 
     @DisplayName("Должны выводиться вопросы и записываться ответы")
@@ -98,8 +97,7 @@ class LTakeExamInConsoleTest {
         answers.put(1, "4");
         answers.put(2, "6");
         String result = "3";
-        person = new Person(answers);
-        person.setName("T");
+        person = new Person(answers, "T");
         this.takeExam.outPutResult(person);
         String outStr = "Result for " + person.getName() + " - " + result;
         verify(ioService, times(1)).outputString(outStr);

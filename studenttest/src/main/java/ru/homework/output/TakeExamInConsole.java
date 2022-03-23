@@ -44,11 +44,12 @@ public class TakeExamInConsole implements TakeExam {
     public void runExam() {
         Exam exam = new Exam(new ArrayList<>());
         exam.setNameExam(this.nameExam);
+        Person currentPerson;
         do {
-            Person currentPerson = new Person(new HashMap<>());
             this.ioService.outputString("Exam: " + exam.getNameExam());
             this.outConsoleSeparateLine();
-            this.askName(currentPerson);
+            String name = this.askName();
+            currentPerson = new Person(new HashMap<>(), name);
             this.outputQuestions(currentPerson);
             this.ioService.outputString("Your answers: ");
             this.outPutAnswersClient(currentPerson);
@@ -60,10 +61,10 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     @Override
-    public void askName(Person person) {
+    public String askName() {
         String name = this.ioService.readWithPrompt("Enter your name: ");
-        person.setName(name);
         this.outConsoleSeparateLine();
+        return name;
     }
 
     @Override

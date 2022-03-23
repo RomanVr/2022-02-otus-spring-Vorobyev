@@ -11,5 +11,5 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Person {
     private final Map<Integer, String> answers;
-    private String name;
+    private final String name;
 }

@@ -13,10 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PersonTest {
 
     private Person person;
+    private final String namePerson = "User";
 
     @BeforeEach
     void setUp() {
-        this.person = new Person(new HashMap<>());
+        this.person = new Person(new HashMap<>(), this.namePerson);
     }
 
     @DisplayName("Должен создаваться answers Map<Integer, String>")
@@ -28,8 +29,6 @@ class PersonTest {
     @DisplayName("Должно выводиться имя пользователя")
     @Test
     void getName() {
-        String namePerson = "User";
-        this.person.setName(namePerson);
         assertEquals(namePerson, person.getName());
     }
 }

@@ -32,8 +32,8 @@ class ExamTest {
     @DisplayName("Должен добавляться пользователь")
     @Test
     void addPerson() {
-        Person person = new Person(new HashMap<>());
-        person.setName("User");
+        String namePerson = "User";
+        Person person = new Person(new HashMap<>(), namePerson);
         exam.getPersons().add(person);
         int size = 1;
         assertEquals(size, exam.getPersons().size());
