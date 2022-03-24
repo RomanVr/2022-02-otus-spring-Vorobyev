@@ -1,8 +1,11 @@
 package ru.homework.output;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import ru.homework.domain.Exam;
 import ru.homework.domain.Person;
@@ -15,30 +18,17 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
+@Setter
+@RequiredArgsConstructor
+@ConfigurationProperties(prefix = "exam")
 @Component
 public class TakeExamInConsole implements TakeExam {
     private final List<Question> questions;
     private final IOService ioService;
-    private final String delimiterAnswers;
-    private final String separatorLine;
-    private final String numberQuestion;
-    private final String nameExam;
-
-    @Autowired
-    public TakeExamInConsole(
-            final QuestionService questionService,
-            final IOService ioService,
-            @Value("${exam.name}") final String nameExam,
-            @Value("${exam.delimiterAnswers}") final String delimiterAnswers,
-            @Value("${outPut.separatorLine}") final String separatorLine,
-            @Value("${exam.symbolNumber}") final String numberQuestion) {
-        this.questions = questionService.getQuestions();
-        this.ioService = ioService;
-        this.delimiterAnswers = delimiterAnswers;
-        this.nameExam = nameExam;
-        this.separatorLine = separatorLine;
-        this.numberQuestion = numberQuestion;
-    }
+    private String delimiterAnswers;
+    private String separatorLine;
+    private String numberQuestion;
+    private String nameExam;
 
     @Override
     public void runExam() {

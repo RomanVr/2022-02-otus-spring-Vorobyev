@@ -1,0 +1,8 @@
+parse:
+  delimiter: \t
+  fileNameQuestion: questions.csv
+exam:
+  separatorLine: ------------------------------
+  nameExam: TestJava
+  delimiterAnswers: ,
+  numberQuestion: №_
