@@ -35,13 +35,14 @@
         <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
 
         <spring-framework-bom.version>5.2.2.RELEASE</spring-framework-bom.version>
+        <spring-boot-version>2.6.4</spring-boot-version>
 
         <minimal.maven.version>3.3.9</minimal.maven.version>
 
         <junit.ver>5.6.0</junit.ver>
     </properties>
 
-    <!--Родительский артеффакт -->
+    <!--Родительский артефакт -->
     <packaging>pom</packaging>
 
     <dependencyManagement>
@@ -49,7 +50,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.2.2.RELEASE</version>
+                <version>${spring-boot-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -82,10 +83,17 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <!-- Плагин для сборки -->
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${maven-assembly-plugin.version}</version>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
 
                 <plugin>
