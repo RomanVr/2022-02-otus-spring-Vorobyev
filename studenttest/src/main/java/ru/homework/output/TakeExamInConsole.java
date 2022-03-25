@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "exam")
 @Component
 public class TakeExamInConsole implements TakeExam {
@@ -29,6 +28,11 @@ public class TakeExamInConsole implements TakeExam {
     private String separatorLine;
     private String numberQuestion;
     private String nameExam;
+
+    public TakeExamInConsole(QuestionService questionService, IOService ioService) {
+        this.questions = questionService.getQuestions();
+        this.ioService = ioService;
+    }
 
     @Override
     public void runExam() {

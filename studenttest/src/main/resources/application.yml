@@ -4,5 +4,5 @@ parse:
 exam:
   separatorLine: ------------------------------
   nameExam: TestJava
-  delimiterAnswers: ,
-  numberQuestion: №_
+  delimiterAnswers: ','
+  numberQuestion: '№_'
