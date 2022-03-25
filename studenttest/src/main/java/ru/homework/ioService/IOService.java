@@ -1,4 +1,4 @@
 package ru.homework.ioService;
 
-public interface IOService extends InputService, OutPutService{
+public interface IOService extends InputService, OutPutService {
 }

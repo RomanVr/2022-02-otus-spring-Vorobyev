@@ -1,11 +1,9 @@
 package ru.homework.output;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import ru.homework.domain.Exam;
 import ru.homework.domain.Person;
@@ -24,14 +22,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TakeExamInConsole implements TakeExam {
     private final List<Question> questions;
     private final IOService ioService;
+    private final MessageSource ms;
     private String delimiterAnswers;
     private String separatorLine;
     private String numberQuestion;
     private String nameExam;
 
-    public TakeExamInConsole(QuestionService questionService, IOService ioService) {
+    public TakeExamInConsole(
+            final QuestionService questionService,
+            final IOService ioService,
+            final MessageSource messageSource) {
         this.questions = questionService.getQuestions();
         this.ioService = ioService;
+        this.ms = messageSource;
     }
 
     @Override
@@ -40,12 +43,12 @@ public class TakeExamInConsole implements TakeExam {
         exam.setNameExam(this.nameExam);
         Person currentPerson;
         do {
-            this.ioService.outputString("Exam: " + exam.getNameExam());
+            this.ioService.outputString(getMessage("strings.nameexam", new String[]{exam.getNameExam()}));
             this.outConsoleSeparateLine();
             String name = this.askName();
             currentPerson = new Person(new HashMap<>(), name);
             this.outputQuestions(currentPerson);
-            this.ioService.outputString("Your answers: ");
+            this.ioService.outputString(getMessage("strings.answers", null));
             this.outPutAnswersClient(currentPerson);
             this.outConsoleSeparateLine();
             this.outPutResult(currentPerson);
@@ -56,7 +59,7 @@ public class TakeExamInConsole implements TakeExam {
 
     @Override
     public String askName() {
-        String name = this.ioService.readWithPrompt("Enter your name: ");
+        String name = this.ioService.readWithPrompt(getMessage("strings.nameperson", null));
         this.outConsoleSeparateLine();
         return name;
     }
@@ -66,12 +69,12 @@ public class TakeExamInConsole implements TakeExam {
         for (Question question : this.questions) {
             List<String> answerOptions = question.getAnswerOptions();
             this.ioService.outputString(getNumberSymbolAddOne(question.getId()) + " - " + question.getQuestionName());
-            this.ioService.outputString("Your answer option ");
+            this.ioService.outputString(getMessage("strings.answeroption", null));
             AtomicInteger numberOption = new AtomicInteger(1);
             answerOptions.forEach(
                     option -> this.ioService.outputString(
                             numberOption.getAndAdd(1) + " - " + option));
-            String answer = this.ioService.readWithPrompt("Your answer - ");
+            String answer = this.ioService.readWithPrompt(getMessage("strings.youranswer", null));
             person.getAnswers().put(question.getId(), answer);
             this.outConsoleSeparateLine();
         }
@@ -88,7 +91,7 @@ public class TakeExamInConsole implements TakeExam {
     @Override
     public void outPutResult(Person person) {
         this.ioService.outputString(
-                "Result for "
+                getMessage("strings.result", null)
                         + person.getName()
                         + " - "
                         + getResult(person.getAnswers())
@@ -97,7 +100,7 @@ public class TakeExamInConsole implements TakeExam {
 
     @Override
     public boolean isContinue() {
-        String readLine = this.ioService.readWithPrompt("Please enter 'exit' to end exam - ");
+        String readLine = this.ioService.readWithPrompt(getMessage("strings.exit", null));
         if (readLine.equals("exit")) {
             return false;
         }
@@ -127,5 +130,9 @@ public class TakeExamInConsole implements TakeExam {
 
     private void outConsoleSeparateLine() {
         this.ioService.outputString(getSeparatorLine());
+    }
+
+    private String getMessage(String code, Object[] args) {
+        return this.ms.getMessage(code, args, Locale.getDefault());
     }
 }
