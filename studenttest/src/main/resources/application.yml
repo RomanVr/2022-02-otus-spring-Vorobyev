@@ -4,7 +4,8 @@ spring:
 
 parse:
   delimiter: \t
-  fileNameQuestion: questions.csv
+  fileNameQuestion: questions
+  fileNameExt: .csv
 exam:
   separatorLine: ------------------------------
   nameExam: TestJava

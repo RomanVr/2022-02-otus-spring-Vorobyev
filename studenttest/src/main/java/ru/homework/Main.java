@@ -6,6 +6,8 @@ import org.springframework.context.ApplicationContext;
 import ru.homework.output.TakeExam;
 import ru.homework.output.TakeExamInConsole;
 
+import java.util.Locale;
+
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
