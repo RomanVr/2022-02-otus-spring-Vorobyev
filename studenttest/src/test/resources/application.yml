@@ -1,0 +1,9 @@
+parsetest:
+    filename: file
+    fileext: .csv
+    delimiter: ','
+exam:
+    name: test-name
+    delimiterAnswers: ','
+    symbolNumber: №
+    separatorLine: ++++++++++++

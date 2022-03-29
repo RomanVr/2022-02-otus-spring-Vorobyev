@@ -6,4 +6,5 @@ public interface ParseCsv {
     default List<List<String>> getDataFromCsv() {
         return null;
     }
+    String getDelimiter();
 }
