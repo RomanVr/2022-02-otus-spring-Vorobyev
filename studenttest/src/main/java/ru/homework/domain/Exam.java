@@ -11,5 +11,5 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Exam {
     private final List<Person> persons;
-    private String nameExam;
+    private final String nameExam;
 }

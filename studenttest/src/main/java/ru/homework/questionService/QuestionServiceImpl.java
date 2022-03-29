@@ -24,7 +24,6 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> questions = new ArrayList<>();
         AtomicInteger id = new AtomicInteger();
         this.questionsAndAnswers.forEach(lineData -> {
-            Question question = new Question();
             List<String> answerOptions = null;
             String rightAnswer = "";
             if (lineData.size() > 1) {
@@ -33,10 +32,9 @@ public class QuestionServiceImpl implements QuestionService {
             if (lineData.size() > 2) {
                 answerOptions = lineData.subList(2, lineData.size());
             }
-            question.setId(id.getAndAdd(1));
-            question.setQuestionName(lineData.get(0));
-            question.setRightAnswers(rightAnswer);
-            question.setAnswerOptions(answerOptions);
+            int id_question = id.getAndAdd(1);
+            String questionName = lineData.get(0);
+            Question question = new Question(id_question, questionName, answerOptions, rightAnswer);
             questions.add(question);
         });
         return questions;

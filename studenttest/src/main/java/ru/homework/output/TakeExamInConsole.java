@@ -39,8 +39,7 @@ public class TakeExamInConsole implements TakeExam {
 
     @Override
     public void runExam() {
-        Exam exam = new Exam(new ArrayList<>());
-        exam.setNameExam(this.nameExam);
+        Exam exam = new Exam(new ArrayList<>(), this.nameExam);
         Person currentPerson;
         do {
             this.ioService.outputString(getMessage("strings.nameexam", new String[]{exam.getNameExam()}));

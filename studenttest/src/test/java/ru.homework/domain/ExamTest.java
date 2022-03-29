@@ -16,10 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ExamTest {
 
     private Exam exam;
+    private final String nameExam = "test for student";
 
     @BeforeEach
     void setUp() {
-        this.exam = new Exam(new ArrayList<>());
+        this.exam = new Exam(new ArrayList<>(), this.nameExam);
     }
 
     @DisplayName("Должен создаваться список участников")
@@ -41,8 +42,6 @@ class ExamTest {
     @DisplayName("Должно выводится имя экзамена")
     @Test
     void getNameExam() {
-        String nameExam = "test for student";
-        exam.setNameExam(nameExam);
-        assertEquals(nameExam, this.exam.getNameExam());
+        assertEquals(this.nameExam, this.exam.getNameExam());
     }
 }

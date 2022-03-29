@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,41 +14,37 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class QuestionTest {
 
     private Question question;
+    private final int id = 1;
+    private final String questionName = "who im i?";
+    private final List<String> strOptions = List.of("i'm not here", "i am there");
+    private final String rightAnswer = "1,2";
 
     @BeforeEach
     void setUp() {
-        this.question = new Question();
+        this.question = new Question(this.id, this.questionName,this.strOptions, rightAnswer);
     }
 
     @DisplayName("Должно выводиться id вопроса")
     @Test
     void getId() {
-        int id = 1;
-        this.question.setId(id);
-        assertEquals(id, this.question.getId());
+        assertEquals(this.id, this.question.getId());
     }
 
     @DisplayName("Должен выводиться вопрос")
     @Test
     void getQuestionName() {
-        String questionName = "who im i?";
-        question.setQuestionName(questionName);
-        assertEquals(questionName, question.getQuestionName());
+        assertEquals(this.questionName, this.question.getQuestionName());
     }
 
     @DisplayName("Должен выводиться список вариантов ответа")
     @Test
     void getAnswerOptions() {
-        String[] strOptions = {"i'm not here", "i am there"};
-        question.setAnswerOptions(Arrays.asList(strOptions));
         assertNotNull(question.getAnswerOptions());
     }
 
     @DisplayName("Должен выводиться правильный ответ")
     @Test
     void getRightAnswers() {
-        String rightAnswer = "1,2";
-        question.setRightAnswers(rightAnswer);
         assertEquals(rightAnswer, question.getRightAnswers());
     }
 }
