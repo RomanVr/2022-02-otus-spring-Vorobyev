@@ -3,18 +3,18 @@ package ru.homework.output;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.homework.domain.Person;
 import ru.homework.domain.Question;
 import ru.homework.ioService.IOService;
 import ru.homework.questionService.QuestionServiceImpl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -22,39 +22,25 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@TestPropertySource("classpath:application–test.properties")
-@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@SpringBootTest
 @DisplayName("Класс проведения экзамена в консоли")
 class TakeExamInConsoleTest {
-    private Person person;
-    @Mock
+
+    @MockBean
     private QuestionServiceImpl questionService;
-    @Mock
+    @MockBean
     private IOService ioService;
-
-    @Value("${exam.name}")
-    private String nameExam;
-    @Value("${exam.delimiterAnswers}")
-    private String delimiterAnswers;
-    @Value("${outPut.separatorLine}")
-    private String separatorLine;
-    @Value("${exam.symbolNumber}")
-    private String numberQuestion;
-
+    @Autowired
     private TakeExam takeExam;
+
+    private Person person;
 
     @BeforeEach
     void setUp() {
         List<Question> questions = initQuestions();
         given(questionService.getQuestions()).willReturn(questions);
-        takeExam = new TakeExamInConsole(
-                questionService,
-                ioService);
-        person = new Person(new HashMap<>(), "name");
-    }
 
-    @Test
-    void runExam() {
+        person = new Person(new HashMap<>(), "name");
     }
 
     @DisplayName("Должно устанавливаться имя пользователя")
@@ -95,7 +81,7 @@ class TakeExamInConsoleTest {
         String result = "3";
         person = new Person(answers, "T");
         this.takeExam.outPutResult(person);
-        String outStr = "Result for " + person.getName() + " - " + result;
+        String outStr = "Результат для пользователя " + person.getName() + " - " + result;
         verify(ioService, times(1)).outputString(outStr);
     }
 
@@ -110,7 +96,7 @@ class TakeExamInConsoleTest {
     @DisplayName("Тестирование должно продолжаться")
     @Test
     void isContinueToTrue() {
-        given(ioService.readWithPrompt(anyString())).willReturn(anyString());
+        given(ioService.readWithPrompt(anyString())).willReturn("");
         assertTrue(takeExam.isContinue());
     }
 
@@ -124,21 +110,9 @@ class TakeExamInConsoleTest {
         String rightAnswerId_1 = "4";
         String rightAnswerId_2 = "6";
 
-        Question question1 = new Question();
-        Question question2 = new Question();
-        Question question3 = new Question();
-        question1.setId(id_0);
-        question1.setQuestionName("1");
-        question1.setRightAnswers(rightAnswerId_0);
-        question1.setAnswerOptions(List.of("7"));
-        question2.setId(id_1);
-        question2.setQuestionName("3");
-        question2.setRightAnswers(rightAnswerId_1);
-        question2.setAnswerOptions(List.of("8"));
-        question3.setId(id_2);
-        question3.setQuestionName("5");
-        question3.setRightAnswers(rightAnswerId_2);
-        question3.setAnswerOptions(List.of("9"));
+        Question question1 = new Question(id_0, "1", List.of("7"), rightAnswerId_0);
+        Question question2 = new Question(id_1, "3", List.of("8"), rightAnswerId_1);
+        Question question3 = new Question(id_2, "5", List.of("9"), rightAnswerId_2);
         questions.add(question1);
         questions.add(question2);
         questions.add(question3);

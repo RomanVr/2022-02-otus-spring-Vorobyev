@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +20,7 @@ class QuestionTest {
 
     @BeforeEach
     void setUp() {
-        this.question = new Question(this.id, this.questionName,this.strOptions, rightAnswer);
+        this.question = new Question(this.id, this.questionName, this.strOptions, rightAnswer);
     }
 
     @DisplayName("Должно выводиться id вопроса")

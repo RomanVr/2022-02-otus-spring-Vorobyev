@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ConfigurationProperties(prefix = "exam")
 @Component
 public class TakeExamInConsole implements TakeExam {
-    private final List<Question> questions;
+    private final QuestionService questionService;
     private final IOService ioService;
     private final MessageSource ms;
     private String delimiterAnswers;
@@ -32,7 +32,7 @@ public class TakeExamInConsole implements TakeExam {
             final QuestionService questionService,
             final IOService ioService,
             final MessageSource messageSource) {
-        this.questions = questionService.getQuestions();
+        this.questionService = questionService;
         this.ioService = ioService;
         this.ms = messageSource;
     }
@@ -65,7 +65,7 @@ public class TakeExamInConsole implements TakeExam {
 
     @Override
     public void outputQuestions(Person person) {
-        for (Question question : this.questions) {
+        for (Question question : this.questionService.getQuestions()) {
             List<String> answerOptions = question.getAnswerOptions();
             this.ioService.outputString(getNumberSymbolAddOne(question.getId()) + " - " + question.getQuestionName());
             this.ioService.outputString(getMessage("strings.answeroption", null));
@@ -112,7 +112,7 @@ public class TakeExamInConsole implements TakeExam {
         AtomicInteger result = new AtomicInteger(0);
         idAnswers.forEach(id -> {
             String[] dataAnswers = answers.get(id).split(delimiterAnswers);
-            String[] rightAnswers = questions
+            String[] rightAnswers = this.questionService.getQuestions()
                     .get(id)
                     .getRightAnswers()
                     .split(this.delimiterAnswers);

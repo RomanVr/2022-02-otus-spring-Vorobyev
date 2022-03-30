@@ -1,9 +1,9 @@
-parsetest:
-    filename: file
-    fileext: .csv
+parse:
+    fileNameQuestion: file
+    fileNameExt: .csv
     delimiter: ','
 exam:
-    name: test-name
+    nameExam: test-name
     delimiterAnswers: ','
-    symbolNumber: №
+    numberQuestion: №
     separatorLine: ++++++++++++
