@@ -2,9 +2,9 @@ package ru.homework.output;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Component;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
 import ru.homework.domain.Exam;
 import ru.homework.domain.Person;
 import ru.homework.domain.Question;
@@ -17,15 +17,16 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
-@Setter
 @RequiredArgsConstructor
-@Component
-public class TakeExamInConsole implements TakeExam {
+
+@ShellComponent
+public class TakeExamShell implements TakeExam {
     private final QuestionService questionService;
     private final IOService ioService;
     private final MessageSource ms;
     private final ConfigExam configExam;
 
+    @ShellMethod(value = "Start command", key = {"start", "s", "run", "r"})
     @Override
     public void runExam() {
         Exam exam = new Exam(new ArrayList<>(), this.configExam.getNameExam());
@@ -117,7 +118,7 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     private void outConsoleSeparateLine() {
-        this.ioService.outputString(this.configExam.getSeparatorLine());
+        this.ioService.outputString(configExam.getSeparatorLine());
     }
 
     private String getMessage(String code, Object[] args) {

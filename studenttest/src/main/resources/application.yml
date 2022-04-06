@@ -1,6 +1,8 @@
 spring:
   messages:
     basename: i18n/messages
+  main:
+    allow-circular-references: true
 
 parse:
   delimiter: \t
@@ -11,3 +13,4 @@ exam:
   nameExam: TestJava
   delimiterAnswers: ','
   numberQuestion: '№_'
+  local: ru_RU

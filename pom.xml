@@ -36,6 +36,7 @@
 
         <spring-framework-bom.version>5.2.2.RELEASE</spring-framework-bom.version>
         <spring-boot-version>2.6.4</spring-boot-version>
+        <spring-shell-version>2.0.1.RELEASE</spring-shell-version>
 
         <minimal.maven.version>3.3.9</minimal.maven.version>
 
@@ -54,6 +55,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.shell</groupId>
+                <artifactId>spring-shell-starter</artifactId>
+                <version>${spring-shell-version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
