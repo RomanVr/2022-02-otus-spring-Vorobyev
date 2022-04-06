@@ -23,6 +23,10 @@ public class TakeExamInConsole implements TakeExam {
     private final QuestionService questionService;
     private final IOService ioService;
     private final MessageSource ms;
+    /*FIXME Некие общие настройки, которым нужен геттер.
+       В итоге в классе 2 функции совмещаются.
+       Стоит разделить их
+    */
     private String delimiterAnswers;
     private String separatorLine;
     private String numberQuestion;
@@ -132,6 +136,8 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     private String getMessage(String code, Object[] args) {
+        /*FIXME Локаль можно и позволить менять.
+           В общем не критично, но полезно.*/
         return this.ms.getMessage(code, args, Locale.getDefault());
     }
 }
