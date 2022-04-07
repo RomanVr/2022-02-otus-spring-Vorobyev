@@ -13,4 +13,4 @@ exam:
   nameExam: TestJava
   delimiterAnswers: ','
   numberQuestion: '№_'
-  local: ru_RU
+  local: ru-RU

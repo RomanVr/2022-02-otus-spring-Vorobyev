@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Component
+@Component("TakeExamInConsole")
 public class TakeExamInConsole implements TakeExam {
     private final QuestionService questionService;
     private final IOService ioService;
@@ -121,8 +121,8 @@ public class TakeExamInConsole implements TakeExam {
     }
 
     private String getMessage(String code, Object[] args) {
-        /*FIXME Локаль можно и позволить менять.
-           В общем не критично, но полезно.*/
-        return this.ms.getMessage(code, args, Locale.getDefault());
+        String localStr = configExam.getLocal();
+        Locale locale = Locale.forLanguageTag(localStr);
+        return this.ms.getMessage(code, args, locale);
     }
 }
