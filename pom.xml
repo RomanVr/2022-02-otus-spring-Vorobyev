@@ -22,6 +22,7 @@
 
     <modules>
         <module>studenttest</module>
+        <module>library</module>
     </modules>
 
     <properties>
