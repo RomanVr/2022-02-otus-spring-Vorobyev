@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ShellComponent
-public class ApplicationCommands {
+public class AuthorCommands {
 
     private final AuthorService authorService;
 
@@ -27,7 +27,7 @@ public class ApplicationCommands {
                     authorList.stream().map(Objects::toString)
                             .collect(Collectors.joining("\n")));
         }
-        return "No authors in db";
+        return "No authors in the db";
     }
 
     @ShellMethod(value = "create new Author", key = {"newAuthor", "createAuthor"})
