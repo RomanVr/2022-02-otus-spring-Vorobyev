@@ -4,7 +4,8 @@ import lombok.*;
 
 import java.sql.Date;
 
-@Data
+@Getter
+@ToString
 public class Author {
     private long id;
     private final String name;

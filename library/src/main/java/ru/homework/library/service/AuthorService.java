@@ -14,4 +14,6 @@ public interface AuthorService {
     Author getById(long id);
 
     void deleteById(long id);
+
+    Author getByNameFamily(String name, String family);
 }

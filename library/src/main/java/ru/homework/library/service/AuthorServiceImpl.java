@@ -37,4 +37,9 @@ public class AuthorServiceImpl implements AuthorService {
     public void deleteById(long id) {
         authorDao.deleteById(id);
     }
+
+    @Override
+    public Author getByNameFamily(String name, String family) {
+        return authorDao.getByNameFamily(name, family);
+    }
 }

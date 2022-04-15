@@ -21,10 +21,13 @@ public class ApplicationCommands {
     @ShellMethod(value = "get all Authors", key = {"authors"})
     public String getAllAuthors() {
         List<Author> authorList = authorService.getAll();
-        if (authorList.size() == 0) {
-            return String.format("All authors in db: %n%s%n", authorList.stream().map(Objects::toString).collect(Collectors.joining("\n")));
+        if (authorList.size() != 0) {
+            return String.format(
+                    "All authors in db: %n%s%n",
+                    authorList.stream().map(Objects::toString)
+                            .collect(Collectors.joining("\n")));
         }
-        return String.format("No authors in db");
+        return "No authors in db";
     }
 
     @ShellMethod(value = "create new Author", key = {"newAuthor", "createAuthor"})
@@ -49,16 +52,17 @@ public class ApplicationCommands {
     }
 
     @ShellMethod(value = "get author by id", key = {"getAuthor"})
-    public String getAuthorById(
-            @ShellOption long id
-    ) {
+    public String getAuthorById(@ShellOption long id) {
         return String.format("%s%n", authorService.getById(id).toString());
     }
 
+    @ShellMethod(value = "get author by name family", key = {"getAuthorName"})
+    public String getAuthorByNameFamily(@ShellOption String name, @ShellOption String family) {
+        return String.format("%s%n", authorService.getByNameFamily(name, family).toString());
+    }
+
     @ShellMethod(value = "delete author by id", key = {"delAuthor"})
-    public String deleteAuthorById(
-            @ShellOption long id
-    ) {
+    public String deleteAuthorById(@ShellOption long id) {
         authorService.deleteById(id);
         return String.format("Author with :id was deleted %d%n", id);
     }
