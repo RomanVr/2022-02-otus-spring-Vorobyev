@@ -1,11 +1,20 @@
 package ru.homework.library.domain;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
-@RequiredArgsConstructor
-@Data
+@Getter
+@ToString
 public class Genre {
-    private final long id;
+    private long id;
     private final String genreTitle;
+
+    public Genre(String genreTitle) {
+        this.genreTitle = genreTitle;
+    }
+
+    public Genre(long id, String genreTitle) {
+        this(genreTitle);
+        this.id = id;
+    }
 }
