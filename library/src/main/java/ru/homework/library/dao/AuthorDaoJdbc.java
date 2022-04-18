@@ -1,6 +1,10 @@
 package ru.homework.library.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -8,10 +12,13 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.homework.library.domain.Author;
+import ru.homework.library.domain.Book;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,17 +30,24 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public Author getById(long id) {
         Map<String, Object> params = Map.of("id", id);
-        return namedJdbc.queryForObject(
-                "SELECT id, name, family, dateOfBirth, gender " +
-                        "FROM Author WHERE id = :id", params, new AuthorMapper());
+        Map<Long, Author> authors = namedJdbc.query(
+                "SELECT a.id, a.name, a.family, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
+                        "FROM Author a LEFT JOIN Book b on a.id = b.author_id WHERE a.id = :id",
+                params,
+                new AuthorResultSetExtractor());
+        return authors.get(id);
     }
 
     @Override
     public Author getByNameFamily(String name, String family) {
         Map<String, Object> params = Map.of("name", name, "family", family);
-        return namedJdbc.queryForObject(
-                "SELECT id, name, family, dateOfBirth, gender " +
-                        "FROM Author WHERE name = :name AND family = :family", params, new AuthorMapper());
+        Map<Long, Author> authors = namedJdbc.query(
+                "SELECT a.id, a.name, a.family, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
+                        "FROM Author a LEFT JOIN Book b on a.id = b.author_id " +
+                        "WHERE a.name = :name AND a.family = :family",
+                params,
+                new AuthorResultSetExtractor());
+        return new ArrayList<>(authors.values()).get(0);
     }
 
     @Override
@@ -61,7 +75,7 @@ public class AuthorDaoJdbc implements AuthorDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedJdbc.update(
                 "UPDATE Author SET " +
-                        "name = :name, family= :family, dateOfBirth = :dateOfBirth, gender = :gender " +
+                        "name = :name, family = :family, dateOfBirth = :dateOfBirth, gender = :gender " +
                         "WHERE id = :id", parameters, keyHolder, new String[]{"ID"});
         return keyHolder.getKey().longValue();
     }
@@ -74,20 +88,37 @@ public class AuthorDaoJdbc implements AuthorDao {
 
     @Override
     public List<Author> getAll() {
-        return namedJdbc.query(
-                "SELECT id, name, family, dateOfBirth, gender FROM Author",
-                new AuthorMapper());
+        Map<Long, Author> authors = namedJdbc.query(
+                "SELECT a.id, a.name, a.family, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
+                        "FROM Author a LEFT JOIN Book b on a.id = b.author_id",
+                new AuthorResultSetExtractor());
+        return new ArrayList<>(authors.values());
     }
 
-    private static class AuthorMapper implements RowMapper<Author> {
+    private static class AuthorResultSetExtractor implements ResultSetExtractor<Map<Long, Author>> {
         @Override
-        public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
-            long id = rs.getLong("id");
-            String name = rs.getString("name");
-            String family = rs.getString("family");
-            Date dateOfBirth = rs.getDate("dateOfBirth");
-            String gender = rs.getString("gender");
-            return new Author(id, name, family, dateOfBirth, gender);
+        public Map<Long, Author> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            Map<Long, Author> authorMap = new HashMap<>();
+            while (rs.next()) {
+                long id = rs.getLong("id");
+                Author author = authorMap.get(id);
+                if (author == null) {
+                    author = new Author(
+                            id,
+                            rs.getString("name"),
+                            rs.getString("family"),
+                            rs.getDate("dateOfBirth"),
+                            rs.getString("gender"));
+                    authorMap.put(id, author);
+                }
+                if (rs.getLong("book_id") != 0) {
+                    author.getBookList().add(new Book(
+                            rs.getLong("book_id"),
+                            rs.getString("bookTitle"),
+                            rs.getString("preview")));
+                }
+            }
+            return authorMap;
         }
     }
 }
