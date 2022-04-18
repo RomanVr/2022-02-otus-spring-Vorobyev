@@ -23,8 +23,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public long insert(Book book) {
-        return bookDao.update(book);
+    public long insert(Book book, long author_id, long genre_id) {
+        return bookDao.insert(book, author_id, genre_id);
     }
 
     @Override
@@ -40,5 +40,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getAll() {
         return bookDao.getAll();
+    }
+
+    @Override
+    public List<Book> findBooksByAuthorId(long author_id) {
+        return bookDao.findBooksByAuthorId(author_id);
     }
 }

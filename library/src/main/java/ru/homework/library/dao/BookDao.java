@@ -9,11 +9,13 @@ public interface BookDao {
 
     Book getByTitle(String title);
 
-    long insert(Book book);
+    long insert(Book book, long author_id, long genre_id);
 
     long update(Book book);
 
     void deleteById(long id);
 
     List<Book> getAll();
+
+    List<Book> findBooksByAuthorId(long author_id);
 }
