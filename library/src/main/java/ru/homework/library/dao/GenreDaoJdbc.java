@@ -1,16 +1,20 @@
 package ru.homework.library.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.homework.library.domain.Book;
 import ru.homework.library.domain.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,17 +26,24 @@ public class GenreDaoJdbc implements GenreDao {
     @Override
     public Genre getById(long id) {
         Map<String, Object> params = Map.of("id", id);
-        return namedJdbc.queryForObject(
-                "SELECT id, genreTitle " +
-                        "FROM Genre WHERE id = :id", params, new GenreMapper());
+        Map<Long, Genre> genres = namedJdbc.query(
+                "SELECT g.id, g.genreTitle, b.id book_id, b.bookTitle, b.preview " +
+                        "FROM Genre g LEFT JOIN Book b on g.id = b.genre_id WHERE g.id = :id",
+                params,
+                new GenreResultSetExtractor());
+        return genres.get(id);
     }
 
     @Override
     public Genre getByTitle(String genreTitle) {
         Map<String, Object> params = Map.of("genreTitle", genreTitle);
-        return namedJdbc.queryForObject(
-                "SELECT id, genreTitle " +
-                        "FROM Genre WHERE genreTitle = :genreTitle", params, new GenreMapper());
+        Map<Long, Genre> genres = namedJdbc.query(
+                "SELECT g.id, g.genreTitle, b.id book_id, b.bookTitle, b.preview " +
+                        "FROM Genre g LEFT JOIN Book b on g.id = b.genre_id " +
+                        "WHERE g.genreTitle = :genreTitle",
+                params,
+                new GenreResultSetExtractor());
+        return new ArrayList<>(genres.values()).get(0);
     }
 
     @Override
@@ -41,7 +52,10 @@ public class GenreDaoJdbc implements GenreDao {
                 .addValue("genreTitle", genre.getGenreTitle());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedJdbc.update(
-                "INSERT INTO Genre (genreTitle) VALUES (:genreTitle)", parameters, keyHolder, new String[]{"ID"});
+                "INSERT INTO Genre (genreTitle) VALUES (:genreTitle)",
+                parameters,
+                keyHolder,
+                new String[]{"ID"});
         return keyHolder.getKey().longValue();
     }
 
@@ -64,15 +78,35 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public List<Genre> getAll() {
-        return namedJdbc.query("SELECT id, genreTitle FROM Genre", new GenreMapper());
+        Map<Long, Genre> genres = namedJdbc.query(
+                "SELECT g.id, g.genreTitle, b.id book_id, b.bookTitle, b.preview " +
+                        "FROM Genre g LEFT JOIN Book b on g.id = b.genre_id",
+                new GenreResultSetExtractor());
+        return new ArrayList<>(genres.values());
     }
 
-    private static class GenreMapper implements RowMapper<Genre> {
+    private class GenreResultSetExtractor implements ResultSetExtractor<Map<Long, Genre>> {
         @Override
-        public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
-            long id = rs.getLong("id");
-            String genreTitle = rs.getString("genreTitle");
-            return new Genre(id, genreTitle);
+        public Map<Long, Genre> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            Map<Long, Genre> genreMap = new HashMap<>();
+            while (rs.next()) {
+                long id = rs.getLong("id");
+                Genre genre = genreMap.get(id);
+                if (genre == null) {
+                    genre = new Genre(
+                            id,
+                            rs.getString("genreTitle")
+                    );
+                    genreMap.put(id, genre);
+                }
+                if (rs.getLong("book_id") != 0) {
+                    genre.getBookList().add(new Book(
+                            rs.getLong("book_id"),
+                            rs.getString("bookTitle"),
+                            rs.getString("preview")));
+                }
+            }
+            return genreMap;
         }
     }
 }
