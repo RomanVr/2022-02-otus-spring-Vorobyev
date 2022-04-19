@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Repository
-public class BookDaoImpl implements BookDao {
+public class BookDaoJdbc implements BookDao {
     private final NamedParameterJdbcOperations namedJdbc;
 
     @Override
@@ -39,11 +39,16 @@ public class BookDaoImpl implements BookDao {
     public long insert(Book book, long author_id, long genre_id) {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("bookTitle", book.getBookTitle())
-                .addValue("preview", book.getPreview());
+                .addValue("preview", book.getPreview())
+                .addValue("author_id", author_id)
+                .addValue("genre_id", genre_id);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedJdbc.update(
-                "INSERT INTO Book (bookTitle, preview) " +
-                        "VALUES (:bookTitle, :preview)", parameters, keyHolder, new String[]{"ID"});
+                "INSERT INTO Book (bookTitle, preview, author_id, genre_id) " +
+                        "VALUES (:bookTitle, :preview, :author_id, :genre_id)",
+                parameters,
+                keyHolder,
+                new String[]{"ID"});
         return keyHolder.getKey().longValue();
     }
 
