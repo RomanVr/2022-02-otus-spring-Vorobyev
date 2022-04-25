@@ -21,7 +21,7 @@ class AuthorDaoJdbcTest {
     private static final int EXPECTED_COUNT_AUTHORS = 3;
     private static final int EXPECTED_ID_AUTHOR = 1;
     private static final String EXPECTED_NAME_AUTHOR = "ivan";
-    private static final String EXPECTED_FAMILY_AUTHOR = "ivanov";
+    private static final String EXPECTED_LAST_NAME_AUTHOR = "ivanov";
     @Autowired
     private AuthorDao authorDao;
 
@@ -37,7 +37,7 @@ class AuthorDaoJdbcTest {
     @DisplayName("Должно получать Автора по имени и фамилии")
     void shouldGetAuthorByNameFamily() {
         var expectedAuthor = new Author("ivan", "ivanov", Date.valueOf("2020-01-01"), "man");
-        var actualAuthor = authorDao.getByNameFamily(EXPECTED_NAME_AUTHOR, EXPECTED_FAMILY_AUTHOR);
+        var actualAuthor = authorDao.getByNameFamily(EXPECTED_NAME_AUTHOR, EXPECTED_LAST_NAME_AUTHOR);
         assertThat(actualAuthor).isEqualTo(expectedAuthor);
     }
 
@@ -62,7 +62,7 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("Должно удалять Автора по Id")
     void shouldDeleteAuthorById() {
-        var expectedAuthor = new Author("name", "testFamily", Date.valueOf("1978-01-01"), "man");
+        var expectedAuthor = new Author("name", "testLastName", Date.valueOf("1978-01-01"), "man");
         var insertId = authorDao.insert(expectedAuthor);
         assertThatCode(() -> authorDao.getById(insertId)).doesNotThrowAnyException();
 

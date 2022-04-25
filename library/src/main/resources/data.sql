@@ -1,4 +1,4 @@
-insert into Author (`name`, `family`, `dateOfBirth`, `gender`)
+insert into Author (`name`, `lastName`, `dateOfBirth`, `gender`)
 values ('ivan', 'ivanov', '2020-01-01', 'man');
 
 insert into Genre (`genreTitle`)

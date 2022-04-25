@@ -33,10 +33,10 @@ public class AuthorCommands {
     @ShellMethod(value = "create new Author", key = {"newAuthor", "createAuthor"})
     public String createNewAuthor(
             @ShellOption String name,
-            @ShellOption String family,
+            @ShellOption String lastName,
             @ShellOption Date dateOfBirth,
             @ShellOption(defaultValue = "man") String gender) {
-        Author newAuthor = new Author(name, family, dateOfBirth, gender);
+        Author newAuthor = new Author(name, lastName, dateOfBirth, gender);
         return String.format("Author insert to db with id: %d%n", authorService.insert(newAuthor));
     }
 
@@ -44,10 +44,10 @@ public class AuthorCommands {
     public String updateAuthor(
             @ShellOption long id,
             @ShellOption String name,
-            @ShellOption String family,
+            @ShellOption String lastName,
             @ShellOption Date dateOfBirth,
             @ShellOption(defaultValue = "man") String gender) {
-        Author newAuthor = new Author(id, name, family, dateOfBirth, gender);
+        Author newAuthor = new Author(id, name, lastName, dateOfBirth, gender);
         return String.format("Author update to db with id: %d%n", authorService.update(newAuthor));
     }
 
@@ -56,9 +56,9 @@ public class AuthorCommands {
         return String.format("%s%n", authorService.getById(id).toString());
     }
 
-    @ShellMethod(value = "get author by name family", key = {"getAuthorName"})
-    public String getAuthorByNameFamily(@ShellOption String name, @ShellOption String family) {
-        return String.format("%s%n", authorService.getByNameFamily(name, family).toString());
+    @ShellMethod(value = "get author by name lastName", key = {"getAuthorName"})
+    public String getAuthorByNameFamily(@ShellOption String name, @ShellOption String lastName) {
+        return String.format("%s%n", authorService.getByNameFamily(name, lastName).toString());
     }
 
     @ShellMethod(value = "delete author by id", key = {"delAuthor"})

@@ -2,10 +2,7 @@ package ru.homework.library.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import ru.homework.library.domain.Author;
 import ru.homework.library.domain.Book;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,7 +27,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     public Author getById(long id) {
         Map<String, Object> params = Map.of("id", id);
         Map<Long, Author> authors = namedJdbc.query(
-                "SELECT a.id, a.name, a.family, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
+                "SELECT a.id, a.name, a.lastName, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
                         "FROM Author a LEFT JOIN Book b on a.id = b.author_id WHERE a.id = :id",
                 params,
                 new AuthorResultSetExtractor());
@@ -39,12 +35,12 @@ public class AuthorDaoJdbc implements AuthorDao {
     }
 
     @Override
-    public Author getByNameFamily(String name, String family) {
-        Map<String, Object> params = Map.of("name", name, "family", family);
+    public Author getByNameFamily(String name, String lastName) {
+        Map<String, Object> params = Map.of("name", name, "lastName", lastName);
         Map<Long, Author> authors = namedJdbc.query(
-                "SELECT a.id, a.name, a.family, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
+                "SELECT a.id, a.name, a.lastName, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
                         "FROM Author a LEFT JOIN Book b on a.id = b.author_id " +
-                        "WHERE a.name = :name AND a.family = :family",
+                        "WHERE a.name = :name AND a.lastName = :lastName",
                 params,
                 new AuthorResultSetExtractor());
         return new ArrayList<>(authors.values()).get(0);
@@ -54,13 +50,13 @@ public class AuthorDaoJdbc implements AuthorDao {
     public long insert(Author author) {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", author.getName())
-                .addValue("family", author.getFamily())
+                .addValue("lastName", author.getLastName())
                 .addValue("dateOfBirth", author.getDateOfBirth())
                 .addValue("gender", author.getGender());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedJdbc.update(
-                "INSERT INTO Author (name, family, dateOfBirth, gender) " +
-                        "VALUES (:name, :family, :dateOfBirth, :gender)", parameters, keyHolder, new String[]{"ID"});
+                "INSERT INTO Author (name, lastName, dateOfBirth, gender) " +
+                        "VALUES (:name, :lastName, :dateOfBirth, :gender)", parameters, keyHolder, new String[]{"ID"});
         return keyHolder.getKey().longValue();
     }
 
@@ -69,13 +65,13 @@ public class AuthorDaoJdbc implements AuthorDao {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", author.getId())
                 .addValue("name", author.getName())
-                .addValue("family", author.getFamily())
+                .addValue("lastName", author.getLastName())
                 .addValue("dateOfBirth", author.getDateOfBirth())
                 .addValue("gender", author.getGender());
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedJdbc.update(
                 "UPDATE Author SET " +
-                        "name = :name, family = :family, dateOfBirth = :dateOfBirth, gender = :gender " +
+                        "name = :name, lastName = :lastName, dateOfBirth = :dateOfBirth, gender = :gender " +
                         "WHERE id = :id", parameters, keyHolder, new String[]{"ID"});
         return keyHolder.getKey().longValue();
     }
@@ -89,7 +85,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public List<Author> getAll() {
         Map<Long, Author> authors = namedJdbc.query(
-                "SELECT a.id, a.name, a.family, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
+                "SELECT a.id, a.name, a.lastName, a.dateOfBirth, a.gender, b.id book_id, b.bookTitle, b.preview " +
                         "FROM Author a LEFT JOIN Book b on a.id = b.author_id",
                 new AuthorResultSetExtractor());
         return new ArrayList<>(authors.values());
@@ -106,7 +102,7 @@ public class AuthorDaoJdbc implements AuthorDao {
                     author = new Author(
                             id,
                             rs.getString("name"),
-                            rs.getString("family"),
+                            rs.getString("lastName"),
                             rs.getDate("dateOfBirth"),
                             rs.getString("gender"));
                     authorMap.put(id, author);

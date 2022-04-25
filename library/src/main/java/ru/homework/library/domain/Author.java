@@ -10,28 +10,28 @@ import java.util.List;
 public class Author {
     private long id;
     private final String name;
-    private final String family;
+    private final String lastName;
     private final Date dateOfBirth;
     private final String gender;
     private final List<Book> bookList;
 
-    public Author(String name, String family, Date dateOfBirth, String gender) {
+    public Author(String name, String lastName, Date dateOfBirth, String gender) {
         this.name = name;
-        this.family = family;
+        this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.bookList = new ArrayList<>();
     }
 
-    public Author(long id, String name, String family, Date dateOfBirth, String gender) {
-        this(name, family, dateOfBirth, gender);
+    public Author(long id, String name, String lastName, Date dateOfBirth, String gender) {
+        this(name, lastName, dateOfBirth, gender);
         this.id = id;
     }
 
     @Override
     public String toString() {
         long id1 = this.getId();
-        StringBuilder authorStringBuilder = new StringBuilder("Author(id=" + id1 + ", name=" + this.getName() + ", family=" + this.getFamily() + ", dateOfBirth=" + this.getDateOfBirth() + ", gender=" + this.getGender() + ")");
+        StringBuilder authorStringBuilder = new StringBuilder("Author(id=" + id1 + ", name=" + this.getName() + ", lastName=" + this.getLastName() + ", dateOfBirth=" + this.getDateOfBirth() + ", gender=" + this.getGender() + ")");
         authorStringBuilder.append("\n");
         for (Book book : this.bookList) {
             authorStringBuilder.append("\t");
@@ -52,7 +52,13 @@ public class Author {
             if (!other.canEqual(this)) {
                 return false;
             } else {
-                label73:
+/*                 TODO Необходимо пересмотреть стратегию сравнения свойств Автора
+                 При сравнении у Авторов могут совпадать Имена, Фамилии, Пол, Дата рождения
+                 Уникальными должны быть Имя и Фамилия
+                 При сравнении двух авторов надо ли сравнивать их все свойства? Или
+                 только можно обойтись Именем и Фамилией?*/
+
+/*                label73:
                 {
                     Object this$name = this.getName();
                     Object other$name = other.getName();
@@ -63,7 +69,6 @@ public class Author {
                     } else if (this$name.equals(other$name)) {
                         break label73;
                     }
-
                     return false;
                 }
 
@@ -100,7 +105,7 @@ public class Author {
                     }
                 } else if (!this$gender.equals(other$gender)) {
                     return false;
-                }
+                }*/
 
                 return true;
             }
@@ -118,7 +123,7 @@ public class Author {
         result = result * 59 + (int) ($id >>> 32 ^ $id);
         Object $name = this.getName();
         result = result * 59 + ($name == null ? 43 : $name.hashCode());
-        Object $family = this.getFamily();
+        Object $family = this.getLastName();
         result = result * 59 + ($family == null ? 43 : $family.hashCode());
         Object $dateOfBirth = this.getDateOfBirth();
         result = result * 59 + ($dateOfBirth == null ? 43 : $dateOfBirth.hashCode());
