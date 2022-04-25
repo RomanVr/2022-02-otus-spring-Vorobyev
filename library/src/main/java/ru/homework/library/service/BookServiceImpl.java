@@ -46,4 +46,9 @@ public class BookServiceImpl implements BookService {
     public List<Book> findBooksByAuthorId(long author_id) {
         return bookDao.findBooksByAuthorId(author_id);
     }
+
+    @Override
+    public List<Book> findBooksByGenreId(long genre_id) {
+        return bookDao.findBooksByGenreId(genre_id);
+    }
 }

@@ -77,4 +77,18 @@ public class BookCommands {
         }
         return String.format("There are no Books from the Author with id: %d%n", id);
     }
+
+    @ShellMethod(value = "find book by id Genre", key = {"findBookGenre"})
+    public String findBooksByGenreId(@ShellOption long id) {
+        List<Book> bookList = bookService.findBooksByGenreId(id);
+        if (bookList.size() != 0) {
+            return String.format(
+                    "All books the Genre id: %d%n%s%n",
+                    id,
+                    bookList.stream().map(Objects::toString)
+                            .collect(Collectors.joining("\n"))
+            );
+        }
+        return String.format("There are no Books from the Genre with id: %d%n", id);
+    }
 }

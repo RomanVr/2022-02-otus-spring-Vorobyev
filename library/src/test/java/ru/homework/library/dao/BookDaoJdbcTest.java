@@ -84,4 +84,11 @@ class BookDaoJdbcTest {
         List<Book> actualBookList = bookDao.findBooksByAuthorId(EXPECTED_AUTHOR_ID);
         assertThat(actualBookList.size()).isEqualTo(EXPECTED_COUNT_BOOKS);
     }
+
+    @Test
+    @DisplayName("Должно находить все Книги по id Жанра")
+    void shouldFindBooksByGenreId() {
+        List<Book> actualBookList = bookDao.findBooksByGenreId(EXPECTED_GENRE_ID);
+        assertThat(actualBookList.size()).isEqualTo(EXPECTED_COUNT_BOOKS);
+    }
 }

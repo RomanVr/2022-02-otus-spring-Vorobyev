@@ -9,15 +9,44 @@ public class Book {
     private long id;
     private final String bookTitle;
     private final String preview;
+    private Author author;
+    private Genre genre;
 
     public Book(String bookTitle, String preview) {
         this.bookTitle = bookTitle;
         this.preview = preview;
     }
 
+    public Book(String bookTitle, String preview, Author author, Genre genre) {
+        this(bookTitle, preview);
+        this.author = author;
+        this.genre = genre;
+    }
+
     public Book(long id, String bookTitle, String preview) {
         this(bookTitle, preview);
         this.id = id;
+    }
+
+    public Book(long id, String bookTitle, String preview, Author author, Genre genre) {
+        this(bookTitle, preview, author, genre);
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        long id1 = this.getId();
+        StringBuilder bookStringBuilder = new StringBuilder(
+                "Book(id=" + id1 + ", bookTitle=" + this.getBookTitle() + ", preview=" + this.getPreview() + ")");
+        if (this.author != null) {
+            bookStringBuilder.append("\n\t");
+            bookStringBuilder.append(this.author);
+        }
+        if (this.genre != null) {
+            bookStringBuilder.append("\n\t");
+            bookStringBuilder.append(this.genre);
+        }
+        return bookStringBuilder.toString();
     }
 
     @Override
@@ -50,7 +79,6 @@ public class Book {
                 } else if (!this$preview.equals(other$preview)) {
                     return false;
                 }
-
                 return true;
             }
         }
