@@ -90,7 +90,7 @@ public class AuthorDaoJdbc implements AuthorDao {
                 new AuthorMapper());
     }
 
-    private class AuthorMapper implements RowMapper<Author> {
+    private static class AuthorMapper implements RowMapper<Author> {
         @Override
         public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
             long id = rs.getLong("id");

@@ -2,18 +2,13 @@ package ru.homework.library.domain;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 public class Genre {
     private long id;
     private final String genreTitle;
-    private final List<Book> bookList;
 
     public Genre(String genreTitle) {
         this.genreTitle = genreTitle;
-        this.bookList = new ArrayList<>();
     }
 
     public Genre(long id, String genreTitle) {
@@ -23,15 +18,7 @@ public class Genre {
 
     @Override
     public String toString() {
-        long id1 = this.getId();
-        StringBuilder genreBuilder = new StringBuilder("Genre(id=" + id1 + ", genreTitle=" + this.getGenreTitle() + ")");
-        genreBuilder.append("\n");
-        for (Book book : this.bookList) {
-            genreBuilder.append("\t");
-            genreBuilder.append(book.toString());
-            genreBuilder.append("\n");
-        }
-        return genreBuilder.toString();
+        return "Genre(id=" + this.getId() + ", genreTitle=" + this.getGenreTitle() + ")";
     }
 
     @Override
@@ -54,7 +41,6 @@ public class Genre {
                 } else if (!this$genreTitle.equals(other$genreTitle)) {
                     return false;
                 }
-
                 return true;
             }
         }
@@ -71,8 +57,6 @@ public class Genre {
         result = result * 59 + (int) ($id >>> 32 ^ $id);
         Object $genreTitle = this.getGenreTitle();
         result = result * 59 + ($genreTitle == null ? 43 : $genreTitle.hashCode());
-        Object $bookList = this.getBookList();
-        result = result * 59 + ($bookList == null ? 43 : $bookList.hashCode());
         return result;
     }
 

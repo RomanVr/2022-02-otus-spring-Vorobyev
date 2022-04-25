@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.EmptyResultDataAccessException;
 import ru.homework.library.domain.Genre;
 
 import java.util.List;
@@ -66,7 +67,7 @@ class GenreDaoJdbcTest {
 
         genreDao.deleteById(insertId);
 
-        assertThat(genreDao.getById(insertId)).isNull();
+        assertThatCode(() -> genreDao.getById(insertId)).isInstanceOf(EmptyResultDataAccessException.class);
     }
 
     @Test
