@@ -98,7 +98,6 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public List<Book> findBooksByGenreId(long genre_id) {
-        //TODO not implemented!!!
         Map<String, Object> params = Map.of("genre_id", genre_id);
         return namedJdbc.query(
                 "SELECT id, bookTitle, preview " +

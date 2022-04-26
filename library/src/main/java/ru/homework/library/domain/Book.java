@@ -69,16 +69,6 @@ public class Book {
                 } else if (!this$bookTitle.equals(other$bookTitle)) {
                     return false;
                 }
-
-                Object this$preview = this.getPreview();
-                Object other$preview = other.getPreview();
-                if (this$preview == null) {
-                    if (other$preview != null) {
-                        return false;
-                    }
-                } else if (!this$preview.equals(other$preview)) {
-                    return false;
-                }
                 return true;
             }
         }
