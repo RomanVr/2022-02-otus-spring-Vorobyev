@@ -1,37 +1,32 @@
 package ru.homework.library.domain;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.type.ClobType;
+
+import javax.persistence.*;
+import java.sql.Clob;
 
 @Getter
-@ToString
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "Book")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private final String bookTitle;
-    private final String preview;
+    @Column(name = "booktitle", nullable = false, unique = true)
+    private String bookTitle;
+    @Column(name = "preview", nullable = false)
+    private String preview;
+    @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
-
-    public Book(String bookTitle, String preview) {
-        this.bookTitle = bookTitle;
-        this.preview = preview;
-    }
-
-    public Book(String bookTitle, String preview, Author author, Genre genre) {
-        this(bookTitle, preview);
-        this.author = author;
-        this.genre = genre;
-    }
-
-    public Book(long id, String bookTitle, String preview) {
-        this(bookTitle, preview);
-        this.id = id;
-    }
-
-    public Book(long id, String bookTitle, String preview, Author author, Genre genre) {
-        this(bookTitle, preview, author, genre);
-        this.id = id;
-    }
 
     @Override
     public String toString() {

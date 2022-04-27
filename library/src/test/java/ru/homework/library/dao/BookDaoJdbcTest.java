@@ -1,5 +1,6 @@
 package ru.homework.library.dao;
 
+import org.hibernate.type.ClobType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ class BookDaoJdbcTest {
     @Test
     @DisplayName("Должно получать Книгу по названию")
     void shouldGetBookByTitle() {
-        var expectedBook = new Book(EXPECTED_TITLE_BOOK, EXPECTED_PREVIEW_BOOK);
+        var expectedBook = new Book(0, EXPECTED_TITLE_BOOK, EXPECTED_PREVIEW_BOOK);
         var actualBook = bookDao.getByTitle(EXPECTED_TITLE_BOOK);
         assertThat(expectedBook).isEqualTo(actualBook);
     }
@@ -44,7 +45,7 @@ class BookDaoJdbcTest {
     @Test
     @DisplayName("Должно добавлять Книгу в БД")
     void shouldAddBookToDB() {
-        var expectedBook = new Book("titleTest", "textTest");
+        var expectedBook = new Book(0, "titleTest", "textTest");
         var insertId = bookDao.insert(expectedBook, EXPECTED_AUTHOR_ID, EXPECTED_GENRE_ID);
         var actualBook = bookDao.getById(insertId);
         assertThat(expectedBook).isEqualTo(actualBook);
@@ -62,7 +63,7 @@ class BookDaoJdbcTest {
     @Test
     @DisplayName("Должно удалять Книгу по id")
     void shouldDeleteBookById() {
-        var expectedBook = new Book("titleTest", "textTest");
+        var expectedBook = new Book(0, "titleTest", "textTest");
         var insertId = bookDao.insert(expectedBook, EXPECTED_AUTHOR_ID, EXPECTED_GENRE_ID);
         assertThatCode(() -> bookDao.getById(insertId)).doesNotThrowAnyException();
 

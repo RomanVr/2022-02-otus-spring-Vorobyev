@@ -36,7 +36,7 @@ public class AuthorCommands {
             @ShellOption String lastName,
             @ShellOption Date dateOfBirth,
             @ShellOption(defaultValue = "man") String gender) {
-        Author newAuthor = new Author(name, lastName, dateOfBirth, gender);
+        Author newAuthor = new Author(0, name, lastName, dateOfBirth, gender);
         return String.format("Author insert to db with id: %d%n", authorService.insert(newAuthor));
     }
 

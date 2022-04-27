@@ -128,7 +128,7 @@ public class BookDaoJdbc implements BookDao {
             long id = rs.getLong("id");
             String bookTitle = rs.getString("bookTitle");
             String preview = rs.getString("preview");
-            return new Book(id, bookTitle, preview);
+            return new Book(id, bookTitle, preview, null, null);
         }
     }
 }

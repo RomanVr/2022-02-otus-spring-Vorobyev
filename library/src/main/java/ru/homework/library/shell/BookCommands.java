@@ -34,7 +34,7 @@ public class BookCommands {
             @ShellOption long author_id,
             @ShellOption long genre_id
     ) {
-        Book newBook = new Book(bookTitle, preview);
+        Book newBook = new Book(0, bookTitle, preview);
         return String.format("Book insert to db with id: %d%n", bookService.insert(newBook, author_id, genre_id));
     }
 

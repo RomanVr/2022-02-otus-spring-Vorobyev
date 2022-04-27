@@ -1,20 +1,24 @@
 package ru.homework.library.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "Genre")
 public class Genre {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private final String genreTitle;
-
-    public Genre(String genreTitle) {
-        this.genreTitle = genreTitle;
-    }
-
-    public Genre(long id, String genreTitle) {
-        this(genreTitle);
-        this.id = id;
-    }
+    @Column(name = "genretitle")
+    private String genreTitle;
 
     @Override
     public String toString() {
