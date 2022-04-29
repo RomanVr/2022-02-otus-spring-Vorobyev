@@ -17,7 +17,6 @@ public class Author {
     private long id;
     @Column(name = "name")
     private String name;
-    @Setter
     @Column(name = "lastname")
     private String lastName;
     @Column(name = "datebirth")
