@@ -3,15 +3,14 @@ package ru.homework.library.dao;
 import ru.homework.library.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookDao {
-    Book getById(long id);
+    Optional<Book> getById(long id);
 
     Book getByTitle(String title);
 
-    long insert(Book book, long author_id, long genre_id);
-
-    long update(Book book);
+    Book save(Book book);
 
     void deleteById(long id);
 

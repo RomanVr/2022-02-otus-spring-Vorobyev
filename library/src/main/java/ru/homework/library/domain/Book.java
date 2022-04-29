@@ -1,10 +1,8 @@
 package ru.homework.library.domain;
 
 import lombok.*;
-import org.hibernate.type.ClobType;
 
 import javax.persistence.*;
-import java.sql.Clob;
 
 @Getter
 @Setter
@@ -20,8 +18,7 @@ public class Book {
     private String bookTitle;
     @Column(name = "preview", nullable = false)
     private String preview;
-    @Setter
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
     @ManyToOne(fetch = FetchType.EAGER)
