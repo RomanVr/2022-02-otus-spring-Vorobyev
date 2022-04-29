@@ -3,15 +3,14 @@ package ru.homework.library.dao;
 import ru.homework.library.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenreDao {
-    Genre getById(long id);
+    Optional<Genre> getById(long id);
 
     Genre getByTitle(String title);
 
-    long insert(Genre genre);
-
-    long update(Genre genre);
+    Genre save(Genre genre);
 
     void deleteById(long id);
 

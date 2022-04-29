@@ -1,22 +1,20 @@
 spring:
   datasource:
     url: jdbc:h2:mem:librarydb
-    initialization-mode: always
+  sql:
+    init:
+      mode: always
 
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
       ddl-auto: validate
+
+    show-sql: false
 
     properties:
       hibernate:
         format_sql: true
-
-    show-sql: true
-
-  sql:
-    init:
-      mode: always
 
   h2:
     console:
