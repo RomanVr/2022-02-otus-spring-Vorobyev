@@ -33,4 +33,16 @@ CREATE TABLE Book
     FOREIGN KEY (genre_id) REFERENCES Genre (id),
 
     UNIQUE (bookTitle)
-)
+);
+
+DROP TABLE IF EXISTS book_commentary;
+CREATE TABLE book_commentary
+(
+    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
+    commentary VARCHAR(255) NOT NULL,
+    book_id    BIGINT       NOT NULL,
+
+    FOREIGN KEY (book_id) REFERENCES Book,
+
+    UNIQUE (commentary)
+);

@@ -1,8 +1,11 @@
 package ru.homework.library.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +27,10 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "book_id", nullable = true)
+    private List<BookCommentary> bookCommentaries;
 
     @Override
     public String toString() {

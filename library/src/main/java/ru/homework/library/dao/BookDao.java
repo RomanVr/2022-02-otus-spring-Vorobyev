@@ -1,6 +1,7 @@
 package ru.homework.library.dao;
 
 import ru.homework.library.domain.Book;
+import ru.homework.library.domain.BookCommentary;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,6 @@ public interface BookDao {
     List<Book> findBooksByAuthorId(long author_id);
 
     List<Book> findBooksByGenreId(long genre_id);
+
+    List<BookCommentary> findCommentsByBookId(long book_id);
 }
