@@ -40,8 +40,8 @@ public class GenreCommands {
     }
 
     @ShellMethod(value = "get genre by id", key = {"getGenre"})
-    public String getGenreById(@ShellOption long id) {
-        return String.format("%s%n", genreService.getById(id));
+    public void getGenreById(@ShellOption long id) {
+        genreService.getById(id).ifPresent(genre -> System.out.println(String.format("%s%n", genre)));
     }
 
     @ShellMethod(value = "get genre by title", key = {"getGenreTitle"})

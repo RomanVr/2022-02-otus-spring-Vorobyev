@@ -1,12 +1,12 @@
 package ru.homework.library.service;
 
 import ru.homework.library.domain.Book;
-import ru.homework.library.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
-    Book getById(long id);
+    Optional<Book> getById(long id);
 
     Book getByTitle(String title);
 

@@ -7,6 +7,7 @@ import ru.homework.library.dao.GenreDao;
 import ru.homework.library.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,8 +17,8 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     @Transactional(readOnly = true)
-    public Genre getById(long id) {
-        return genreDao.getById(id).get();
+    public Optional<Genre> getById(long id) {
+        return genreDao.getById(id);
     }
 
     @Override

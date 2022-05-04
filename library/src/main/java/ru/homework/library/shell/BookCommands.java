@@ -49,8 +49,8 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "get Book by id", key = {"getBook"})
-    public String getBookById(@ShellOption long id) {
-        return String.format("%s%n", bookService.getById(id));
+    public void getBookById(@ShellOption long id) {
+        bookService.getById(id).ifPresent(book -> System.out.println(String.format("%s%n", book)));
     }
 
     @ShellMethod(value = "get Book by title", key = {"getBookTitle"})

@@ -11,6 +11,7 @@ import ru.homework.library.domain.Book;
 import ru.homework.library.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,8 +22,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public Book getById(long id) {
-        return bookDao.getById(id).get();
+    public Optional<Book> getById(long id) {
+        return bookDao.getById(id);
     }
 
     @Override

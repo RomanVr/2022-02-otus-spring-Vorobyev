@@ -3,6 +3,7 @@ package ru.homework.library.service;
 import ru.homework.library.domain.Author;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AuthorService {
     List<Author> getAll();
@@ -11,7 +12,7 @@ public interface AuthorService {
 
     long update(Author newAuthor);
 
-    Author getById(long id);
+    Optional<Author> getById(long id);
 
     void deleteById(long id);
 

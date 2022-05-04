@@ -7,6 +7,7 @@ import ru.homework.library.dao.AuthorDao;
 import ru.homework.library.domain.Author;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,8 +35,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional(readOnly = true)
-    public Author getById(long id) {
-        return authorDao.getById(id).get();
+    public Optional<Author> getById(long id) {
+        return authorDao.getById(id);
     }
 
     @Override
