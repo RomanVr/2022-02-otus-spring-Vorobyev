@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
-public class BookDaoJdbc implements BookDao {
+public class BookDaoJpa implements BookDao {
     @PersistenceContext
     private final EntityManager em;
 
@@ -49,7 +49,7 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return em.createQuery("select b from Book b", Book.class).getResultList();
+        return em.createQuery("select b from Book b ", Book.class).getResultList();
     }
 
     @Override

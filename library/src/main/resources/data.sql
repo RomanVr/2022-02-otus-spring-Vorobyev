@@ -11,4 +11,7 @@ values ('Java beginners', 'text', 1, 1),
 insert into book_commentary (`commentary`, `book_id`)
 values ('Very good book', 1),
        ('not bed', 1),
-       ('very well', 1);
+       ('very well', 1),
+       ('Very good book', 2),
+       ('not bed', 2),
+       ('very well', 2);

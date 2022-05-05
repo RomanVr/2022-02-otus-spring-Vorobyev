@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@Import(GenreDaoJdbc.class)
+@Import(GenreDaoJpa.class)
 @DisplayName("Dao Жанров")
 class GenreDaoJdbcTest {
 
@@ -28,14 +28,14 @@ class GenreDaoJdbcTest {
     @DisplayName("Должно получать Жанр по id")
     void getById() {
         var expectedGenre = new Genre(EXPECTED_ID_GENRE, EXPECTED_TITLE_GENRE);
-        var actualGenre = genreDao.getById(EXPECTED_ID_GENRE);
+        var actualGenre = genreDao.getById(EXPECTED_ID_GENRE).get();
         assertThat(expectedGenre).isEqualTo(actualGenre);
     }
 
     @Test
     @DisplayName("Должно получать Жанр по названию")
     void getByTitle() {
-        var expectedGenre = new Genre(EXPECTED_TITLE_GENRE);
+        var expectedGenre = new Genre(0, EXPECTED_TITLE_GENRE);
         var actualGenre = genreDao.getByTitle(EXPECTED_TITLE_GENRE);
         assertThat(expectedGenre).isEqualTo(actualGenre);
     }
@@ -43,9 +43,9 @@ class GenreDaoJdbcTest {
     @Test
     @DisplayName("Должно добавлять Жанр в БД")
     void shouldAddGenreToDB() {
-        var expectedGenre = new Genre("genreTest");
-        var insertId = genreDao.insert(expectedGenre);
-        var actualGenre = genreDao.getById(insertId);
+        var expectedGenre = new Genre(0, "genreTest");
+        var insertId = genreDao.save(expectedGenre).getId();
+        var actualGenre = genreDao.getById(insertId).get();
         assertThat(actualGenre).isEqualTo(expectedGenre);
     }
 
@@ -53,16 +53,16 @@ class GenreDaoJdbcTest {
     @DisplayName("Должно обновлять Жанр")
     void shouldUpdateGenre() {
         var expectedGenre = new Genre(1, "genreTest");
-        genreDao.update(expectedGenre);
-        var actualGenre = genreDao.getById(expectedGenre.getId());
+        genreDao.save(expectedGenre);
+        var actualGenre = genreDao.getById(expectedGenre.getId()).get();
         assertThat(actualGenre).isEqualTo(expectedGenre);
     }
 
     @Test
     @DisplayName("Должно удалять жанр по id")
     void shouldDeleteGenre() {
-        var expectedGenre = new Genre("genreTest");
-        var insertId = genreDao.insert(expectedGenre);
+        var expectedGenre = new Genre(0, "genreTest");
+        var insertId = genreDao.save(expectedGenre).getId();
         assertThatCode(() -> genreDao.getById(insertId)).doesNotThrowAnyException();
 
         genreDao.deleteById(insertId);

@@ -18,7 +18,7 @@ import static org.mockito.BDDMockito.given;
 class BookServiceImplTest {
     private static final long EXPECTED_ID_BOOK = 1;
     private static final String EXPECTED_TITLE_BOOK = "bookTitle";
-    private static final Book expectedBook = new Book(EXPECTED_ID_BOOK, EXPECTED_TITLE_BOOK, "bookText");
+    private static final Book expectedBook = new Book(EXPECTED_ID_BOOK, EXPECTED_TITLE_BOOK, "bookText", null, null, null);
     private static final long EXPECTED_AUTHOR_ID = 1;
     private static final long EXPECTED_GENRE_ID = 1;
     public static final int EXPECTED_COUNT_BOOKS = 1;
@@ -31,7 +31,7 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Должен получать книгу по id")
     void shouldGetBookById() {
-        given(bookDao.getById(EXPECTED_ID_BOOK)).willReturn(expectedBook);
+        given(bookDao.getById(EXPECTED_ID_BOOK).get()).willReturn(expectedBook);
         assertThat(bookService.getById(EXPECTED_ID_BOOK)).isEqualTo(expectedBook);
     }
 
@@ -45,14 +45,14 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Должен добавлять Книгу в БД")
     void shouldAddBookToDB() {
-        given(bookDao.insert(expectedBook, EXPECTED_AUTHOR_ID, EXPECTED_GENRE_ID)).willReturn(EXPECTED_ID_BOOK);
+        given(bookDao.save(expectedBook).getId()).willReturn(EXPECTED_ID_BOOK);
         assertThat(bookService.insert(expectedBook, EXPECTED_AUTHOR_ID, EXPECTED_GENRE_ID)).isEqualTo(EXPECTED_AUTHOR_ID);
     }
 
     @Test
     @DisplayName("Должен обновлять Книгу")
     void shouldUpdateBook() {
-        given(bookDao.update(expectedBook)).willReturn(EXPECTED_ID_BOOK);
+        given(bookDao.save(expectedBook).getId()).willReturn(EXPECTED_ID_BOOK);
         assertThat(bookService.update(expectedBook)).isEqualTo(EXPECTED_AUTHOR_ID);
     }
 

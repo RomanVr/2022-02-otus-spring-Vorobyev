@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
-public class AuthorDaoJdbc implements AuthorDao {
+public class AuthorDaoJpa implements AuthorDao {
 
     @PersistenceContext
     private final EntityManager em;

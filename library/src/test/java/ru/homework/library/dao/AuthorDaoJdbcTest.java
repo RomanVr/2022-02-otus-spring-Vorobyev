@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 @JdbcTest
-@Import(AuthorDaoJdbc.class)
+@Import(AuthorDaoJpa.class)
 @DisplayName("Dao Автора")
 class AuthorDaoJdbcTest {
 
@@ -29,15 +29,15 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("Должно получать Автора по id")
     void shouldGetAuthorById() {
-        var expectedAuthor = new Author("ivan", "ivanov", Date.valueOf("2020-01-01"), "man");
-        var actualAuthor = authorDao.getById(EXPECTED_ID_AUTHOR);
+        var expectedAuthor = new Author(0, "ivan", "ivanov", Date.valueOf("2020-01-01"), "man");
+        var actualAuthor = authorDao.getById(EXPECTED_ID_AUTHOR).get();
         assertThat(actualAuthor).isEqualTo(expectedAuthor);
     }
 
     @Test
     @DisplayName("Должно получать Автора по имени и фамилии")
     void shouldGetAuthorByNameFamily() {
-        var expectedAuthor = new Author("ivan", "ivanov", Date.valueOf("2020-01-01"), "man");
+        var expectedAuthor = new Author(0, "ivan", "ivanov", Date.valueOf("2020-01-01"), "man");
         var actualAuthor = authorDao.getByNameFamily(EXPECTED_NAME_AUTHOR, EXPECTED_LAST_NAME_AUTHOR);
         assertThat(actualAuthor).isEqualTo(expectedAuthor);
     }
@@ -45,9 +45,9 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("Должно добавлять Автора в БД")
     void shouldAddAuthorToDB() {
-        var expectedAuthor = new Author("name", "testFamily", Date.valueOf("1978-01-01"), "man");
-        var idInsert = authorDao.insert(expectedAuthor);
-        var actualAuthor = authorDao.getById(idInsert);
+        var expectedAuthor = new Author(0, "name", "testFamily", Date.valueOf("1978-01-01"), "man");
+        var idInsert = authorDao.save(expectedAuthor).getId();
+        var actualAuthor = authorDao.getById(idInsert).get();
         assertThat(actualAuthor).isEqualTo(expectedAuthor);
     }
 
@@ -55,16 +55,16 @@ class AuthorDaoJdbcTest {
     @DisplayName("Должно обновлять Автора")
     void shouldUpdateAuthor() {
         var expectedAuthor = new Author(1, "sergey", "ivanov", Date.valueOf("2020-01-01"), "man");
-        authorDao.update(expectedAuthor);
-        var actualAuthor = authorDao.getById(expectedAuthor.getId());
+        authorDao.save(expectedAuthor);
+        var actualAuthor = authorDao.getById(expectedAuthor.getId()).get();
         assertThat(actualAuthor).isEqualTo(expectedAuthor);
     }
 
     @Test
     @DisplayName("Должно удалять Автора по Id")
     void shouldDeleteAuthorById() {
-        var expectedAuthor = new Author("name", "testLastName", Date.valueOf("1978-01-01"), "man");
-        var insertId = authorDao.insert(expectedAuthor);
+        var expectedAuthor = new Author(0, "name", "testLastName", Date.valueOf("1978-01-01"), "man");
+        var insertId = authorDao.save(expectedAuthor).getId();
         assertThatCode(() -> authorDao.getById(insertId)).doesNotThrowAnyException();
 
         authorDao.deleteById(insertId);

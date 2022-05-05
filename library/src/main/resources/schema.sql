@@ -42,7 +42,5 @@ CREATE TABLE book_commentary
     commentary VARCHAR(255) NOT NULL,
     book_id    BIGINT       NOT NULL,
 
-    FOREIGN KEY (book_id) REFERENCES Book,
-
-    UNIQUE (commentary)
+    FOREIGN KEY (book_id) REFERENCES Book
 );
