@@ -16,8 +16,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
-    public final AuthorDao authorDao;
-    public final GenreDao genreDao;
+    private final AuthorDao authorDao;
+    private final GenreDao genreDao;
     private final BookDao bookDao;
 
     @Override

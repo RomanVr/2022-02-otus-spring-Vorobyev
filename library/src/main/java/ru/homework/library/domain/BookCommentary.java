@@ -14,8 +14,10 @@ public class BookCommentary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "commentary", nullable = false, unique = true)
+    @Column(name = "commentary", nullable = false)
     private String commentary;
+    @ManyToOne()
+    private Book book;
 
     @Override
     public boolean equals(Object o) {

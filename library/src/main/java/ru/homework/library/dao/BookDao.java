@@ -20,6 +20,4 @@ public interface BookDao {
     List<Book> findBooksByAuthorId(long author_id);
 
     List<Book> findBooksByGenreId(long genre_id);
-
-    List<BookCommentary> findCommentsByBookId(long book_id);
 }

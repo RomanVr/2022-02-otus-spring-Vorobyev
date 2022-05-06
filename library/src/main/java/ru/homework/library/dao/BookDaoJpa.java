@@ -3,7 +3,6 @@ package ru.homework.library.dao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.homework.library.domain.Book;
-import ru.homework.library.domain.BookCommentary;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -65,12 +64,6 @@ public class BookDaoJpa implements BookDao {
         var query = em.createQuery("select b from Book b " +
                 "where b.genre.id = :genre_id", Book.class);
         query.setParameter("genre_id", genre_id);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<BookCommentary> findCommentsByBookId(long book_id) {
-        var query = em.createQuery("select bc from BookCommentary bc where bc.id = :book_id", BookCommentary.class);
         return query.getResultList();
     }
 }
