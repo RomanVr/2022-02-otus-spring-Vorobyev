@@ -16,7 +16,8 @@ public class BookCommentary {
     private long id;
     @Column(name = "commentary", nullable = false)
     private String commentary;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @Override

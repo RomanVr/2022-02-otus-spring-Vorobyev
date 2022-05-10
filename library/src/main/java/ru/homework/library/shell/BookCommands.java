@@ -65,17 +65,17 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "find book by id Author", key = {"findBookAuthor"})
-    public String findBooksByAuthorId(@ShellOption long id) {
-        List<Book> bookList = bookService.findBooksByAuthorId(id);
+    public String findBooksByAuthorId(@ShellOption long author_id) {
+        List<Book> bookList = bookService.findBooksByAuthorId(author_id);
         if (bookList.size() != 0) {
             return String.format(
                     "All books the Author id: %d%n%s%n",
-                    id,
+                    author_id,
                     bookList.stream().map(Objects::toString)
                             .collect(Collectors.joining("\n"))
             );
         }
-        return String.format("There are no Books from the Author with id: %d%n", id);
+        return String.format("There are no Books from the Author with id: %d%n", author_id);
     }
 
     @ShellMethod(value = "find book by id Genre", key = {"findBookGenre"})

@@ -19,7 +19,7 @@ public class BookCommentServiceImpl implements BookCommentService {
 
     @Override
     public Optional<BookCommentary> getById(long id) {
-        return Optional.empty();
+        return commentaryDao.getById(id);
     }
 
     @Override

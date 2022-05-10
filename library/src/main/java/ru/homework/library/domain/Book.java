@@ -17,19 +17,23 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "booktitle", nullable = false, unique = true)
     private String bookTitle;
+
     @Column(name = "preview", nullable = false)
     private String preview;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
+
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "book_id", nullable = true)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "book")
     private List<BookCommentary> bookCommentaries;
 
     @Override
