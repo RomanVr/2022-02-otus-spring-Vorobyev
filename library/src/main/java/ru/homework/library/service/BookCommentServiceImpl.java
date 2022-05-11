@@ -18,19 +18,25 @@ public class BookCommentServiceImpl implements BookCommentService {
     private final BookDao bookDao;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<BookCommentary> getById(long id) {
         return commentaryDao.getById(id);
     }
 
     @Override
+    @Transactional
     public long insert(BookCommentary bc, long book_id) {
-        Book book = bookDao.getById(book_id).get();
+        Book book = bookDao.getRefById(book_id).get();
         bc.setBook(book);
         return commentaryDao.save(bc).getId();
     }
 
     @Override
+    @Transactional
     public long update(BookCommentary bc) {
+        BookCommentary oldComm = commentaryDao.getById(bc.getId()).get();
+        Book book = bookDao.getRefById(oldComm.getBook().getId()).get();
+        bc.setBook(book);
         return commentaryDao.save(bc).getId();
     }
 

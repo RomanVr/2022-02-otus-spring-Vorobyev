@@ -35,8 +35,8 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public long insert(Book book, long author_id, long genre_id) {
-        Author author = authorDao.getById(author_id).get();
-        Genre genre = genreDao.getById(genre_id).get();
+        Author author = authorDao.getRefById(author_id).get();
+        Genre genre = genreDao.getRefById(genre_id).get();
         book.setAuthor(author);
         book.setGenre(genre);
         return bookDao.save(book).getId();

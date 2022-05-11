@@ -1,13 +1,14 @@
 package ru.homework.library.dao;
 
 import ru.homework.library.domain.Book;
-import ru.homework.library.domain.BookCommentary;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BookDao {
     Optional<Book> getById(long id);
+
+    Optional<Book> getRefById(long id);
 
     Book getByTitle(String title);
 

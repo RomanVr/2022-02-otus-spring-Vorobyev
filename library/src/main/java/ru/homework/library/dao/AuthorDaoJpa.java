@@ -23,6 +23,11 @@ public class AuthorDaoJpa implements AuthorDao {
     }
 
     @Override
+    public Optional<Author> getRefById(long id) {
+        return Optional.ofNullable(em.getReference(Author.class, id));
+    }
+
+    @Override
     public Author getByNameFamily(String name, String lastName) {
         TypedQuery<Author> query = em.createQuery("select a " +
                 "from Author a " +

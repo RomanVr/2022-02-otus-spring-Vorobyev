@@ -22,6 +22,11 @@ public class BookDaoJpa implements BookDao {
     }
 
     @Override
+    public Optional<Book> getRefById(long id) {
+        return Optional.ofNullable(em.getReference(Book.class, id));
+    }
+
+    @Override
     public Book getByTitle(String bookTitle) {
         TypedQuery<Book> query = em.createQuery("select b " +
                 "from Book b " +

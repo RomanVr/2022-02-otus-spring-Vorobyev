@@ -22,6 +22,11 @@ public class GenreDaoJpa implements GenreDao {
     }
 
     @Override
+    public Optional<Genre> getRefById(long id) {
+        return Optional.ofNullable(em.getReference(Genre.class, id));
+    }
+
+    @Override
     public Genre getByTitle(String genreTitle) {
         TypedQuery<Genre> query = em.createQuery("select g " +
                 "from Genre g " +

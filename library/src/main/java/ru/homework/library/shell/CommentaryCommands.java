@@ -18,16 +18,30 @@ public class CommentaryCommands {
 
     @ShellMethod(value = "get Commentary by id", key = {"getComm"})
     public void getById(@ShellOption long id) {
-        commentService.getById(id).ifPresent(commentary->System.out.println(String.format("%s%n", commentary)));
+        commentService.getById(id).ifPresent(commentary -> System.out.println(String.format("%s%n", commentary)));
     }
 
-    @ShellMethod(value = "create new comment for Book", key = {"newComm"})
-    public String createNewCommetntary(
+    @ShellMethod(value = "create new BookCommentary for Book", key = {"newComm"})
+    public String createNewCommentary(
             @ShellOption String commentaryText,
             @ShellOption long book_id
     ) {
         BookCommentary bookCommentary = new BookCommentary(0, commentaryText, null);
         return String.format("Commentary insert to db with id: %d%n", commentService.insert(bookCommentary, book_id));
+    }
+
+    @ShellMethod(value = "update BookCommentary", key = {"upComm"})
+    public String updateCommentary(
+            @ShellOption String textCommentary,
+            @ShellOption long id) {
+        BookCommentary newBookCommentary = new BookCommentary(id, textCommentary, null);
+        return String.format("Commentary update to db with id: %d%n", commentService.update(newBookCommentary));
+    }
+
+    @ShellMethod(value = "delete BookCommentary by id", key = {"delComm"})
+    public String deleteCommById(@ShellOption long id) {
+        commentService.deleteById(id);
+        return String.format("BookCommentary with id: was deleted %d%n", id);
     }
 
     @ShellMethod(value = "find comments by id book", key = {"findCommBook"})
