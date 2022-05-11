@@ -9,6 +9,7 @@ import ru.homework.library.dao.BookDao;
 import ru.homework.library.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -31,8 +32,8 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Должен получать книгу по id")
     void shouldGetBookById() {
-        given(bookDao.getById(EXPECTED_ID_BOOK).get()).willReturn(expectedBook);
-        assertThat(bookService.getById(EXPECTED_ID_BOOK)).isEqualTo(expectedBook);
+        given(bookDao.getById(EXPECTED_ID_BOOK)).willReturn(Optional.of(expectedBook));
+        assertThat(bookService.getById(EXPECTED_ID_BOOK)).isNotEmpty();
     }
 
     @Test
@@ -45,14 +46,14 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Должен добавлять Книгу в БД")
     void shouldAddBookToDB() {
-        given(bookDao.save(expectedBook).getId()).willReturn(EXPECTED_ID_BOOK);
+        given(bookDao.save(expectedBook)).willReturn(expectedBook);
         assertThat(bookService.insert(expectedBook, EXPECTED_AUTHOR_ID, EXPECTED_GENRE_ID)).isEqualTo(EXPECTED_AUTHOR_ID);
     }
 
     @Test
     @DisplayName("Должен обновлять Книгу")
     void shouldUpdateBook() {
-        given(bookDao.save(expectedBook).getId()).willReturn(EXPECTED_ID_BOOK);
+        given(bookDao.save(expectedBook)).willReturn(expectedBook);
         assertThat(bookService.update(expectedBook)).isEqualTo(EXPECTED_AUTHOR_ID);
     }
 

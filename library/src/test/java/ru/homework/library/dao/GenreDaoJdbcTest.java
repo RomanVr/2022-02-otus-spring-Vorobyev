@@ -3,17 +3,17 @@ package ru.homework.library.dao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ru.homework.library.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@JdbcTest
+@DataJpaTest
 @Import(GenreDaoJpa.class)
 @DisplayName("Dao Жанров")
 class GenreDaoJdbcTest {
@@ -21,59 +21,66 @@ class GenreDaoJdbcTest {
     private static final int EXPECTED_COUNT_GENRES = 1;
     private static final String EXPECTED_TITLE_GENRE = "Java book";
     private static final int EXPECTED_ID_GENRE = 1;
+    private static final String GENRE_TITLE = "genreTest";
+    private static final String GENRE_TITLE_FOR_DELETE = "genreTestDelete";
     @Autowired
     private GenreDao genreDao;
+    @Autowired
+    private TestEntityManager em;
 
     @Test
     @DisplayName("Должно получать Жанр по id")
     void getById() {
-        var expectedGenre = new Genre(EXPECTED_ID_GENRE, EXPECTED_TITLE_GENRE);
-        var actualGenre = genreDao.getById(EXPECTED_ID_GENRE).get();
-        assertThat(expectedGenre).isEqualTo(actualGenre);
+        Optional<Genre> actualGenre = genreDao.getById(EXPECTED_ID_GENRE);
+        assertThat(actualGenre).isNotEmpty().get()
+                .hasFieldOrPropertyWithValue("genreTitle", EXPECTED_TITLE_GENRE);
     }
 
     @Test
     @DisplayName("Должно получать Жанр по названию")
     void getByTitle() {
-        var expectedGenre = new Genre(0, EXPECTED_TITLE_GENRE);
         var actualGenre = genreDao.getByTitle(EXPECTED_TITLE_GENRE);
-        assertThat(expectedGenre).isEqualTo(actualGenre);
+        assertThat(actualGenre).isNotNull()
+                .hasFieldOrPropertyWithValue("genreTitle", EXPECTED_TITLE_GENRE);
     }
 
     @Test
     @DisplayName("Должно добавлять Жанр в БД")
     void shouldAddGenreToDB() {
-        var expectedGenre = new Genre(0, "genreTest");
+        var expectedGenre = new Genre(0, GENRE_TITLE);
         var insertId = genreDao.save(expectedGenre).getId();
-        var actualGenre = genreDao.getById(insertId).get();
-        assertThat(actualGenre).isEqualTo(expectedGenre);
+        Optional<Genre> actualGenre = genreDao.getById(insertId);
+        assertThat(actualGenre).isNotEmpty().get()
+                .hasFieldOrPropertyWithValue("genreTitle", GENRE_TITLE);
     }
 
     @Test
     @DisplayName("Должно обновлять Жанр")
     void shouldUpdateGenre() {
-        var expectedGenre = new Genre(1, "genreTest");
+        var expectedGenre = new Genre(1, GENRE_TITLE);
         genreDao.save(expectedGenre);
-        var actualGenre = genreDao.getById(expectedGenre.getId()).get();
-        assertThat(actualGenre).isEqualTo(expectedGenre);
+        Optional<Genre> actualGenre = genreDao.getById(expectedGenre.getId());
+        assertThat(actualGenre).isNotEmpty().get()
+                .hasFieldOrPropertyWithValue("genreTitle", GENRE_TITLE);
     }
 
     @Test
     @DisplayName("Должно удалять жанр по id")
     void shouldDeleteGenre() {
-        var expectedGenre = new Genre(0, "genreTest");
+        var expectedGenre = new Genre(0, GENRE_TITLE_FOR_DELETE);
         var insertId = genreDao.save(expectedGenre).getId();
-        assertThatCode(() -> genreDao.getById(insertId)).doesNotThrowAnyException();
+        assertThat(genreDao.getById(insertId)).isNotEmpty();
 
         genreDao.deleteById(insertId);
+        em.clear();
 
-        assertThatCode(() -> genreDao.getById(insertId)).isInstanceOf(EmptyResultDataAccessException.class);
+        assertThat(genreDao.getById(insertId)).isEmpty();
     }
 
     @Test
     @DisplayName("Должно возвращать все Жанры")
     void shouldGetAllGenres() {
         List<Genre> actualGenreList = genreDao.getAll();
-        assertThat(actualGenreList.size()).isEqualTo(EXPECTED_COUNT_GENRES);
+        assertThat(actualGenreList).hasSize(EXPECTED_COUNT_GENRES);
     }
 }
