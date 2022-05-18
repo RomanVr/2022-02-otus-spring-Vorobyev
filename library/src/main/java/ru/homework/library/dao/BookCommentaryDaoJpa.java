@@ -1,8 +1,7 @@
 package ru.homework.library.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-import ru.homework.library.domain.Book;
+import org.springframework.stereotype.Component;
 import ru.homework.library.domain.BookCommentary;
 
 import javax.persistence.EntityManager;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Repository
+@Component
 public class BookCommentaryDaoJpa implements BookCommentaryDao {
     @PersistenceContext
     private final EntityManager em;
