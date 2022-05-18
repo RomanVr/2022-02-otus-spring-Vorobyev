@@ -46,7 +46,6 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Genre> getAll() {
         return genreDao.getAll();
     }
