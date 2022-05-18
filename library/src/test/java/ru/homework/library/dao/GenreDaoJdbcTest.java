@@ -47,7 +47,7 @@ class GenreDaoJdbcTest {
     @Test
     @DisplayName("Должно добавлять Жанр в БД")
     void shouldAddGenreToDB() {
-        var expectedGenre = new Genre(0, GENRE_TITLE);
+        var expectedGenre = new Genre(0, GENRE_TITLE, null);
         var insertId = genreDao.save(expectedGenre).getId();
         Optional<Genre> actualGenre = genreDao.getById(insertId);
         assertThat(actualGenre).isNotEmpty().get()
@@ -57,7 +57,7 @@ class GenreDaoJdbcTest {
     @Test
     @DisplayName("Должно обновлять Жанр")
     void shouldUpdateGenre() {
-        var expectedGenre = new Genre(1, GENRE_TITLE);
+        var expectedGenre = new Genre(1, GENRE_TITLE, null);
         genreDao.save(expectedGenre);
         Optional<Genre> actualGenre = genreDao.getById(expectedGenre.getId());
         assertThat(actualGenre).isNotEmpty().get()
@@ -67,7 +67,7 @@ class GenreDaoJdbcTest {
     @Test
     @DisplayName("Должно удалять жанр по id")
     void shouldDeleteGenre() {
-        var expectedGenre = new Genre(0, GENRE_TITLE_FOR_DELETE);
+        var expectedGenre = new Genre(0, GENRE_TITLE_FOR_DELETE, null);
         var insertId = genreDao.save(expectedGenre).getId();
         Optional<Genre> actualGenre = genreDao.getById(insertId);
         assertThat(actualGenre).isNotEmpty();

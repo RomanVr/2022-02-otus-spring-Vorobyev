@@ -14,5 +14,5 @@ public interface BookCommentaryDao {
 
     void delete(BookCommentary commentary);
 
-    List<BookCommentary> findCommentsByBookId(long book_id);
+//    List<BookCommentary> findCommentsByBookId(long book_id);
 }

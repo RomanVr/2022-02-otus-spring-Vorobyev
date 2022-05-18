@@ -100,7 +100,7 @@ class BookDaoJdbcTest {
                 .allMatch(book -> book.getBookCommentaries() != null && book.getBookCommentaries().size() > 0);
     }
 
-    @Test
+/*    @Test
     @DisplayName("Должно находить все Книги по id Автора")
     void shouldFindBooksByAuthorId() {
         List<Book> actualBookList = bookDao.findBooksByAuthorId(EXPECTED_AUTHOR_ID);
@@ -115,5 +115,5 @@ class BookDaoJdbcTest {
         assertThat(actualBookList).isNotNull().hasSize(EXPECTED_COUNT_BOOKS)
                 .allMatch(book -> !book.getBookTitle().equals(""))
                 .allMatch(book -> book.getBookCommentaries() != null && book.getBookCommentaries().size() > 0);
-    }
+    }*/
 }

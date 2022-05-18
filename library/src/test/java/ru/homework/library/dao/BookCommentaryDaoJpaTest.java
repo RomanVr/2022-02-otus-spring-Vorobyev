@@ -64,11 +64,11 @@ class BookCommentaryDaoJpaTest {
         assertThat(commentaryDao.getById(insertId)).isEmpty();
     }
 
-    @Test
+/*    @Test
     @DisplayName("Должно находить все комментарии книги по ее id")
     void shouldFindCommentsByBookId() {
         List<BookCommentary> actualCommentaryList = commentaryDao.findCommentsByBookId(EXPECTED_BOOK_ID);
         assertThat(actualCommentaryList).isNotNull().hasSize(EXPECTED_COUNT_COMMENTS)
                 .allMatch(comm -> comm.getBook().getId() == EXPECTED_BOOK_ID);
-    }
+    }*/
 }

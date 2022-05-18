@@ -54,19 +54,19 @@ public class BookDaoJpa implements BookDao {
         return em.createQuery("select b from Book b ", Book.class).getResultList();
     }
 
-    @Override
+ /*   @Override
     public List<Book> findBooksByAuthorId(long author_id) {
         var query = em.createQuery("select b from Book b " +
                 "WHERE b.author.id = :author_id", Book.class);
         query.setParameter("author_id", author_id);
         return query.getResultList();
-    }
+    }*/
 
-    @Override
+/*    @Override
     public List<Book> findBooksByGenreId(long genre_id) {
         var query = em.createQuery("select b from Book b " +
                 "where b.genre.id = :genre_id", Book.class);
         query.setParameter("genre_id", genre_id);
         return query.getResultList();
-    }
+    }*/
 }

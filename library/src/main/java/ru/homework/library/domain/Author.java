@@ -1,9 +1,12 @@
 package ru.homework.library.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +26,9 @@ public class Author {
     private Date dateOfBirth;
     @Column(name = "gender")
     private String gender;
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "author")
+    private List<Book> bookList;
 
     @Override
     public String toString() {

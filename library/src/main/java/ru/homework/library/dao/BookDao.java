@@ -18,7 +18,7 @@ public interface BookDao {
 
     List<Book> getAll();
 
-    List<Book> findBooksByAuthorId(long author_id);
+//    List<Book> findBooksByAuthorId(long author_id);
 
-    List<Book> findBooksByGenreId(long genre_id);
+//    List<Book> findBooksByGenreId(long genre_id);
 }

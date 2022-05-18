@@ -29,13 +29,13 @@ public class GenreCommands {
 
     @ShellMethod(value = "create new Genre", key = {"newGenre"})
     public String createNewGenre(@ShellOption String genreTitle) {
-        Genre newGenre = new Genre(0, genreTitle);
+        Genre newGenre = new Genre(0, genreTitle, null);
         return String.format("Genre inset to db with id: %d%n", genreService.insert(newGenre));
     }
 
     @ShellMethod(value = "update Genre", key = {"upGenre"})
     public String updateGenre(@ShellOption long id, @ShellOption String genreTitle) {
-        Genre newGenre = new Genre(id, genreTitle);
+        Genre newGenre = new Genre(id, genreTitle, null);
         return String.format("Genre update to db with id: %d%n", genreService.update(newGenre));
     }
 

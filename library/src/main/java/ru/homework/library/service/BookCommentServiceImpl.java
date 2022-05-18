@@ -2,6 +2,7 @@ package ru.homework.library.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homework.library.dao.BookCommentaryDao;
 import ru.homework.library.dao.BookDao;
@@ -47,8 +48,8 @@ public class BookCommentServiceImpl implements BookCommentService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     public List<BookCommentary> findCommentsByBookId(long book_id) {
-        return commentaryDao.findCommentsByBookId(book_id);
+        return bookDao.getById(book_id).get().getBookCommentaries();
     }
 }

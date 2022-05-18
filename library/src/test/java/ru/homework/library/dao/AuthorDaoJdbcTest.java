@@ -48,7 +48,7 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("Должно добавлять Автора в БД")
     void shouldAddAuthorToDB() {
-        var expectedAuthor = new Author(0, EXPECTED_NAME, "testFamily", Date.valueOf("1978-01-01"), "man");
+        var expectedAuthor = new Author(0, EXPECTED_NAME, "testFamily", Date.valueOf("1978-01-01"), "man", null);
         var idInsert = authorDao.save(expectedAuthor).getId();
         Optional<Author> actualAuthor = authorDao.getById(idInsert);
         assertThat(actualAuthor).isNotEmpty().get()
@@ -58,7 +58,7 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("Должно обновлять Автора")
     void shouldUpdateAuthor() {
-        var expectedAuthor = new Author(1, EXPECTED_NEW_NAME, "ivanov", Date.valueOf("2020-01-01"), "man");
+        var expectedAuthor = new Author(1, EXPECTED_NEW_NAME, "ivanov", Date.valueOf("2020-01-01"), "man", null);
         authorDao.save(expectedAuthor);
         Optional<Author> actualAuthor = authorDao.getById(expectedAuthor.getId());
         assertThat(actualAuthor).isNotEmpty().get()
@@ -68,7 +68,7 @@ class AuthorDaoJdbcTest {
     @Test
     @DisplayName("Должно удалять Автора по Id")
     void shouldDeleteAuthorById() {
-        var expectedAuthor = new Author(0, EXPECTED_NAME, "testLastName", Date.valueOf("1978-01-01"), "man");
+        var expectedAuthor = new Author(0, EXPECTED_NAME, "testLastName", Date.valueOf("1978-01-01"), "man", null);
         var insertId = authorDao.save(expectedAuthor).getId();
         var actualAuthor = authorDao.getById(insertId);
         assertThat(actualAuthor).isNotEmpty();
