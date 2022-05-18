@@ -74,7 +74,7 @@ class BookDaoJdbcTest {
     }
 
     @Test
-    @DisplayName("Должно удалять Книгу по id")
+    @DisplayName("Должно удалять Книгу")
     void shouldDeleteBookById() {
         var expectedBook = new Book(0, EXPECTED_NEWTITLE_BOOK, "textTest", null, null, null);
         var author = em.find(Author.class, EXPECTED_AUTHOR_ID);
@@ -82,10 +82,11 @@ class BookDaoJdbcTest {
         expectedBook.setAuthor(author);
         expectedBook.setGenre(genre);
         var insertId = bookDao.save(expectedBook).getId();
-        assertThat(bookDao.getById(insertId)).isNotEmpty();
+        var actualBook = bookDao.getById(insertId);
+        assertThat(actualBook).isNotEmpty();
 
-        bookDao.deleteById(insertId);
-        em.clear();
+        bookDao.delete(actualBook.get());
+        em.flush();
 
         assertThat(bookDao.getById(insertId)).isEmpty();
     }

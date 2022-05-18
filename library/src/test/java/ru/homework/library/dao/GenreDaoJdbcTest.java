@@ -69,10 +69,11 @@ class GenreDaoJdbcTest {
     void shouldDeleteGenre() {
         var expectedGenre = new Genre(0, GENRE_TITLE_FOR_DELETE);
         var insertId = genreDao.save(expectedGenre).getId();
-        assertThat(genreDao.getById(insertId)).isNotEmpty();
+        Optional<Genre> actualGenre = genreDao.getById(insertId);
+        assertThat(actualGenre).isNotEmpty();
 
-        genreDao.deleteById(insertId);
-        em.clear();
+        genreDao.delete(actualGenre.get());
+        em.flush();
 
         assertThat(genreDao.getById(insertId)).isEmpty();
     }

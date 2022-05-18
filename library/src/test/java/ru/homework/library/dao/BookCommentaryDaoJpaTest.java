@@ -58,8 +58,8 @@ class BookCommentaryDaoJpaTest {
         Optional<BookCommentary> actualComm = commentaryDao.getById(insertId);
         assertThat(actualComm).isNotEmpty();
 
-        commentaryDao.deleteById(insertId);
-        em.clear();
+        commentaryDao.delete(actualComm.get());
+        em.flush();
 
         assertThat(commentaryDao.getById(insertId)).isEmpty();
     }

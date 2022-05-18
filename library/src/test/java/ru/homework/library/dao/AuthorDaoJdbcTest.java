@@ -70,10 +70,11 @@ class AuthorDaoJdbcTest {
     void shouldDeleteAuthorById() {
         var expectedAuthor = new Author(0, EXPECTED_NAME, "testLastName", Date.valueOf("1978-01-01"), "man");
         var insertId = authorDao.save(expectedAuthor).getId();
-        assertThat(authorDao.getById(insertId)).isNotEmpty();
+        var actualAuthor = authorDao.getById(insertId);
+        assertThat(actualAuthor).isNotEmpty();
 
-        authorDao.deleteById(insertId);
-        em.clear();
+        authorDao.delete(actualAuthor.get());
+        em.flush();
 
         assertThat(authorDao.getById(insertId)).isEmpty();
     }
