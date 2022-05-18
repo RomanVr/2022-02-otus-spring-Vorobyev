@@ -14,7 +14,7 @@ public interface BookDao {
 
     Book save(Book book);
 
-    void deleteById(long id);
+    void delete(Book book);
 
     List<Book> getAll();
 

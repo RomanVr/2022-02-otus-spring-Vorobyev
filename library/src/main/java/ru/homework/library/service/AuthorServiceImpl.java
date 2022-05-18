@@ -42,7 +42,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        authorDao.deleteById(id);
+        authorDao.getRefById(id).ifPresent(authorDao::delete);
     }
 
     @Override

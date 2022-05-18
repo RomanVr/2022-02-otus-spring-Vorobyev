@@ -2,6 +2,7 @@ package ru.homework.library.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.homework.library.domain.Book;
 import ru.homework.library.domain.BookCommentary;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,11 @@ public class BookCommentaryDaoJpa implements BookCommentaryDao {
     }
 
     @Override
+    public Optional<BookCommentary> getRefById(long id) {
+        return Optional.ofNullable(em.getReference(BookCommentary.class, id));
+    }
+
+    @Override
     public BookCommentary save(BookCommentary bookCommentary) {
         if (bookCommentary.getId() < 1) {
             em.persist(bookCommentary);
@@ -30,10 +36,8 @@ public class BookCommentaryDaoJpa implements BookCommentaryDao {
     }
 
     @Override
-    public void deleteById(long id) {
-        var query = em.createQuery("delete from BookCommentary bc where bc.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+    public void delete(BookCommentary commentary) {
+        em.remove(commentary);
     }
 
     @Override

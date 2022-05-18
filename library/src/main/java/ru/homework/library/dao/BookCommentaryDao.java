@@ -8,9 +8,11 @@ import java.util.Optional;
 public interface BookCommentaryDao {
     Optional<BookCommentary> getById(long id);
 
+    Optional<BookCommentary> getRefById(long id);
+
     BookCommentary save(BookCommentary bookCommentary);
 
-    void deleteById(long id);
+    void delete(BookCommentary commentary);
 
     List<BookCommentary> findCommentsByBookId(long book_id);
 }

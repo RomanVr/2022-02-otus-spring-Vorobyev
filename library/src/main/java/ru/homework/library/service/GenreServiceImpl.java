@@ -42,7 +42,7 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        genreDao.deleteById(id);
+        genreDao.getRefById(id).ifPresent(genreDao::delete);
     }
 
     @Override

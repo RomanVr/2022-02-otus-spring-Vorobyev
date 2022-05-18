@@ -51,7 +51,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        bookDao.deleteById(id);
+        bookDao.getRefById(id).ifPresent(bookDao::delete);
     }
 
     @Override

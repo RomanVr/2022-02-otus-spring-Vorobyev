@@ -43,7 +43,7 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        commentaryDao.deleteById(id);
+        commentaryDao.getRefById(id).ifPresent(commentaryDao::delete);
     }
 
     @Override
