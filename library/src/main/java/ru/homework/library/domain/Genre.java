@@ -17,7 +17,7 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "genretitle")
+    @Column(name = "genretitle", unique = true)
     private String genreTitle;
 
     @Override

@@ -16,7 +16,7 @@ public class BookCommentary {
     private long id;
     @Column(name = "commentary", nullable = false)
     private String commentary;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "book_id")
     private Book book;
 
@@ -31,16 +31,7 @@ public class BookCommentary {
             if (!other.canEqual(this)) {
                 return false;
             } else {
-                Object this$commentary = this.getCommentary();
-                Object other$commentary = other.getCommentary();
-                if (this$commentary == null) {
-                    if (other$commentary != null) {
-                        return false;
-                    }
-                } else if (!this$commentary.equals(other$commentary)) {
-                    return false;
-                }
-                return true;
+                return this.getId() == other.getId();
             }
         }
     }
@@ -56,6 +47,8 @@ public class BookCommentary {
         result = result * 59 + (int) ($id >>> 32 ^ $id);
         Object $commentary = this.getCommentary();
         result = result * 59 + ($commentary == null ? 43 : $commentary.hashCode());
+        Object $book = this.getBook();
+        result = result * 59 + ($book == null ? 43 : $book.hashCode());
         return result;
     }
 

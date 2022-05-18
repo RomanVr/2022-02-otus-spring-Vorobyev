@@ -28,12 +28,12 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
 
     @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "book")
+    @OneToMany(orphanRemoval = true, mappedBy = "book")
     private List<BookCommentary> bookCommentaries;
 
     @Override
