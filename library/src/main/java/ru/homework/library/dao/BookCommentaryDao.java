@@ -2,7 +2,6 @@ package ru.homework.library.dao;
 
 import ru.homework.library.domain.BookCommentary;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BookCommentaryDao {
@@ -13,6 +12,4 @@ public interface BookCommentaryDao {
     BookCommentary save(BookCommentary bookCommentary);
 
     void delete(BookCommentary commentary);
-
-//    List<BookCommentary> findCommentsByBookId(long book_id);
 }

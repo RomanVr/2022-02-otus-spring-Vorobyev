@@ -1,6 +1,5 @@
 package ru.homework.library.dao;
 
-import ru.homework.library.domain.Book;
 import ru.homework.library.domain.Genre;
 
 import java.util.List;
