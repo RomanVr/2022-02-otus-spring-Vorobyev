@@ -63,7 +63,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByAuthorId(long author_id) {
-        var author = authorDao.getById(author_id).orElseThrow();
+        var author = authorDao.getRefById(author_id).orElseThrow();
         Hibernate.initialize(author.getBookList());
         return author.getBookList();
     }
@@ -71,7 +71,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByGenreId(long genre_id) {
-        var genre = genreDao.getById(genre_id).orElseThrow();
+        var genre = genreDao.getRefById(genre_id).orElseThrow();
         Hibernate.initialize(genre.getBookList());
         return genre.getBookList();
     }

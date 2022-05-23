@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @Import(AuthorDaoJpa.class)
 @DisplayName("Dao Автора")
-class AuthorDaoJdbcTest {
+class AuthorDaoJpaTest {
 
     private static final int EXPECTED_COUNT_AUTHORS = 3;
     private static final int EXPECTED_ID_AUTHOR = 1;

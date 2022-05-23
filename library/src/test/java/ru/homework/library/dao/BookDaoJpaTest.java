@@ -3,11 +3,9 @@ package ru.homework.library.dao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.dao.EmptyResultDataAccessException;
 import ru.homework.library.domain.Author;
 import ru.homework.library.domain.Book;
 import ru.homework.library.domain.Genre;
@@ -20,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 @DataJpaTest
 @Import(BookDaoJpa.class)
 @DisplayName("Dao Книги")
-class BookDaoJdbcTest {
+class BookDaoJpaTest {
     private static final int EXPECTED_ID_BOOK = 1;
     private static final String EXPECTED_TITLE_BOOK = "Java beginners";
     private static final String EXPECTED_NEWTITLE_BOOK = "textTest";
@@ -99,21 +97,4 @@ class BookDaoJdbcTest {
                 .allMatch(book -> !book.getBookTitle().equals(""))
                 .allMatch(book -> book.getBookCommentaries() != null && book.getBookCommentaries().size() > 0);
     }
-
-/*    @Test
-    @DisplayName("Должно находить все Книги по id Автора")
-    void shouldFindBooksByAuthorId() {
-        List<Book> actualBookList = bookDao.findBooksByAuthorId(EXPECTED_AUTHOR_ID);
-
-        assertThat(actualBookList).isNotNull().hasSize(EXPECTED_COUNT_BOOKS);
-    }
-
-    @Test
-    @DisplayName("Должно находить все Книги по id Жанра")
-    void shouldFindBooksByGenreId() {
-        List<Book> actualBookList = bookDao.findBooksByGenreId(EXPECTED_GENRE_ID);
-        assertThat(actualBookList).isNotNull().hasSize(EXPECTED_COUNT_BOOKS)
-                .allMatch(book -> !book.getBookTitle().equals(""))
-                .allMatch(book -> book.getBookCommentaries() != null && book.getBookCommentaries().size() > 0);
-    }*/
 }

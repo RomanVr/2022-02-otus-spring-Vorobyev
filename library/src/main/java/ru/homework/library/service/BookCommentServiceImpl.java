@@ -50,7 +50,7 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional(readOnly = true)
     public List<BookCommentary> findCommentsByBookId(long book_id) {
-        var book = bookDao.getById(book_id).orElseThrow();
+        var book = bookDao.getRefById(book_id).orElseThrow();
         Hibernate.initialize(book.getBookCommentaries());
         return book.getBookCommentaries();
     }

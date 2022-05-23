@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @Import(GenreDaoJpa.class)
 @DisplayName("Dao Жанров")
-class GenreDaoJdbcTest {
+class GenreDaoJpaTest {
 
     private static final int EXPECTED_COUNT_GENRES = 1;
     private static final String EXPECTED_TITLE_GENRE = "Java book";
