@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +20,6 @@ public class Genre {
     private long id;
     @Column(name = "genretitle", unique = true)
     private String genreTitle;
-    @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "genre")
     private List<Book> bookList;
 

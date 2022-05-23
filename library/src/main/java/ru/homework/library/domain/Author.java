@@ -1,8 +1,9 @@
 package ru.homework.library.domain;
 
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -26,7 +27,6 @@ public class Author {
     private Date dateOfBirth;
     @Column(name = "gender")
     private String gender;
-    @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "author")
     private List<Book> bookList;
 
