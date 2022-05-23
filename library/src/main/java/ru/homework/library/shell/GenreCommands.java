@@ -41,7 +41,7 @@ public class GenreCommands {
 
     @ShellMethod(value = "get genre by id", key = {"getGenre"})
     public void getGenreById(@ShellOption long id) {
-        genreService.getById(id).ifPresent(genre -> System.out.println(String.format("%s%n", genre)));
+        genreService.getById(id).ifPresent(genre -> System.out.printf("%s%n", genre));
     }
 
     @ShellMethod(value = "get genre by title", key = {"getGenreTitle"})

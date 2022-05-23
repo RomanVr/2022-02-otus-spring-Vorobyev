@@ -18,7 +18,7 @@ public class CommentaryCommands {
 
     @ShellMethod(value = "get Commentary by id", key = {"getComm"})
     public void getById(@ShellOption long id) {
-        commentService.getById(id).ifPresent(commentary -> System.out.println(String.format("%s%n", commentary)));
+        commentService.getById(id).ifPresent(commentary -> System.out.printf("%s%n", commentary));
     }
 
     @ShellMethod(value = "create new BookCommentary for Book", key = {"newComm"})

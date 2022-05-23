@@ -1,7 +1,6 @@
 package ru.homework.library.shell;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.el.stream.Optional;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -54,7 +53,7 @@ public class AuthorCommands {
 
     @ShellMethod(value = "get author by id", key = {"getAuthor"})
     public void getAuthorById(@ShellOption long id) {
-        authorService.getById(id).ifPresent(author -> System.out.println(String.format("%s%n", author)));
+        authorService.getById(id).ifPresent(author -> System.out.printf("%s%n", author));
     }
 
     @ShellMethod(value = "get author by name lastName", key = {"getAuthorName"})
