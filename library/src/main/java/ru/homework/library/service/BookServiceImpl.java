@@ -1,6 +1,7 @@
 package ru.homework.library.service;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homework.library.dao.AuthorDao;
@@ -35,8 +36,8 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public long insert(Book book, long author_id, long genre_id) {
-        Author author = authorDao.getRefById(author_id).get();
-        Genre genre = genreDao.getRefById(genre_id).get();
+        Author author = authorDao.getRefById(author_id).orElseThrow();
+        Genre genre = genreDao.getRefById(genre_id).orElseThrow();
         book.setAuthor(author);
         book.setGenre(genre);
         return bookDao.save(book).getId();
@@ -62,12 +63,16 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByAuthorId(long author_id) {
-        return authorDao.getById(author_id).get().getBookList();
+        var author = authorDao.getById(author_id).orElseThrow();
+        Hibernate.initialize(author.getBookList());
+        return author.getBookList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByGenreId(long genre_id) {
-        return genreDao.getById(genre_id).get().getBookList();
+        var genre = genreDao.getById(genre_id).orElseThrow();
+        Hibernate.initialize(genre.getBookList());
+        return genre.getBookList();
     }
 }

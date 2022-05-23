@@ -1,8 +1,8 @@
 package ru.homework.library.service;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homework.library.dao.BookCommentaryDao;
 import ru.homework.library.dao.BookDao;
@@ -27,7 +27,7 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional
     public long insert(BookCommentary bc, long book_id) {
-        Book book = bookDao.getRefById(book_id).get();
+        Book book = bookDao.getRefById(book_id).orElseThrow();
         bc.setBook(book);
         return commentaryDao.save(bc).getId();
     }
@@ -35,8 +35,8 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional
     public long update(BookCommentary bc) {
-        BookCommentary oldComm = commentaryDao.getById(bc.getId()).get();
-        Book book = bookDao.getRefById(oldComm.getBook().getId()).get();
+        BookCommentary oldComm = commentaryDao.getById(bc.getId()).orElseThrow();
+        Book book = bookDao.getRefById(oldComm.getBook().getId()).orElseThrow();
         bc.setBook(book);
         return commentaryDao.save(bc).getId();
     }
@@ -48,8 +48,10 @@ public class BookCommentServiceImpl implements BookCommentService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
+    @Transactional(readOnly = true)
     public List<BookCommentary> findCommentsByBookId(long book_id) {
-        return bookDao.getById(book_id).get().getBookCommentaries();
+        var book = bookDao.getById(book_id).orElseThrow();
+        Hibernate.initialize(book.getBookCommentaries());
+        return book.getBookCommentaries();
     }
 }

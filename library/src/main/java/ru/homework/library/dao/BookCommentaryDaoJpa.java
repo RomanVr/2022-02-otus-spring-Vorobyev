@@ -38,11 +38,4 @@ public class BookCommentaryDaoJpa implements BookCommentaryDao {
     public void delete(BookCommentary commentary) {
         em.remove(commentary);
     }
-/*
-    @Override
-    public List<BookCommentary> findCommentsByBookId(long book_id) {
-        var query = em.createQuery("select bc from BookCommentary bc where bc.book.id = :book_id", BookCommentary.class);
-        query.setParameter("book_id", book_id);
-        return query.getResultList();
-    }*/
 }
