@@ -18,13 +18,13 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Genre> getById(long id) {
-        return genreDao.getById(id);
+        return genreDao.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Genre getByTitle(String title) {
-        return genreDao.getByTitle(title);
+        return genreDao.findByGenreTitle(title);
     }
 
     @Override
@@ -42,11 +42,11 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        genreDao.getRefById(id).ifPresent(genreDao::delete);
+        genreDao.findById(id).ifPresent(genreDao::delete);
     }
 
     @Override
     public List<Genre> getAll() {
-        return genreDao.getAll();
+        return genreDao.findAll();
     }
 }

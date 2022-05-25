@@ -17,7 +17,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Author> getAll() {
-        return authorDao.getAll();
+        return authorDao.findAll();
     }
 
     @Override
@@ -35,18 +35,18 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Author> getById(long id) {
-        return authorDao.getById(id);
+        return authorDao.findById(id);
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
-        authorDao.getRefById(id).ifPresent(authorDao::delete);
+        authorDao.findById(id).ifPresent(authorDao::delete);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Author getByNameFamily(String name, String family) {
-        return authorDao.getByNameFamily(name, family);
+        return authorDao.getByNameAndLastName(name, family);
     }
 }

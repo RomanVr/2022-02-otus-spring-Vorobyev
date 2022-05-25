@@ -24,20 +24,20 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Book> getById(long id) {
-        return bookDao.getById(id);
+        return bookDao.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Book getByTitle(String title) {
-        return bookDao.getByTitle(title);
+        return bookDao.findByBookTitle(title);
     }
 
     @Override
     @Transactional
     public long insert(Book book, long author_id, long genre_id) {
-        Author author = authorDao.getRefById(author_id).orElseThrow();
-        Genre genre = genreDao.getRefById(genre_id).orElseThrow();
+        Author author = authorDao.getById(author_id);
+        Genre genre = genreDao.findById(genre_id).orElseThrow();
         book.setAuthor(author);
         book.setGenre(genre);
         return bookDao.save(book).getId();
@@ -52,18 +52,18 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        bookDao.getRefById(id).ifPresent(bookDao::delete);
+        bookDao.findById(id).ifPresent(bookDao::delete);
     }
 
     @Override
     public List<Book> getAll() {
-        return bookDao.getAll();
+        return bookDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByAuthorId(long author_id) {
-        var author = authorDao.getRefById(author_id).orElseThrow();
+        var author = authorDao.getById(author_id);
         Hibernate.initialize(author.getBookList());
         return author.getBookList();
     }
@@ -71,7 +71,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByGenreId(long genre_id) {
-        var genre = genreDao.getRefById(genre_id).orElseThrow();
+        var genre = genreDao.findById(genre_id).orElseThrow();
         Hibernate.initialize(genre.getBookList());
         return genre.getBookList();
     }

@@ -21,13 +21,13 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional(readOnly = true)
     public Optional<BookCommentary> getById(long id) {
-        return commentaryDao.getById(id);
+        return commentaryDao.findById(id);
     }
 
     @Override
     @Transactional
     public long insert(BookCommentary bc, long book_id) {
-        Book book = bookDao.getRefById(book_id).orElseThrow();
+        Book book = bookDao.findById(book_id).orElseThrow();
         bc.setBook(book);
         return commentaryDao.save(bc).getId();
     }
@@ -35,8 +35,8 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional
     public long update(BookCommentary bc) {
-        BookCommentary oldComm = commentaryDao.getById(bc.getId()).orElseThrow();
-        Book book = bookDao.getRefById(oldComm.getBook().getId()).orElseThrow();
+        BookCommentary oldComm = commentaryDao.findById(bc.getId()).orElseThrow();
+        Book book = bookDao.findById(oldComm.getBook().getId()).orElseThrow();
         bc.setBook(book);
         return commentaryDao.save(bc).getId();
     }
@@ -44,13 +44,13 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        commentaryDao.getRefById(id).ifPresent(commentaryDao::delete);
+        commentaryDao.findById(id).ifPresent(commentaryDao::delete);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<BookCommentary> findCommentsByBookId(long book_id) {
-        var book = bookDao.getRefById(book_id).orElseThrow();
+        var book = bookDao.findById(book_id).orElseThrow();
         Hibernate.initialize(book.getBookCommentaries());
         return book.getBookCommentaries();
     }
