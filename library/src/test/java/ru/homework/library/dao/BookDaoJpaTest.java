@@ -16,10 +16,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
-@Import(BookDaoJpa.class)
+//@Import(BookDaoJpa.class)
 @DisplayName("Dao Книги")
 class BookDaoJpaTest {
-    private static final int EXPECTED_ID_BOOK = 1;
+    private static final long EXPECTED_ID_BOOK = 1L;
     private static final String EXPECTED_TITLE_BOOK = "Java beginners";
     private static final String EXPECTED_NEWTITLE_BOOK = "textTest";
 
@@ -35,7 +35,7 @@ class BookDaoJpaTest {
     @Test
     @DisplayName("Должно получать Книгу по id")
     void shouldGetBookById() {
-        Optional<Book> actualBook = bookDao.getById(EXPECTED_ID_BOOK);
+        Optional<Book> actualBook = bookDao.findById(EXPECTED_ID_BOOK);
         assertThat(actualBook).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("bookTitle", EXPECTED_TITLE_BOOK);
     }
@@ -43,7 +43,7 @@ class BookDaoJpaTest {
     @Test
     @DisplayName("Должно получать Книгу по названию")
     void shouldGetBookByTitle() {
-        var actualBook = bookDao.getByTitle(EXPECTED_TITLE_BOOK);
+        var actualBook = bookDao.findByBookTitle(EXPECTED_TITLE_BOOK);
         assertThat(actualBook).isNotNull().hasFieldOrPropertyWithValue("bookTitle", EXPECTED_TITLE_BOOK);
     }
 
@@ -56,7 +56,7 @@ class BookDaoJpaTest {
         expectedBook.setAuthor(author);
         expectedBook.setGenre(genre);
         var insertId = bookDao.save(expectedBook).getId();
-        Optional<Book> actualBook = bookDao.getById(insertId);
+        Optional<Book> actualBook = bookDao.findById(insertId);
         assertThat(actualBook).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("bookTitle", EXPECTED_NEWTITLE_BOOK);
     }
@@ -66,7 +66,7 @@ class BookDaoJpaTest {
     void shouldUpdateBook() {
         var expectedBook = new Book(1, EXPECTED_NEWTITLE_BOOK, "textTest", null, null, null);
         bookDao.save(expectedBook);
-        Optional<Book> actualBook = bookDao.getById(expectedBook.getId());
+        Optional<Book> actualBook = bookDao.findById(expectedBook.getId());
         assertThat(actualBook).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("bookTitle", EXPECTED_NEWTITLE_BOOK);
     }
@@ -80,19 +80,19 @@ class BookDaoJpaTest {
         expectedBook.setAuthor(author);
         expectedBook.setGenre(genre);
         var insertId = bookDao.save(expectedBook).getId();
-        var actualBook = bookDao.getById(insertId);
+        var actualBook = bookDao.findById(insertId);
         assertThat(actualBook).isNotEmpty();
 
         bookDao.delete(actualBook.get());
         em.flush();
 
-        assertThat(bookDao.getById(insertId)).isEmpty();
+        assertThat(bookDao.findById(insertId)).isEmpty();
     }
 
     @Test
     @DisplayName("Должно получать все книги")
     void shouldGetAllBooks() {
-        List<Book> actualBookList = bookDao.getAll();
+        List<Book> actualBookList = bookDao.findAll();
         assertThat(actualBookList).isNotNull().hasSize(EXPECTED_COUNT_BOOKS)
                 .allMatch(book -> !book.getBookTitle().equals(""))
                 .allMatch(book -> book.getBookCommentaries() != null && book.getBookCommentaries().size() > 0);

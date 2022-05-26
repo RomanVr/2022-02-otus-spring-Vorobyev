@@ -15,7 +15,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(BookCommentaryDaoJpa.class)
+//@Import(BookCommentaryDaoJpa.class)
 @DisplayName("Dao Комментариев")
 class BookCommentaryDaoJpaTest {
     public static final int EXPECTED_COUNT_COMMENTS = 3;
@@ -31,7 +31,7 @@ class BookCommentaryDaoJpaTest {
     @Test
     @DisplayName("Должно получать комментарий по его id")
     void shouldGetCommentaryById() {
-        Optional<BookCommentary> actualCommentary = commentaryDao.getById(EXPECTED_COMMENTARY_ID);
+        Optional<BookCommentary> actualCommentary = commentaryDao.findById(EXPECTED_COMMENTARY_ID);
         assertThat(actualCommentary).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("commentary", EXPECTED_COMMENTARY_TEXT);
     }
@@ -43,7 +43,7 @@ class BookCommentaryDaoJpaTest {
         var book = em.find(Book.class, EXPECTED_BOOK_ID);
         expectedComm.setBook(book);
         var insertId = commentaryDao.save(expectedComm).getId();
-        Optional<BookCommentary> actualComm = commentaryDao.getById(insertId);
+        Optional<BookCommentary> actualComm = commentaryDao.findById(insertId);
         assertThat(actualComm).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("commentary", EXPECTED_COMMENTARY_TEXT);
     }
@@ -55,13 +55,13 @@ class BookCommentaryDaoJpaTest {
         var book = em.find(Book.class, EXPECTED_BOOK_ID);
         expectedComm.setBook(book);
         var insertId = commentaryDao.save(expectedComm).getId();
-        Optional<BookCommentary> actualComm = commentaryDao.getById(insertId);
+        Optional<BookCommentary> actualComm = commentaryDao.findById(insertId);
         assertThat(actualComm).isNotEmpty();
 
         commentaryDao.delete(actualComm.get());
         em.flush();
 
-        assertThat(commentaryDao.getById(insertId)).isEmpty();
+        assertThat(commentaryDao.findById(insertId)).isEmpty();
     }
 
 /*    @Test

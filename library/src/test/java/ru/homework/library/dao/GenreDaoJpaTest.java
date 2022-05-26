@@ -14,13 +14,13 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(GenreDaoJpa.class)
+//@Import(GenreDaoJpa.class)
 @DisplayName("Dao Жанров")
 class GenreDaoJpaTest {
 
     private static final int EXPECTED_COUNT_GENRES = 1;
     private static final String EXPECTED_TITLE_GENRE = "Java book";
-    private static final int EXPECTED_ID_GENRE = 1;
+    private static final long EXPECTED_ID_GENRE = 1L;
     private static final String GENRE_TITLE = "genreTest";
     private static final String GENRE_TITLE_FOR_DELETE = "genreTestDelete";
     @Autowired
@@ -31,7 +31,7 @@ class GenreDaoJpaTest {
     @Test
     @DisplayName("Должно получать Жанр по id")
     void getById() {
-        Optional<Genre> actualGenre = genreDao.getById(EXPECTED_ID_GENRE);
+        Optional<Genre> actualGenre = genreDao.findById(EXPECTED_ID_GENRE);
         assertThat(actualGenre).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("genreTitle", EXPECTED_TITLE_GENRE);
     }
@@ -39,7 +39,7 @@ class GenreDaoJpaTest {
     @Test
     @DisplayName("Должно получать Жанр по названию")
     void getByTitle() {
-        var actualGenre = genreDao.getByTitle(EXPECTED_TITLE_GENRE);
+        var actualGenre = genreDao.findByGenreTitle(EXPECTED_TITLE_GENRE);
         assertThat(actualGenre).isNotNull()
                 .hasFieldOrPropertyWithValue("genreTitle", EXPECTED_TITLE_GENRE);
     }
@@ -49,7 +49,7 @@ class GenreDaoJpaTest {
     void shouldAddGenreToDB() {
         var expectedGenre = new Genre(0, GENRE_TITLE, null);
         var insertId = genreDao.save(expectedGenre).getId();
-        Optional<Genre> actualGenre = genreDao.getById(insertId);
+        Optional<Genre> actualGenre = genreDao.findById(insertId);
         assertThat(actualGenre).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("genreTitle", GENRE_TITLE);
     }
@@ -59,7 +59,7 @@ class GenreDaoJpaTest {
     void shouldUpdateGenre() {
         var expectedGenre = new Genre(1, GENRE_TITLE, null);
         genreDao.save(expectedGenre);
-        Optional<Genre> actualGenre = genreDao.getById(expectedGenre.getId());
+        Optional<Genre> actualGenre = genreDao.findById(expectedGenre.getId());
         assertThat(actualGenre).isNotEmpty().get()
                 .hasFieldOrPropertyWithValue("genreTitle", GENRE_TITLE);
     }
@@ -69,19 +69,19 @@ class GenreDaoJpaTest {
     void shouldDeleteGenre() {
         var expectedGenre = new Genre(0, GENRE_TITLE_FOR_DELETE, null);
         var insertId = genreDao.save(expectedGenre).getId();
-        Optional<Genre> actualGenre = genreDao.getById(insertId);
+        Optional<Genre> actualGenre = genreDao.findById(insertId);
         assertThat(actualGenre).isNotEmpty();
 
         genreDao.delete(actualGenre.get());
         em.flush();
 
-        assertThat(genreDao.getById(insertId)).isEmpty();
+        assertThat(genreDao.findById(insertId)).isEmpty();
     }
 
     @Test
     @DisplayName("Должно возвращать все Жанры")
     void shouldGetAllGenres() {
-        List<Genre> actualGenreList = genreDao.getAll();
+        List<Genre> actualGenreList = genreDao.findAll();
         assertThat(actualGenreList).hasSize(EXPECTED_COUNT_GENRES);
     }
 }

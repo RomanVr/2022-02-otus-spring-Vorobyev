@@ -48,22 +48,22 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Должен получать книгу по id")
     void shouldGetBookById() {
-        given(bookDao.getById(EXPECTED_ID_BOOK)).willReturn(Optional.of(EXPECTED_BOOK));
+        given(bookDao.findById(EXPECTED_ID_BOOK)).willReturn(Optional.of(EXPECTED_BOOK));
         assertThat(bookService.getById(EXPECTED_ID_BOOK)).isNotEmpty();
     }
 
     @Test
     @DisplayName("Должен получать Книгу по названию")
     void shouldGetBookByTitle() {
-        given(bookDao.getByTitle(EXPECTED_TITLE_BOOK)).willReturn(EXPECTED_BOOK);
+        given(bookDao.findByBookTitle(EXPECTED_TITLE_BOOK)).willReturn(EXPECTED_BOOK);
         assertThat(bookService.getByTitle(EXPECTED_TITLE_BOOK)).isEqualTo(EXPECTED_BOOK);
     }
 
     @Test
     @DisplayName("Должен добавлять Книгу в БД")
     void shouldAddBookToDB() {
-        given(authorDao.getRefById(EXPECTED_AUTHOR_ID)).willReturn(Optional.of(new Author()));
-        given(genreDao.getRefById(EXPECTED_GENRE_ID)).willReturn(Optional.of(new Genre()));
+        given(authorDao.findById(EXPECTED_AUTHOR_ID)).willReturn(Optional.of(new Author()));
+        given(genreDao.findById(EXPECTED_GENRE_ID)).willReturn(Optional.of(new Genre()));
         given(bookDao.save(EXPECTED_BOOK)).willReturn(EXPECTED_BOOK);
         assertThat(bookService.insert(EXPECTED_BOOK, EXPECTED_AUTHOR_ID, EXPECTED_GENRE_ID)).isEqualTo(EXPECTED_AUTHOR_ID);
     }
@@ -85,14 +85,14 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Должен получать все Книги")
     void shouldGetAllBooks() {
-        given(bookDao.getAll()).willReturn(List.of(EXPECTED_BOOK));
+        given(bookDao.findAll()).willReturn(List.of(EXPECTED_BOOK));
         assertThat(bookService.getAll().size()).isEqualTo(EXPECTED_COUNT_BOOKS);
     }
 
     @Test
     @DisplayName("Должен искать Книги по id автора")
     void shouldFindBooksByAuthorId() {
-        given(authorDao.getRefById(EXPECTED_AUTHOR_ID)).willReturn(Optional.of(EXPECTED_AUTHOR));
+        given(authorDao.findById(EXPECTED_AUTHOR_ID)).willReturn(Optional.of(EXPECTED_AUTHOR));
         assertThat(bookService.findBooksByAuthorId(EXPECTED_AUTHOR_ID).size()).isEqualTo(EXPECTED_COUNT_BOOKS);
     }
 }
