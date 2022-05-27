@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.homework.library.domain.Author;
 import ru.homework.library.domain.Book;
 import ru.homework.library.domain.Genre;
@@ -13,10 +12,9 @@ import ru.homework.library.domain.Genre;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-//@Import(BookDaoJpa.class)
 @DisplayName("Dao Книги")
 class BookDaoJpaTest {
     private static final long EXPECTED_ID_BOOK = 1L;

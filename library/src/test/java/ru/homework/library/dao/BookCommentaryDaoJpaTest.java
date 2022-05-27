@@ -5,17 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.homework.library.domain.Book;
 import ru.homework.library.domain.BookCommentary;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-//@Import(BookCommentaryDaoJpa.class)
 @DisplayName("Dao Комментариев")
 class BookCommentaryDaoJpaTest {
     public static final int EXPECTED_COUNT_COMMENTS = 3;
@@ -63,12 +60,4 @@ class BookCommentaryDaoJpaTest {
 
         assertThat(commentaryDao.findById(insertId)).isEmpty();
     }
-
-/*    @Test
-    @DisplayName("Должно находить все комментарии книги по ее id")
-    void shouldFindCommentsByBookId() {
-        List<BookCommentary> actualCommentaryList = commentaryDao.findCommentsByBookId(EXPECTED_BOOK_ID);
-        assertThat(actualCommentaryList).isNotNull().hasSize(EXPECTED_COUNT_COMMENTS)
-                .allMatch(comm -> comm.getBook().getId() == EXPECTED_BOOK_ID);
-    }*/
 }

@@ -92,7 +92,7 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Должен искать Книги по id автора")
     void shouldFindBooksByAuthorId() {
-        given(authorDao.findById(EXPECTED_AUTHOR_ID)).willReturn(Optional.of(EXPECTED_AUTHOR));
+        given(authorDao.getById(EXPECTED_AUTHOR_ID)).willReturn(EXPECTED_AUTHOR);
         assertThat(bookService.findBooksByAuthorId(EXPECTED_AUTHOR_ID).size()).isEqualTo(EXPECTED_COUNT_BOOKS);
     }
 }
