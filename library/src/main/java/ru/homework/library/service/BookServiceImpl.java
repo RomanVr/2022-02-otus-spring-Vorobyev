@@ -71,7 +71,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByGenreId(long genre_id) {
-        var genre = genreDao.findById(genre_id).orElseThrow();
+        var genre = genreDao.getById(genre_id);
         Hibernate.initialize(genre.getBookList());
         return genre.getBookList();
     }
