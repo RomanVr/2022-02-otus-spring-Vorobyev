@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      database: librarydb
+      port: 27017
+      host: localhost
+
+mongock:
+  runner-type: "ApplicationRunner" # default
+  #runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
