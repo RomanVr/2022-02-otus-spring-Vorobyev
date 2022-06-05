@@ -4,29 +4,34 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "Author")
+@Document(collection = "Author")
+@CompoundIndexes({@CompoundIndex(name = "name_idx", def = "{'name': 1, 'lastname': 1}")})
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "name")
+    @Field(name = "name")
     private String name;
-    @Column(name = "lastname")
+    @Field(name = "lastname")
     private String lastName;
-    @Column(name = "datebirth")
+    @Field(name = "datebirth")
     private Date dateOfBirth;
-    @Column(name = "gender")
+    @Field(name = "gender")
     private String gender;
-    @OneToMany(mappedBy = "author")
+    @DBRef
     private List<Book> bookList;
 
     @Override

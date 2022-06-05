@@ -4,21 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "book_commentary")
+@Document(collection = "book_commentary")
 public class BookCommentary {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "commentary", nullable = false)
+    @Field(name = "commentary")
     private String commentary;
-    @ManyToOne
-    @JoinColumn(name = "book_id")
+    @DBRef
     private Book book;
 
     @Override

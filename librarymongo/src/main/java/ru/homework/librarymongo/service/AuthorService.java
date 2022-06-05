@@ -1,6 +1,6 @@
 package ru.homework.librarymongo.service;
 
-import ru.homework.library.domain.Author;
+import ru.homework.librarymongo.domain.Author;
 
 import java.util.List;
 import java.util.Optional;

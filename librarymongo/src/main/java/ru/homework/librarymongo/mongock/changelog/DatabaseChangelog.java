@@ -2,29 +2,22 @@ package ru.homework.librarymongo.mongock.changelog;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import ru.otus.spring.domain.Person;
-import ru.otus.spring.repostory.PersonRepository;
+import ru.homework.librarymongo.domain.Author;
+import ru.homework.librarymongo.repository.AuthorDao;
+
+import java.sql.Date;
 
 @ChangeLog
 public class DatabaseChangelog {
 
-    @ChangeSet(order = "001", id = "dropDb", author = "stvort", runAlways = true)
+    @ChangeSet(order = "001", id = "dropDb", author = "romanvr", runAlways = true)
     public void dropDb(MongoDatabase db) {
         db.drop();
     }
 
-    @ChangeSet(order = "002", id = "insertLermontov", author = "ydvorzhetskiy")
-    public void insertLermontov(MongoDatabase db) {
-        MongoCollection<Document> myCollection = db.getCollection("persons");
-        var doc = new Document().append("name", "Lermontov");
-        myCollection.insertOne(doc);
-    }
-
-    @ChangeSet(order = "003", id = "insertPushkin", author = "stvort")
-    public void insertPushkin(PersonRepository repository) {
-        repository.save(new Person("Pushkin"));
+    @ChangeSet(order = "002", id = "insertAuthors", author = "romanvr")
+    public void insertAuthors(AuthorDao repository) {
+        repository.save(new Author(0, "ivan", "ivanov", Date.valueOf("2022-01-01"), "man", null));
     }
 }

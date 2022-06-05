@@ -4,6 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -11,23 +16,20 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "Book")
+@Document(collection = "Book")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "booktitle", nullable = false, unique = true)
+    @Field(name = "booktitle")
+    @Indexed(unique = true)
     private String bookTitle;
-    @Column(name = "preview", nullable = false)
+    @Field(name = "preview")
     private String preview;
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @DBRef
     private Author author;
-    @ManyToOne
-    @JoinColumn(name = "genre_id", nullable = false)
+    @DBRef
     private Genre genre;
-    @OneToMany(orphanRemoval = true, mappedBy = "book")
+    @DBRef
     private List<BookCommentary> bookCommentaries;
 
     @Override

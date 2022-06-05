@@ -1,13 +1,12 @@
 package ru.homework.librarymongo.service;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homework.library.dao.BookCommentaryDao;
-import ru.homework.library.dao.BookDao;
-import ru.homework.library.domain.Book;
-import ru.homework.library.domain.BookCommentary;
+import ru.homework.librarymongo.domain.Book;
+import ru.homework.librarymongo.domain.BookCommentary;
+import ru.homework.librarymongo.repository.BookCommentaryDao;
+import ru.homework.librarymongo.repository.BookDao;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +49,7 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional(readOnly = true)
     public List<BookCommentary> findCommentsByBookId(long book_id) {
-        var book = bookDao.getById(book_id);
-        Hibernate.initialize(book.getBookCommentaries());
+        var book = bookDao.findById(book_id).orElseThrow();
         return book.getBookCommentaries();
     }
 }

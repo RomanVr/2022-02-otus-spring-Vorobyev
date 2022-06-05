@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.homework.library.domain.Book;
-import ru.homework.library.service.BookService;
+import ru.homework.librarymongo.domain.Book;
+import ru.homework.librarymongo.service.BookService;
 
 import java.util.List;
 import java.util.Objects;

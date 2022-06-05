@@ -3,10 +3,11 @@ package ru.homework.librarymongo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homework.library.dao.AuthorDao;
-import ru.homework.library.domain.Author;
+import ru.homework.librarymongo.domain.Author;
+import ru.homework.librarymongo.repository.AuthorDao;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -47,6 +48,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional(readOnly = true)
     public Author getByNameFamily(String name, String family) {
-        return authorDao.getByNameAndLastName(name, family);
+        List<Author> authors = authorDao.findByNameAndLastName(name, family);
+        if (authors.size() > 0) {
+            return authors.get(0);
+        }
+        throw new NoSuchElementException();
     }
 }

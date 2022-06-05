@@ -4,9 +4,18 @@ spring:
       database: librarydb
       port: 27017
       host: localhost
+  main:
+    allow-circular-references: true
+  sql:
+    init:
+      mode: always
 
 mongock:
-  runner-type: "ApplicationRunner" # default
-  #runner-type: "InitializingBean"
+#  runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
   change-logs-scan-package:
-    - ru.otus.spring.mongock.changelog
+    - ru.homework.librarymongo.mongock.changelog
+
+#logging:
+#  level:
+#    ROOT: ERROR

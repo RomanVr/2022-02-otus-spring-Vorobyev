@@ -1,17 +1,17 @@
 package ru.homework.librarymongo.service;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homework.library.dao.AuthorDao;
-import ru.homework.library.dao.BookDao;
-import ru.homework.library.dao.GenreDao;
-import ru.homework.library.domain.Author;
-import ru.homework.library.domain.Book;
-import ru.homework.library.domain.Genre;
+import ru.homework.librarymongo.domain.Author;
+import ru.homework.librarymongo.domain.Book;
+import ru.homework.librarymongo.domain.Genre;
+import ru.homework.librarymongo.repository.AuthorDao;
+import ru.homework.librarymongo.repository.BookDao;
+import ru.homework.librarymongo.repository.GenreDao;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -30,13 +30,17 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public Book getByTitle(String title) {
-        return bookDao.findByBookTitle(title);
+        List<Book> books = bookDao.findByBookTitle(title);
+        if (books.size() > 0) {
+            return books.get(0);
+        }
+        throw new NoSuchElementException();
     }
 
     @Override
     @Transactional
     public long insert(Book book, long author_id, long genre_id) {
-        Author author = authorDao.getById(author_id);
+        Author author = authorDao.findById(author_id).orElseThrow();
         Genre genre = genreDao.findById(genre_id).orElseThrow();
         book.setAuthor(author);
         book.setGenre(genre);
@@ -63,16 +67,14 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByAuthorId(long author_id) {
-        var author = authorDao.getById(author_id);
-        Hibernate.initialize(author.getBookList());
+        var author = authorDao.findById(author_id).orElseThrow();
         return author.getBookList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByGenreId(long genre_id) {
-        var genre = genreDao.getById(genre_id);
-        Hibernate.initialize(genre.getBookList());
+        var genre = genreDao.findById(genre_id).orElseThrow();
         return genre.getBookList();
     }
 }

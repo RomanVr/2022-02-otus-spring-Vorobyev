@@ -3,10 +3,11 @@ package ru.homework.librarymongo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homework.library.dao.GenreDao;
-import ru.homework.library.domain.Genre;
+import ru.homework.librarymongo.domain.Genre;
+import ru.homework.librarymongo.repository.GenreDao;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -24,7 +25,11 @@ public class GenreServiceImpl implements GenreService {
     @Override
     @Transactional(readOnly = true)
     public Genre getByTitle(String title) {
-        return genreDao.findByGenreTitle(title);
+        List<Genre> genres = genreDao.findByGenreTitle(title);
+        if (genres.size() > 0) {
+            return genres.get(0);
+        }
+        throw new NoSuchElementException();
     }
 
     @Override

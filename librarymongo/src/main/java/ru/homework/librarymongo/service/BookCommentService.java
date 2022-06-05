@@ -1,6 +1,6 @@
 package ru.homework.librarymongo.service;
 
-import ru.homework.library.domain.BookCommentary;
+import ru.homework.librarymongo.domain.BookCommentary;
 
 import java.util.List;
 import java.util.Optional;
