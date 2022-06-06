@@ -31,25 +31,25 @@ public class BookCommands {
     public String createNewBook(
             @ShellOption String bookTitle,
             @ShellOption String preview,
-            @ShellOption long author_id,
-            @ShellOption long genre_id
+            @ShellOption String author_id,
+            @ShellOption String genre_id
     ) {
-        Book newBook = new Book(0, bookTitle, preview, null, null, null);
-        return String.format("Book insert to db with id: %d%n", bookService.insert(newBook, author_id, genre_id));
+        Book newBook = new Book(bookTitle, preview, null, null);
+        return String.format("Book insert to db with id: %s%n", bookService.insert(newBook, author_id, genre_id));
     }
 
     @ShellMethod(value = "update Book", key = {"upBook"})
     public String updateBook(
-            @ShellOption long id,
+            @ShellOption String id,
             @ShellOption String bookTitle,
             @ShellOption String preview
     ) {
         Book newBook = new Book(id, bookTitle, preview, null, null, null);
-        return String.format("Book update to db with id: %d%n", bookService.update(newBook));
+        return String.format("Book update to db with id: %s%n", bookService.update(newBook));
     }
 
     @ShellMethod(value = "get Book by id", key = {"getBook"})
-    public void getBookById(@ShellOption long id) {
+    public void getBookById(@ShellOption String id) {
         bookService.getById(id).ifPresent(book -> System.out.printf("%s%n", book));
     }
 
@@ -59,36 +59,36 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "delete Book by id", key = {"delBook"})
-    public String deleteBookById(@ShellOption long id) {
+    public String deleteBookById(@ShellOption String id) {
         bookService.deleteById(id);
-        return String.format("Book with :id was deleted %d%n", id);
+        return String.format("Book with :id was deleted %s%n", id);
     }
 
     @ShellMethod(value = "find book by id Author", key = {"findBookAuthor"})
-    public String findBooksByAuthorId(@ShellOption long author_id) {
+    public String findBooksByAuthorId(@ShellOption String author_id) {
         List<Book> bookList = bookService.findBooksByAuthorId(author_id);
         if (bookList.size() != 0) {
             return String.format(
-                    "All books the Author id: %d%n%s%n",
+                    "All books the Author id: %s%n%s%n",
                     author_id,
                     bookList.stream().map(Objects::toString)
                             .collect(Collectors.joining("\n"))
             );
         }
-        return String.format("There are no Books from the Author with id: %d%n", author_id);
+        return String.format("There are no Books from the Author with id: %s%n", author_id);
     }
 
     @ShellMethod(value = "find book by id Genre", key = {"findBookGenre"})
-    public String findBooksByGenreId(@ShellOption long id) {
+    public String findBooksByGenreId(@ShellOption String id) {
         List<Book> bookList = bookService.findBooksByGenreId(id);
         if (bookList.size() != 0) {
             return String.format(
-                    "All books the Genre id: %d%n%s%n",
+                    "All books the Genre id: %s%n%s%n",
                     id,
                     bookList.stream().map(Objects::toString)
                             .collect(Collectors.joining("\n"))
             );
         }
-        return String.format("There are no Books from the Genre with id: %d%n", id);
+        return String.format("There are no Books from the Genre with id: %s%n", id);
     }
 }

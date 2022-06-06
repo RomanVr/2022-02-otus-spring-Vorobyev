@@ -1,15 +1,13 @@
 package ru.homework.librarymongo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,12 +17,17 @@ import java.util.List;
 @Document(collection = "Genre")
 public class Genre {
     @Id
-    private long id;
+    private String id;
     @Field(name = "genretitle")
     @Indexed(unique = true)
     private String genreTitle;
     @DBRef
     private List<Book> bookList;
+
+    public Genre(String genreTitle) {
+        this.genreTitle = genreTitle;
+        this.bookList = new ArrayList<>();
+    }
 
     @Override
     public String toString() {
@@ -63,11 +66,12 @@ public class Genre {
     @Override
     public int hashCode() {
         int result = 1;
-        long $id = this.getId();
-        result = result * 59 + (int) ($id >>> 32 ^ $id);
+        Object $id = this.getId();
+        result = result * 59 + ($id == null ? 43 : $id.hashCode());
         Object $genreTitle = this.getGenreTitle();
         result = result * 59 + ($genreTitle == null ? 43 : $genreTitle.hashCode());
+        Object $bookList = this.getBookList();
+        result = result * 59 + ($bookList == null ? 43 : $bookList.hashCode());
         return result;
     }
-
 }

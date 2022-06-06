@@ -9,7 +9,7 @@ import ru.homework.librarymongo.repository.AuthorDao;
 import java.sql.Date;
 
 @ChangeLog
-public class DatabaseChangelog {
+public class InitMongoDBDataChangelog {
 
     @ChangeSet(order = "001", id = "dropDb", author = "romanvr", runAlways = true)
     public void dropDb(MongoDatabase db) {
@@ -17,7 +17,7 @@ public class DatabaseChangelog {
     }
 
     @ChangeSet(order = "002", id = "insertAuthors", author = "romanvr")
-    public void insertAuthors(AuthorDao repository) {
-        repository.save(new Author(0, "ivan", "ivanov", Date.valueOf("2022-01-01"), "man", null));
+    public void initAuthors(AuthorDao repository) {
+        repository.save(new Author("ivan", "ivanov", Date.valueOf("2022-01-01"), "man"));
     }
 }

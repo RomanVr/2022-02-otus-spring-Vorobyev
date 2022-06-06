@@ -19,13 +19,13 @@ public class BookCommentServiceImpl implements BookCommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<BookCommentary> getById(long id) {
+    public Optional<BookCommentary> getById(String id) {
         return commentaryDao.findById(id);
     }
 
     @Override
     @Transactional
-    public long insert(BookCommentary bc, long book_id) {
+    public String insert(BookCommentary bc, String book_id) {
         Book book = bookDao.findById(book_id).orElseThrow();
         bc.setBook(book);
         return commentaryDao.save(bc).getId();
@@ -33,7 +33,7 @@ public class BookCommentServiceImpl implements BookCommentService {
 
     @Override
     @Transactional
-    public long update(BookCommentary bc) {
+    public String update(BookCommentary bc) {
         BookCommentary oldComm = commentaryDao.findById(bc.getId()).orElseThrow();
         Book book = bookDao.findById(oldComm.getBook().getId()).orElseThrow();
         bc.setBook(book);
@@ -42,13 +42,13 @@ public class BookCommentServiceImpl implements BookCommentService {
 
     @Override
     @Transactional
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         commentaryDao.findById(id).ifPresent(commentaryDao::delete);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookCommentary> findCommentsByBookId(long book_id) {
+    public List<BookCommentary> findCommentsByBookId(String book_id) {
         var book = bookDao.findById(book_id).orElseThrow();
         return book.getBookCommentaries();
     }

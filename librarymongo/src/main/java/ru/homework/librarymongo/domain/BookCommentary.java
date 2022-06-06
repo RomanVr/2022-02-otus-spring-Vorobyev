@@ -1,26 +1,36 @@
 package ru.homework.librarymongo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.Objects;
+
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "book_commentary")
 public class BookCommentary {
     @Id
-    private long id;
+    private String id;
     @Field(name = "commentary")
     private String commentary;
     @DBRef
     private Book book;
+
+    public BookCommentary(String commentary, Book book) {
+        this.commentary = commentary;
+        this.book = book;
+    }
+
+    @Override
+    public String toString() {
+        return "BookCommentary(id=" + this.getId() +
+                ", commentary=" + this.getCommentary() + ")";
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -33,7 +43,7 @@ public class BookCommentary {
             if (!other.canEqual(this)) {
                 return false;
             } else {
-                return this.getId() == other.getId();
+                return Objects.equals(this.getId(), other.getId());
             }
         }
     }
@@ -45,18 +55,12 @@ public class BookCommentary {
     @Override
     public int hashCode() {
         int result = 1;
-        long $id = this.getId();
-        result = result * 59 + (int) ($id >>> 32 ^ $id);
+        Object $id = this.getId();
+        result = result * 59 + ($id == null ? 43 : $id.hashCode());
         Object $commentary = this.getCommentary();
         result = result * 59 + ($commentary == null ? 43 : $commentary.hashCode());
         Object $book = this.getBook();
         result = result * 59 + ($book == null ? 43 : $book.hashCode());
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "BookCommentary(id=" + this.getId() +
-                ", commentary=" + this.getCommentary() + ")";
     }
 }

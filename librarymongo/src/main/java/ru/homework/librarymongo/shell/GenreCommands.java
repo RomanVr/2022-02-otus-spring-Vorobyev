@@ -30,18 +30,18 @@ public class GenreCommands {
 
     @ShellMethod(value = "create new Genre", key = {"newGenre"})
     public String createNewGenre(@ShellOption String genreTitle) {
-        Genre newGenre = new Genre(0, genreTitle, null);
-        return String.format("Genre inset to db with id: %d%n", genreService.insert(newGenre));
+        Genre newGenre = new Genre(genreTitle);
+        return String.format("Genre inset to db with id: %s%n", genreService.insert(newGenre));
     }
 
     @ShellMethod(value = "update Genre", key = {"upGenre"})
-    public String updateGenre(@ShellOption long id, @ShellOption String genreTitle) {
+    public String updateGenre(@ShellOption String id, @ShellOption String genreTitle) {
         Genre newGenre = new Genre(id, genreTitle, null);
-        return String.format("Genre update to db with id: %d%n", genreService.update(newGenre));
+        return String.format("Genre update to db with id: %s%n", genreService.update(newGenre));
     }
 
     @ShellMethod(value = "get genre by id", key = {"getGenre"})
-    public void getGenreById(@ShellOption long id) {
+    public void getGenreById(@ShellOption String id) {
         genreService.getById(id).ifPresent(genre -> System.out.printf("%s%n", genre));
     }
 
@@ -51,8 +51,8 @@ public class GenreCommands {
     }
 
     @ShellMethod(value = "delete genre by id", key = {"delGenre"})
-    public String deleteGenreById(@ShellOption long id) {
+    public String deleteGenreById(@ShellOption String id) {
         genreService.deleteById(id);
-        return String.format("Genre with :id was deleted %d%n", id);
+        return String.format("Genre with :id was deleted %s%n", id);
     }
 }

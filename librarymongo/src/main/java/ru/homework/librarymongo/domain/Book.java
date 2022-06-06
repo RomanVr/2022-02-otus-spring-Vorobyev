@@ -1,15 +1,13 @@
 package ru.homework.librarymongo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,22 +17,30 @@ import java.util.List;
 @Document(collection = "Book")
 public class Book {
     @Id
-    private long id;
+    private String id;
     @Field(name = "booktitle")
     @Indexed(unique = true)
     private String bookTitle;
     @Field(name = "preview")
     private String preview;
-    @DBRef
+    @Field(name = "author")
     private Author author;
-    @DBRef
+    @Field(name = "genre")
     private Genre genre;
-    @DBRef
+    @Field(name = "bookCommentaries")
     private List<BookCommentary> bookCommentaries;
+
+    public Book(String bookTitle, String preview, Author author, Genre genre) {
+        this.bookTitle = bookTitle;
+        this.preview = preview;
+        this.author = author;
+        this.genre = genre;
+        this.bookCommentaries = new ArrayList<>();
+    }
 
     @Override
     public String toString() {
-        long id1 = this.getId();
+        String id1 = this.getId();
         StringBuilder bookStringBuilder = new StringBuilder(
                 "Book(id=" + id1 + ", bookTitle=" + this.getBookTitle() + ", preview=" + this.getPreview() + ")");
         if (this.author != null) {
@@ -80,12 +86,18 @@ public class Book {
     @Override
     public int hashCode() {
         int result = 1;
-        long $id = this.getId();
-        result = result * 59 + (int) ($id >>> 32 ^ $id);
+        Object $id = this.getId();
+        result = result * 59 + ($id == null ? 43 : $id.hashCode());
         Object $bookTitle = this.getBookTitle();
         result = result * 59 + ($bookTitle == null ? 43 : $bookTitle.hashCode());
         Object $preview = this.getPreview();
         result = result * 59 + ($preview == null ? 43 : $preview.hashCode());
+        Object $author = this.getAuthor();
+        result = result * 59 + ($author == null ? 43 : $author.hashCode());
+        Object $genre = this.getGenre();
+        result = result * 59 + ($genre == null ? 43 : $genre.hashCode());
+        Object $bookCommentaries = this.getBookCommentaries();
+        result = result * 59 + ($bookCommentaries == null ? 43 : $bookCommentaries.hashCode());
         return result;
     }
 }

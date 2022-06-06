@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Book> getById(long id) {
+    public Optional<Book> getById(String id) {
         return bookDao.findById(id);
     }
 
@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public long insert(Book book, long author_id, long genre_id) {
+    public String insert(Book book, String author_id, String genre_id) {
         Author author = authorDao.findById(author_id).orElseThrow();
         Genre genre = genreDao.findById(genre_id).orElseThrow();
         book.setAuthor(author);
@@ -49,13 +49,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public long update(Book book) {
+    public String update(Book book) {
         return bookDao.save(book).getId();
     }
 
     @Override
     @Transactional
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         bookDao.findById(id).ifPresent(bookDao::delete);
     }
 
@@ -66,14 +66,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> findBooksByAuthorId(long author_id) {
+    public List<Book> findBooksByAuthorId(String author_id) {
         var author = authorDao.findById(author_id).orElseThrow();
         return author.getBookList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> findBooksByGenreId(long genre_id) {
+    public List<Book> findBooksByGenreId(String genre_id) {
         var genre = genreDao.findById(genre_id).orElseThrow();
         return genre.getBookList();
     }

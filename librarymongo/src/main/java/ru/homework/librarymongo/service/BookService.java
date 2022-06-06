@@ -6,19 +6,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
-    Optional<Book> getById(long id);
+    Optional<Book> getById(String id);
 
     Book getByTitle(String title);
 
-    long insert(Book book, long author_id, long genre_id);
+    String insert(Book book, String author_id, String genre_id);
 
-    long update(Book book);
+    String update(Book book);
 
-    void deleteById(long id);
+    void deleteById(String id);
 
     List<Book> getAll();
 
-    List<Book> findBooksByAuthorId(long author_id);
+    List<Book> findBooksByAuthorId(String author_id);
 
-    List<Book> findBooksByGenreId(long genre_id);
+    List<Book> findBooksByGenreId(String genre_id);
 }

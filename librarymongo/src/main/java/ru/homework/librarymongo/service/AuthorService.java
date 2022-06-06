@@ -8,13 +8,13 @@ import java.util.Optional;
 public interface AuthorService {
     List<Author> getAll();
 
-    long insert(Author newAuthor);
+    String insert(Author newAuthor);
 
-    long update(Author newAuthor);
+    String update(Author newAuthor);
 
-    Optional<Author> getById(long id);
+    Optional<Author> getById(String id);
 
-    void deleteById(long id);
+    void deleteById(String id);
 
     Author getByNameFamily(String name, String family);
 }

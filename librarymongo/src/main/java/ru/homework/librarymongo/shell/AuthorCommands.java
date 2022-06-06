@@ -36,23 +36,23 @@ public class AuthorCommands {
             @ShellOption String lastName,
             @ShellOption Date dateOfBirth,
             @ShellOption(defaultValue = "man") String gender) {
-        Author newAuthor = new Author(0, name, lastName, dateOfBirth, gender, null);
-        return String.format("Author insert to db with id: %d%n", authorService.insert(newAuthor));
+        Author newAuthor = new Author(name, lastName, dateOfBirth, gender);
+        return String.format("Author insert to db with id: %s%n", authorService.insert(newAuthor));
     }
 
     @ShellMethod(value = "update Author", key = {"upAuthor"})
     public String updateAuthor(
-            @ShellOption long id,
+            @ShellOption String id,
             @ShellOption String name,
             @ShellOption String lastName,
             @ShellOption Date dateOfBirth,
             @ShellOption(defaultValue = "man") String gender) {
         Author newAuthor = new Author(id, name, lastName, dateOfBirth, gender, null);
-        return String.format("Author update to db with id: %d%n", authorService.update(newAuthor));
+        return String.format("Author update to db with id: %s%n", authorService.update(newAuthor));
     }
 
     @ShellMethod(value = "get author by id", key = {"getAuthor"})
-    public void getAuthorById(@ShellOption long id) {
+    public void getAuthorById(@ShellOption String id) {
         authorService.getById(id).ifPresent(author -> System.out.printf("%s%n", author));
     }
 
@@ -62,8 +62,8 @@ public class AuthorCommands {
     }
 
     @ShellMethod(value = "delete author by id", key = {"delAuthor"})
-    public String deleteAuthorById(@ShellOption long id) {
+    public String deleteAuthorById(@ShellOption String id) {
         authorService.deleteById(id);
-        return String.format("Author with :id was deleted %d%n", id);
+        return String.format("Author with :id was deleted %s%n", id);
     }
 }

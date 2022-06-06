@@ -1,9 +1,7 @@
 package ru.homework.librarymongo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.apache.commons.lang3.builder.EqualsExclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
@@ -11,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import java.util.List;
 @CompoundIndexes({@CompoundIndex(name = "name_idx", def = "{'name': 1, 'lastname': 1}")})
 public class Author {
     @Id
-    private long id;
+    private String id;
     @Field(name = "name")
     private String name;
     @Field(name = "lastname")
@@ -33,6 +32,14 @@ public class Author {
     private String gender;
     @DBRef
     private List<Book> bookList;
+
+    public Author(String name, String lastName, Date dateOfBirth, String gender) {
+        this.name = name;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.bookList = new ArrayList<>();
+    }
 
     @Override
     public String toString() {
@@ -84,16 +91,18 @@ public class Author {
     @Override
     public int hashCode() {
         int result = 1;
-        long $id = this.getId();
-        result = result * 59 + (int) ($id >>> 32 ^ $id);
+        Object $id = this.getId();
+        result = result * 59 + ($id == null ? 43 : $id.hashCode());
         Object $name = this.getName();
         result = result * 59 + ($name == null ? 43 : $name.hashCode());
-        Object $family = this.getLastName();
-        result = result * 59 + ($family == null ? 43 : $family.hashCode());
+        Object $lastName = this.getLastName();
+        result = result * 59 + ($lastName == null ? 43 : $lastName.hashCode());
         Object $dateOfBirth = this.getDateOfBirth();
         result = result * 59 + ($dateOfBirth == null ? 43 : $dateOfBirth.hashCode());
         Object $gender = this.getGender();
         result = result * 59 + ($gender == null ? 43 : $gender.hashCode());
+        Object $bookList = this.getBookList();
+        result = result * 59 + ($bookList == null ? 43 : $bookList.hashCode());
         return result;
     }
 }
