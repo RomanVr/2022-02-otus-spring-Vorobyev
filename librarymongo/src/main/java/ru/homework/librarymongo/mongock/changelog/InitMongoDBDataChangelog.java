@@ -24,7 +24,8 @@ public class InitMongoDBDataChangelog {
     private Book book1;
     private Book book2;
 
-    private final List<BookCommentary> commentaries = new ArrayList<>();
+    private final List<BookCommentary> commentaries1 = new ArrayList<>();
+    private final List<BookCommentary> commentaries2 = new ArrayList<>();
 
     @ChangeSet(order = "001", id = "dropDb", author = "romanvr", runAlways = true)
     public void dropDb(MongoDatabase db) {
@@ -49,12 +50,34 @@ public class InitMongoDBDataChangelog {
 
     @ChangeSet(order = "005", id = "initComments", author = "romanvr")
     public void initComments(BookCommentaryDao repository) {
-        commentaries.add(repository.save(new BookCommentary("Very good book", book1)));
-        commentaries.add(repository.save(new BookCommentary("not bed", book1)));
-        commentaries.add(repository.save(new BookCommentary("very well", book1)));
+        commentaries1.add(repository.save(new BookCommentary("Very good book", book1)));
+        commentaries1.add(repository.save(new BookCommentary("not bed", book1)));
+        commentaries1.add(repository.save(new BookCommentary("very well", book1)));
 
-        commentaries.add(repository.save(new BookCommentary("Very good book", book2)));
-        commentaries.add(repository.save(new BookCommentary("not bed", book2)));
-        commentaries.add(repository.save(new BookCommentary("very well", book2)));
+        commentaries2.add(repository.save(new BookCommentary("Very good book", book2)));
+        commentaries2.add(repository.save(new BookCommentary("not bed", book2)));
+        commentaries2.add(repository.save(new BookCommentary("very well", book2)));
+    }
+
+    @ChangeSet(order = "006", id = "addBooksToAuthors", author = "romanvr")
+    public void addBooksToAuthors(AuthorDao repository) {
+        author.getBookList().add(book1);
+        author.getBookList().add(book2);
+        repository.save(author);
+    }
+
+    @ChangeSet(order = "007", id = "addBooksToGenres", author = "romanvr")
+    public void addBooksToGenres(GenreDao repository) {
+        genre.getBookList().add(book1);
+        genre.getBookList().add(book2);
+        repository.save(genre);
+    }
+
+    @ChangeSet(order = "008", id = "addCommentariesToBook", author = "romanvr")
+    public void addCommentariesToBook(BookDao repository) {
+        book1.getBookCommentaries().addAll(commentaries1);
+        repository.save(book1);
+        book2.getBookCommentaries().addAll(commentaries2);
+        repository.save(book2);
     }
 }
