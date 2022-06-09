@@ -32,8 +32,8 @@ public class CommentaryCommands {
 
     @ShellMethod(value = "update BookCommentary", key = {"upComm"})
     public String updateCommentary(
-            @ShellOption String textCommentary,
-            @ShellOption String id) {
+            @ShellOption String id,
+            @ShellOption String textCommentary) {
         BookCommentary newBookCommentary = new BookCommentary(id, textCommentary, null);
         return String.format("Commentary update to db with id: %s%n", commentService.update(newBookCommentary));
     }

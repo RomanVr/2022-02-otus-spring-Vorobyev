@@ -2,14 +2,15 @@ package ru.homework.librarymongo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.homework.librarymongo.domain.Author;
 import ru.homework.librarymongo.domain.Book;
 import ru.homework.librarymongo.domain.Genre;
 import ru.homework.librarymongo.repository.AuthorDao;
+import ru.homework.librarymongo.repository.BookCommentaryDao;
 import ru.homework.librarymongo.repository.BookDao;
 import ru.homework.librarymongo.repository.GenreDao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -20,15 +21,14 @@ public class BookServiceImpl implements BookService {
     private final AuthorDao authorDao;
     private final GenreDao genreDao;
     private final BookDao bookDao;
+    private final BookCommentaryDao commentaryDao;
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Book> getById(String id) {
         return bookDao.findById(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Book getByTitle(String title) {
         List<Book> books = bookDao.findByBookTitle(title);
         if (books.size() > 0) {
@@ -38,25 +38,39 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public String insert(Book book, String author_id, String genre_id) {
         Author author = authorDao.findById(author_id).orElseThrow();
         Genre genre = genreDao.findById(genre_id).orElseThrow();
         book.setAuthor(author);
         book.setGenre(genre);
-        return bookDao.save(book).getId();
+        var idBook = bookDao.save(book).getId();
+        author.getBookList().add(book);
+        genre.getBookList().add(book);
+        authorDao.save(author);
+        genreDao.save(genre);
+        return idBook;
     }
 
     @Override
-    @Transactional
     public String update(Book book) {
+        if (book.getBookCommentaries() == null) {
+            book.setBookCommentaries(new ArrayList<>());
+        }
         return bookDao.save(book).getId();
     }
 
     @Override
-    @Transactional
     public void deleteById(String id) {
-        bookDao.findById(id).ifPresent(bookDao::delete);
+        var book = bookDao.findById(id).orElseThrow();
+        var commentaryList = book.getBookCommentaries();
+        commentaryDao.deleteAll(commentaryList);
+        var author = book.getAuthor();
+        var genre = book.getGenre();
+        author.getBookList().remove(book);
+        authorDao.save(author);
+        genre.getBookList().remove(book);
+        genreDao.save(genre);
+        bookDao.delete(book);
     }
 
     @Override
@@ -65,14 +79,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> findBooksByAuthorId(String author_id) {
         var author = authorDao.findById(author_id).orElseThrow();
         return author.getBookList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> findBooksByGenreId(String genre_id) {
         var genre = genreDao.findById(genre_id).orElseThrow();
         return genre.getBookList();

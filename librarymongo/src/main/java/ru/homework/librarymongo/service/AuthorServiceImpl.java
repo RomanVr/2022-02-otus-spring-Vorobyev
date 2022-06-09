@@ -2,10 +2,11 @@ package ru.homework.librarymongo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.homework.librarymongo.domain.Author;
 import ru.homework.librarymongo.repository.AuthorDao;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -22,31 +23,33 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public String insert(Author newAuthor) {
         return authorDao.save(newAuthor).getId();
     }
 
     @Override
-    @Transactional
     public String update(Author author) {
+        if (author.getBookList() == null) {
+            author.setBookList(new ArrayList<>());
+        }
         return authorDao.save(author).getId();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Author> getById(String id) {
         return authorDao.findById(id);
     }
 
     @Override
-    @Transactional
-    public void deleteById(String id) {
-        authorDao.findById(id).ifPresent(authorDao::delete);
+    public void deleteById(String id) throws SQLException {
+        var author = authorDao.findById(id).orElseThrow();
+        if (author.getBookList().size() > 0) {
+            throw new SQLException("Can't delete Author, present ref Book");
+        }
+        authorDao.delete(author);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Author getByNameFamily(String name, String family) {
         List<Author> authors = authorDao.findByNameAndLastName(name, family);
         if (authors.size() > 0) {

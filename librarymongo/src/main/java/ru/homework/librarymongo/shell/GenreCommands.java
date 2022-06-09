@@ -8,6 +8,7 @@ import ru.homework.librarymongo.domain.Genre;
 import ru.homework.librarymongo.service.GenreService;
 
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -52,7 +53,11 @@ public class GenreCommands {
 
     @ShellMethod(value = "delete genre by id", key = {"delGenre"})
     public String deleteGenreById(@ShellOption String id) {
-        genreService.deleteById(id);
+        try {
+            genreService.deleteById(id);
+        } catch (SQLException ex) {
+            return ex.getMessage();
+        }
         return String.format("Genre with :id was deleted %s%n", id);
     }
 }

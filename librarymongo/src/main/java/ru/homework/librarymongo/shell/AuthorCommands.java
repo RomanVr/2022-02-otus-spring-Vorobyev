@@ -8,6 +8,7 @@ import ru.homework.librarymongo.domain.Author;
 import ru.homework.librarymongo.service.AuthorService;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -63,7 +64,11 @@ public class AuthorCommands {
 
     @ShellMethod(value = "delete author by id", key = {"delAuthor"})
     public String deleteAuthorById(@ShellOption String id) {
-        authorService.deleteById(id);
+        try {
+            authorService.deleteById(id);
+        } catch (SQLException ex) {
+            return ex.getMessage();
+        }
         return String.format("Author with id: %s was deleted %n", id);
     }
 }

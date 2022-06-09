@@ -2,6 +2,7 @@ package ru.homework.librarymongo.service;
 
 import ru.homework.librarymongo.domain.Genre;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ public interface GenreService {
 
     String update(Genre genre);
 
-    void deleteById(String id);
+    void deleteById(String id) throws SQLException;
 
     List<Genre> getAll();
 }

@@ -61,7 +61,7 @@ public class BookCommands {
     @ShellMethod(value = "delete Book by id", key = {"delBook"})
     public String deleteBookById(@ShellOption String id) {
         bookService.deleteById(id);
-        return String.format("Book with :id was deleted %s%n", id);
+        return String.format("Book with id: %s was deleted %n", id);
     }
 
     @ShellMethod(value = "find book by id Author", key = {"findBookAuthor"})

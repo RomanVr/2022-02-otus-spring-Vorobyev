@@ -1,13 +1,13 @@
 spring:
-#  mongodb:
-#    embedded:
-#      version: 3.5.5
+  mongodb:
+    embedded:
+      version: 3.5.5
   data:
     mongodb:
       database: librarydb
-#      port: 0
-      port: 27017
-      host: localhost
+      port: 0
+  #      port: 27017
+  #      host: localhost
   main:
     allow-circular-references: true
   sql:
