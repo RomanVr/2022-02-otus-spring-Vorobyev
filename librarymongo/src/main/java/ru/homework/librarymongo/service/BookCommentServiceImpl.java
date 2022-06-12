@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.homework.librarymongo.domain.Book;
 import ru.homework.librarymongo.domain.BookCommentary;
-import ru.homework.librarymongo.repository.BookCommentaryDao;
-import ru.homework.librarymongo.repository.BookDao;
+import ru.homework.librarymongo.repositories.BookCommentaryDao;
+import ru.homework.librarymongo.repositories.BookDao;
 
 import java.util.List;
 import java.util.Optional;

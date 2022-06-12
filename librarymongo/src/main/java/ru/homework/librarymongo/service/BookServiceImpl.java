@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.homework.librarymongo.domain.Author;
 import ru.homework.librarymongo.domain.Book;
 import ru.homework.librarymongo.domain.Genre;
-import ru.homework.librarymongo.repository.AuthorDao;
-import ru.homework.librarymongo.repository.BookCommentaryDao;
-import ru.homework.librarymongo.repository.BookDao;
-import ru.homework.librarymongo.repository.GenreDao;
+import ru.homework.librarymongo.repositories.AuthorDao;
+import ru.homework.librarymongo.repositories.BookCommentaryDao;
+import ru.homework.librarymongo.repositories.BookDao;
+import ru.homework.librarymongo.repositories.GenreDao;
 
 import java.util.ArrayList;
 import java.util.List;

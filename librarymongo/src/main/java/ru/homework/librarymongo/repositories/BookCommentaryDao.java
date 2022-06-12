@@ -1,4 +1,4 @@
-package ru.homework.librarymongo.repository;
+package ru.homework.librarymongo.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import ru.homework.librarymongo.domain.BookCommentary;

@@ -3,7 +3,7 @@ package ru.homework.librarymongo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.homework.librarymongo.domain.Author;
-import ru.homework.librarymongo.repository.AuthorDao;
+import ru.homework.librarymongo.repositories.AuthorDao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
