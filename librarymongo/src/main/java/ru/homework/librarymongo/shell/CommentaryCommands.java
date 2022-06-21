@@ -17,30 +17,36 @@ public class CommentaryCommands {
     private final BookCommentService commentService;
 
     @ShellMethod(value = "get Commentary by id", key = {"getComm"})
-    public void getById(@ShellOption String id) {
-        commentService.getById(id).ifPresent(commentary -> System.out.printf("%s%n", commentary));
+    public void getById(
+            @ShellOption String book_id,
+            @ShellOption String id
+    ) {
+        commentService.getById(id, book_id).ifPresent(commentary -> System.out.printf("%s%n", commentary));
     }
 
     @ShellMethod(value = "create new BookCommentary for Book", key = {"newComm"})
     public String createNewCommentary(
-            @ShellOption String commentaryText,
-            @ShellOption String book_id
+            @ShellOption String book_id,
+            @ShellOption String commentaryText
     ) {
-        BookCommentary bookCommentary = new BookCommentary(commentaryText, null);
+        BookCommentary bookCommentary = new BookCommentary(commentaryText);
         return String.format("Commentary insert to db with id: %s%n", commentService.insert(bookCommentary, book_id));
     }
 
     @ShellMethod(value = "update BookCommentary", key = {"upComm"})
     public String updateCommentary(
+            @ShellOption String book_id,
             @ShellOption String id,
             @ShellOption String textCommentary) {
-        BookCommentary newBookCommentary = new BookCommentary(id, textCommentary, null);
-        return String.format("Commentary update to db with id: %s%n", commentService.update(newBookCommentary));
+        BookCommentary newBookCommentary = new BookCommentary(id, textCommentary);
+        return String.format("Commentary update to db with id: %s%n", commentService.update(newBookCommentary, book_id));
     }
 
     @ShellMethod(value = "delete BookCommentary by id", key = {"delComm"})
-    public String deleteCommById(@ShellOption String id) {
-        commentService.deleteById(id);
+    public String deleteCommById(
+            @ShellOption String book_id,
+            @ShellOption String id) {
+        commentService.deleteById(id, book_id);
         return String.format("BookCommentary with id: was deleted %s%n", id);
     }
 

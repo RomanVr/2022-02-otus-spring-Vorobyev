@@ -12,18 +12,12 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "book_commentary")
 public class BookCommentary {
-    @Id
     private String id;
-    @Field(name = "commentary")
     private String commentary;
-    @DBRef
-    private Book book;
 
-    public BookCommentary(String commentary, Book book) {
+    public BookCommentary(String commentary) {
         this.commentary = commentary;
-        this.book = book;
     }
 
     @Override
@@ -59,8 +53,6 @@ public class BookCommentary {
         result = result * 59 + ($id == null ? 43 : $id.hashCode());
         Object $commentary = this.getCommentary();
         result = result * 59 + ($commentary == null ? 43 : $commentary.hashCode());
-        Object $book = this.getBook();
-        result = result * 59 + ($book == null ? 43 : $book.hashCode());
         return result;
     }
 }

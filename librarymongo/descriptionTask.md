@@ -10,7 +10,7 @@
 
    +
 3. А зачем нам нужны AuthorDao, BookCommentaryDao и GenreDao, если мы храним всё прям в книге? получается дублирование данных
-   -
+   + Оставил
 4.
 
 ### Author
@@ -47,4 +47,6 @@
 2. При удалении Commentary удалять из Book
    +
 3. Переделать Service без DAO BookCommentary
-   - 
+   + без DAO CommentaryBook не создаются id
+      + сделана генерация UUID для id BookCommentary, Сущность BookCommentary не является Mongo Repo, удалены аннотации
+   

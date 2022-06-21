@@ -6,7 +6,6 @@ import ru.homework.librarymongo.domain.Author;
 import ru.homework.librarymongo.domain.Book;
 import ru.homework.librarymongo.domain.Genre;
 import ru.homework.librarymongo.repositories.AuthorDao;
-import ru.homework.librarymongo.repositories.BookCommentaryDao;
 import ru.homework.librarymongo.repositories.BookDao;
 import ru.homework.librarymongo.repositories.GenreDao;
 
@@ -21,7 +20,6 @@ public class BookServiceImpl implements BookService {
     private final AuthorDao authorDao;
     private final GenreDao genreDao;
     private final BookDao bookDao;
-    private final BookCommentaryDao commentaryDao;
 
     @Override
     public Optional<Book> getById(String id) {
@@ -62,8 +60,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(String id) {
         var book = bookDao.findById(id).orElseThrow();
-        var commentaryList = book.getBookCommentaries();
-        commentaryDao.deleteAll(commentaryList);
         var author = book.getAuthor();
         var genre = book.getGenre();
         author.getBookList().remove(book);

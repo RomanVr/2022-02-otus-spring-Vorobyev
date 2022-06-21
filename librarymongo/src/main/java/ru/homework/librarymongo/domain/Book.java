@@ -1,6 +1,9 @@
 package ru.homework.librarymongo.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -23,9 +26,11 @@ public class Book {
     private String bookTitle;
     @Field(name = "preview")
     private String preview;
-    @Field(name = "author")
+    //    @Field(name = "author")
+    @DBRef
     private Author author;
-    @Field(name = "genre")
+    //    @Field(name = "genre")
+    @DBRef
     private Genre genre;
     @Field(name = "bookCommentaries")
     private List<BookCommentary> bookCommentaries;

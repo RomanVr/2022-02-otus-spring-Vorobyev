@@ -8,13 +8,13 @@ import ru.homework.librarymongo.domain.Book;
 import ru.homework.librarymongo.domain.BookCommentary;
 import ru.homework.librarymongo.domain.Genre;
 import ru.homework.librarymongo.repositories.AuthorDao;
-import ru.homework.librarymongo.repositories.BookCommentaryDao;
 import ru.homework.librarymongo.repositories.BookDao;
 import ru.homework.librarymongo.repositories.GenreDao;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @ChangeLog
 public class InitMongoDBDataChangelog {
@@ -49,14 +49,14 @@ public class InitMongoDBDataChangelog {
     }
 
     @ChangeSet(order = "005", id = "initComments", author = "romanvr")
-    public void initComments(BookCommentaryDao repository) {
-        commentaries1.add(repository.save(new BookCommentary("Very good book", book1)));
-        commentaries1.add(repository.save(new BookCommentary("not bed", book1)));
-        commentaries1.add(repository.save(new BookCommentary("very well", book1)));
+    public void initComments() {
+        commentaries1.add(new BookCommentary(UUID.randomUUID().toString(), "Very good book"));
+        commentaries1.add(new BookCommentary(UUID.randomUUID().toString(), "not bed"));
+        commentaries1.add(new BookCommentary(UUID.randomUUID().toString(), "very well"));
 
-        commentaries2.add(repository.save(new BookCommentary("Very good book", book2)));
-        commentaries2.add(repository.save(new BookCommentary("not bed", book2)));
-        commentaries2.add(repository.save(new BookCommentary("very well", book2)));
+        commentaries2.add(new BookCommentary(UUID.randomUUID().toString(), "Very good book"));
+        commentaries2.add(new BookCommentary(UUID.randomUUID().toString(), "not bed"));
+        commentaries2.add(new BookCommentary(UUID.randomUUID().toString(), "very well"));
     }
 
     @ChangeSet(order = "006", id = "addBooksToAuthors", author = "romanvr")
