@@ -37,6 +37,5 @@ class BookServiceImplTest {
         assertThat(authorDao.findById(author.getId())).isNotEmpty()
                 .get().extracting(Author::getBookList).asList()
                 .hasSize(expectedSizeAuthorBookList);
-
     }
 }
