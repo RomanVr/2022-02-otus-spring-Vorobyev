@@ -23,6 +23,7 @@
     <modules>
         <module>studenttest</module>
         <module>library</module>
+        <module>librarymongo</module>
     </modules>
 
     <properties>
