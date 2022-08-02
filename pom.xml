@@ -24,6 +24,7 @@
         <module>studenttest</module>
         <module>library</module>
         <module>librarymongo</module>
+        <module>librarymvc</module>
     </modules>
 
     <properties>
