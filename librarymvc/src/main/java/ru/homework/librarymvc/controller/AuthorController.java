@@ -30,7 +30,7 @@ public class AuthorController {
     @GetMapping("/edit")
     public String editAuthor(@RequestParam("id") long id, Model model) {
         Author author = authorService.getById(id).orElseThrow(NotFoundException::new);
-        model.addAttribute("author", author);
+        model.addAttribute("author", AuthorDto.fromDomainObject(author));
         return "authorEdit";
     }
 
@@ -42,6 +42,6 @@ public class AuthorController {
             return "authorEdit";
         }
         authorService.update(author.toDomainObject());
-        return "redirect:/authors";
+        return "redirect:/authors/";
     }
 }

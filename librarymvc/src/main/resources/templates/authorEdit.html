@@ -4,27 +4,51 @@
     <meta charset="UTF-8">
     <title>Edit Author</title>
 </head>
+
 <body>
-    <form id="edit-form-author" action="authorEdit.html" th:action="@{edit(id=${author.id})}" th:method="post" th:object="${author}">
-        <h3 th:text="#{author-form-header}">Author info:</h3>
+<h3>
+    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
+</h3>
+<form id="edit-form-author" action="authorEdit.html" th:action="@{edit(id=${author.id})}" th:method="post"
+      th:object="${author}">
+    <h3 th:text="#{author-form-header}">Author info:</h3>
 
-        <div>
-            <label for="id-input">ID:</label>
-            <input id="id-input" type="text" readonly th:value="*{id}" value="1"/>
-        </div>
+    <div>
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly th:value="*{id}" value="1"/>
+    </div>
 
-        <div>
-            <label for="author-name-input">Name:</label>
-            <input id="author-name-input" name="name" type="text" th:value="*{name}" value="Author name"/>
-            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Wrong author name</div>
-        </div>
+    <div>
+        <label for="author-name-input">Name:</label>
+        <input id="author-name-input" name="name" type="text" th:value="*{name}" value="Author name"/>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Wrong author name</div>
+    </div>
 
-        <div>
-            <button type="submit" th:text="#{save-button-caption}">Save</button>
-            <a href="authorList.html" th:href="@{authors}">
-                <button type="button" th:text="#{cancel-button-caption}">Cancel</button>
-            </a>
-        </div>
-    </form>
+    <div>
+        <label for="author-lastname-input">lastName:</label>
+        <input id="author-lastname-input" name="lastName" type="text" th:value="*{lastName}" value="Author lastName"/>
+        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Wrong author lastName</div>
+    </div>
+
+    <div>
+        <label for="author-dateOfBirth-input">dateOfBirth:</label>
+        <input id="author-dateOfBirth-input" name="dateOfBirth" type="text" th:value="*{dateOfBirth}"
+               value="Author dateOfBirth"/>
+        <div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Wrong author dateOfBirth</div>
+    </div>
+
+    <div>
+        <label for="author-gender-input">gender:</label>
+        <input id="author-gender-input" name="gender" type="text" th:value="*{gender}" value="Author gender"/>
+        <div th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Wrong author gender</div>
+    </div>
+
+    <div>
+        <button type="submit" th:text="#{save-button-caption}">Save</button>
+        <a href="authorList.html" th:href="@{/authors/}">
+            <button type="button" th:text="#{cancel-button-caption}">Cancel</button>
+        </a>
+    </div>
+</form>
 </body>
 </html>
