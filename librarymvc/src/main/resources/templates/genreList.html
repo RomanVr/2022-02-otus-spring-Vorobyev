@@ -5,6 +5,29 @@
     <title>Genres</title>
 </head>
 <body>
+<h3>
+    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
+</h3>
+
+<h3 th:text="#{genre-table-header}">Persons:</h3>
+
+<table class="genres">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>genreTitle</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.id}">1</td>
+        <td th:text="${genre.genreTitle}">John Doe</td>
+        <td>
+            <a th:href="@{edit(id=${genre.id})}" href="genreEdit.html" th:text="#{edit-button-caption}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

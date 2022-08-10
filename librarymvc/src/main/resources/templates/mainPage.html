@@ -6,6 +6,11 @@
 </head>
 <body>
 <div>
+    <div><a href="#" th:href="@{/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a></div>
+    <div><a href="#" th:href="@{/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a></div>
+</div>
+<h3>Library</h3>
+<div>
     <div><a href="#" th:href="@{/authors/}">Authors</a></div>
     <div><a href="#" th:href="@{/genres/}">Genres</a></div>
     <div><a href="#" th:href="@{/books/}">Books</a></div>

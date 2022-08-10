@@ -44,17 +44,13 @@
 </head>
 <body>
 
-<div>
-    <div><a href="#" th:href="@{/authors/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a></div>
-    <div><a href="#" th:href="@{/authors/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a></div>
-</div>
 <h3>
     <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
 </h3>
 
-<h3 th:text="#{persons-table-header}">Persons:</h3>
+<h3 th:text="#{author-table-header}">Authors:</h3>
 
-<table class="persons">
+<table class="authors">
     <thead>
     <tr>
         <th>ID</th>
