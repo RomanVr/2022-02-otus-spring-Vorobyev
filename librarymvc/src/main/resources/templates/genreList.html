@@ -9,7 +9,7 @@
     <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
 </h3>
 
-<h3 th:text="#{genre-table-header}">Persons:</h3>
+<h3 th:text="#{genre-table-header}">Genres:</h3>
 
 <table class="genres">
     <thead>
@@ -23,11 +23,20 @@
         <td th:text="${genre.id}">1</td>
         <td th:text="${genre.genreTitle}">John Doe</td>
         <td>
-            <a th:href="@{edit(id=${genre.id})}" href="genreEdit.html" th:text="#{edit-button-caption}">Edit</a>
+            <a th:href="@{edit(id=${genre.id})}" href="genreEdit.html">
+                <button type="button" th:text="#{edit-button-caption}">Edit</button>
+            </a>
+        </td>
+        <td>
+            <form th:action="@{delete(id=${genre.id})}" action="genreEdit.html" th:method="delete">
+                <button type="submit" th:text="#{delete-button-caption}">Delete</button>
+            </form>
         </td>
     </tr>
     </tbody>
 </table>
-
+<h5>
+    <div><a href="/genres/new" th:text="#{genre-table-add}">Add new genre:</a></div>
+</h5>
 </body>
 </html>

@@ -60,4 +60,16 @@ public class GenreController {
         genreService.update(genre.toDomainObject());
         return "redirect:/genres/";
     }
+
+    @DeleteMapping("/delete")
+    public String deleteGenre(@RequestParam("id") long id) {
+        try {
+            genreService.deleteById(id);
+        } catch (Exception ex) {
+            System.out.printf(ex.getMessage());
+        }
+        /*TODO
+           Как выводить ошибку на странице если нельзя удалить из базы?*/
+        return "redirect:/genres/";
+    }
 }
