@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+</head>
+<body>
+<h3>
+    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
+</h3>
+<header>
+    <h1>404</h1>
+</header>
+
+<h4>
+    <p th:text="${errorMsg}">Not Found !</p>
+</h4>
+
+</body>
+</html>
