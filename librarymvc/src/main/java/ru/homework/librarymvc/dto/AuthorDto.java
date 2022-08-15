@@ -22,11 +22,9 @@ public class AuthorDto {
     @Size(min = 3, max = 10, message = "{name-field-should-has-expected-size}")
     private String name;
 
-
     @NotBlank(message = "{name-field-should-not-be-blank}")
     private String lastName;
 
-    @NotBlank(message = "{name-field-should-not-be-blank}")
     private Date dateOfBirth;
 
     @NotBlank(message = "{name-field-should-not-be-blank}")

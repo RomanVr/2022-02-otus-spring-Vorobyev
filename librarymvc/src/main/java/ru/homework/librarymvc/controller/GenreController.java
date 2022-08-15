@@ -45,7 +45,9 @@ public class GenreController {
 
     @GetMapping("/edit")
     public String genreEdit(@RequestParam("id") long id, Model model) {
-        Genre genre = genreService.getById(id).orElseThrow(NotFoundException::new);
+        Genre genre = genreService.getById(id).orElseThrow(
+                () -> new NotFoundException("Genres", id)
+        );
         model.addAttribute("genre", GenreDto.fromDomainObject(genre));
         return "genreEdit";
     }
@@ -62,14 +64,12 @@ public class GenreController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteGenre(@RequestParam("id") long id) {
+    public String deleteGenre(@RequestParam("id") long id) throws SqlNotSupported {
         try {
             genreService.deleteById(id);
         } catch (Exception ex) {
-            System.out.printf(ex.getMessage());
+            throw new SqlNotSupported("delete", id);
         }
-        /*TODO
-           Как выводить ошибку на странице если нельзя удалить из базы?*/
         return "redirect:/genres/";
     }
 }

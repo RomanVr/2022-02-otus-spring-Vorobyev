@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Author</title>
+</head>
+<body>
+<h3>
+    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
+</h3>
+<form id="edit-form-author" action="authorNew.html" th:action="@{/authors/}" th:method="post"
+      th:object="${author}">
+    <h3 th:text="#{author-form-header}">Author new:</h3>
+
+    <div>
+        <label for="author-name-input">name:</label>
+        <input id="author-name-input" name="name" type="text" th:value="*{name}" value="Author name"/>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Wrong author name</div>
+    </div>
+
+    <div>
+        <label for="author-lastName-input">lastName:</label>
+        <input id="author-lastName-input" name="lastName" type="text" th:value="*{lastName}" value="Author last name"/>
+        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Wrong last name</div>
+    </div>
+
+    <div>
+        <label for="author-dateOfBirth-input">dateOfBirth:</label>
+        <input id="author-dateOfBirth-input" name="dateOfBirth" type="text" th:value="*{dateOfBirth}"
+               value="Author dateOfBirth" placeholder="YYYY-MM-DD"/>
+        <div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Wrong dateOfBirth</div>
+    </div>
+
+    <div>
+        <label for="author-gender-input">gender:</label>
+        <input id="author-gender-input" name="gender" type="text" th:value="*{gender}" value="Author gender"/>
+        <div th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Wrong gender</div>
+    </div>
+
+    <div>
+        <button type="submit" th:text="#{save-button-caption}">Save</button>
+        <a href="authorNew.html" th:href="@{/authors/}">
+            <button type="button" th:text="#{cancel-button-caption}">Cancel</button>
+        </a>
+    </div>
+</form>
+</body>
+</html>

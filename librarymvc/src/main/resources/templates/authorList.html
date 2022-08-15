@@ -56,6 +56,8 @@
         <th>ID</th>
         <th>Name</th>
         <th>lastName</th>
+        <th>dateOfBirth</th>
+        <th>gender</th>
     </tr>
     </thead>
     <tbody>
@@ -63,11 +65,23 @@
         <td th:text="${author.id}">1</td>
         <td th:text="${author.name}">John Doe</td>
         <td th:text="${author.lastName}">John Doe</td>
+        <td th:text="${author.dateOfBirth}">2000-01-01</td>
+        <td th:text="${author.gender}">man</td>
         <td>
-            <a th:href="@{edit(id=${author.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>
+            <a th:href="@{edit(id=${author.id})}" href="edit.html">
+                <button type="button" th:text="#{edit-button-caption}">Edit</button>
+            </a>
+        </td>
+        <td>
+            <form th:action="@{delete(id=${author.id})}" href="deleteAuthor.html" th:method="delete">
+                <button type="submit" th:text="#{delete-button-caption}">Delete</button>
+            </form>
         </td>
     </tr>
     </tbody>
 </table>
+<h5>
+    <div><a href="/authors/new" th:text="#{author-table-add}">Add new author:</a></div>
+</h5>
 </body>
 </html>

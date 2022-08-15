@@ -27,9 +27,27 @@ public class AuthorController {
         return "authorList";
     }
 
+    @GetMapping("/new")
+    public String authorNew(Model model) {
+        model.addAttribute("author", new AuthorDto());
+        return "authorNew";
+    }
+
+    @Validated
+    @PostMapping("/")
+    public String authorinsert(@Valid @ModelAttribute("author") AuthorDto author,
+                               BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "authorNew";
+        }
+        authorService.insert(author.toDomainObject());
+        return "redirect:/authors/";
+    }
+
     @GetMapping("/edit")
     public String editAuthor(@RequestParam("id") long id, Model model) {
-        Author author = authorService.getById(id).orElseThrow(NotFoundException::new);
+        Author author = authorService.getById(id).orElseThrow(
+                () -> new NotFoundException("Authors", id));
         model.addAttribute("author", AuthorDto.fromDomainObject(author));
         return "authorEdit";
     }
@@ -42,6 +60,16 @@ public class AuthorController {
             return "authorEdit";
         }
         authorService.update(author.toDomainObject());
+        return "redirect:/authors/";
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteAuthor(@RequestParam("id") long id) throws SqlNotSupported {
+        try {
+            authorService.deleteById(id);
+        } catch (Exception ex) {
+            throw new SqlNotSupported("delete", id);
+        }
         return "redirect:/authors/";
     }
 }
