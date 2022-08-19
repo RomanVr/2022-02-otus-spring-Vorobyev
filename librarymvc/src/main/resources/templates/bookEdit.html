@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Book</title>
+</head>
+<body>
+<h3>
+    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
+</h3>
+
+<form id="edit-form-book" action="bookEdit.html" th:action="@{edit(id=${book.id})}" th:method="post"
+      th:object="${book}">
+    <h3 th:text="#{book-form-header}">Book info:</h3>
+
+    <div>
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" readonly th:value="*{id}" value="1"/>
+    </div>
+
+    <div>
+        <label for="book-title-input">bookTitle:</label>
+        <input id="book-title-input" name="bookTitle" type="text" th:value="*{bookTitle}" value="Book title"/>
+        <div th:if="${#fields.hasErrors('bookTitle')}" th:errors="*{bookTitle}">Wrong book title</div>
+    </div>
+
+    <div>
+        <label for="book-title-input">book preview:</label>
+        <input id="book-preview-input" name="bookPreview" type="text" th:value="*{preview}" value="Book preview"/>
+        <div th:if="${#fields.hasErrors('preview')}" th:errors="*{preview}">Wrong book title</div>
+    </div>
+
+    <div>
+        <label for="book-genre-input">genre:</label>
+        <input id="book-genre-input" name="genre" type="text" th:value="*{genre.genreTitle}" value="Genre"/>
+        <div th:if="${#fields.hasErrors('genre.genreTitle')}" th:errors="*{genre.genreTitle}">Wrong genre title</div>
+    </div>
+
+    <div>
+        <label for="book-author-input">author:</label>
+        <input id="book-author-input" name="author" type="text" th:value="*{author.fullName}" value="author"/>
+        <div th:if="${#fields.hasErrors('author')}" th:errors="*{author.fullName}">Wrong author</div>
+    </div>
+
+    <div>
+        <button type="submit" th:text="#{save-button-caption}">Save</button>
+        <a href="genreList.html" th:href="@{/books/}">
+            <button type="button" th:text="#{cancel-button-caption}">Cancel</button>
+        </a>
+    </div>
+</form>
+</body>
+</html>

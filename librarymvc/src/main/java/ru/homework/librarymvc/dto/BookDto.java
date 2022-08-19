@@ -23,11 +23,26 @@ public class BookDto {
     @NotBlank(message = "{name-field-should-not-be-blank}")
     private String preview;
 
+    private GenreDto genre;
+
+    private AuthorDto author;
+
     public Book toDomainObject() {
-        return new Book(id, bookTitle, preview, null, null, null);
+        return new Book(
+                id,
+                bookTitle,
+                preview,
+                author.toDomainObject(),
+                genre.toDomainObject(),
+                null);
     }
 
     public static BookDto fromDomainObject(Book book) {
-        return new BookDto(book.getId(), book.getBookTitle(), book.getPreview());
+        return new BookDto(
+                book.getId(),
+                book.getBookTitle(),
+                book.getPreview(),
+                GenreDto.fromDomainObject(book.getGenre()),
+                AuthorDto.fromDomainObject(book.getAuthor()));
     }
 }

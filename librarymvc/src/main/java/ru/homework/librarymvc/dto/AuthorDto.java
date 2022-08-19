@@ -30,11 +30,18 @@ public class AuthorDto {
     @NotBlank(message = "{name-field-should-not-be-blank}")
     private String gender;
 
+    private String fullName;
+
     public Author toDomainObject() {
         return new Author(id, name, lastName, dateOfBirth, gender, null);
     }
 
     public static AuthorDto fromDomainObject(Author author) {
-        return new AuthorDto(author.getId(), author.getName(), author.getLastName(), author.getDateOfBirth(), author.getGender());
+        return new AuthorDto(author.getId(),
+                author.getName(),
+                author.getLastName(),
+                author.getDateOfBirth(),
+                author.getGender(),
+                author.getName() + " " + author.getLastName());
     }
 }

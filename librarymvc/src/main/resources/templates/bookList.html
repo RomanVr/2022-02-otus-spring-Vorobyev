@@ -17,19 +17,24 @@
         <th>ID</th>
         <th>bookTitle</th>
         <th>preview</th>
+        <th>genre</th>
+        <th>author</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="genre : ${genres}">
-        <td th:text="${genre.id}">1</td>
-        <td th:text="${genre.genreTitle}">John Doe</td>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.bookTitle}">Book Title</td>
+        <td th:text="${book.preview}">Book Preview</td>
+        <td th:text="${book.genre.genreTitle}">Genre</td>
+        <td th:text="${book.author.fullName}">author</td>
         <td>
-            <a th:href="@{edit(id=${genre.id})}" href="genreEdit.html">
+            <a th:href="@{edit(id=${book.id})}" href="bookEdit.html">
                 <button type="button" th:text="#{edit-button-caption}">Edit</button>
             </a>
         </td>
         <td>
-            <form th:action="@{delete(id=${genre.id})}" action="genreEdit.html" th:method="delete">
+            <form th:action="@{delete(id=${book.id})}" action="bookEdit.html" th:method="delete">
                 <button type="submit" th:text="#{delete-button-caption}">Delete</button>
             </form>
         </td>
