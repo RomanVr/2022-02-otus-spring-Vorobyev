@@ -6,7 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.homework.librarymvc.domain.Book;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -23,17 +26,19 @@ public class BookDto {
     @NotBlank(message = "{name-field-should-not-be-blank}")
     private String preview;
 
-    private GenreDto genre;
+    @NotNull
+    private long genre_id;
 
-    private AuthorDto author;
+    @NotNull
+    private long author_id;
 
     public Book toDomainObject() {
         return new Book(
                 id,
                 bookTitle,
                 preview,
-                author.toDomainObject(),
-                genre.toDomainObject(),
+                null,
+                null,
                 null);
     }
 
@@ -42,7 +47,7 @@ public class BookDto {
                 book.getId(),
                 book.getBookTitle(),
                 book.getPreview(),
-                GenreDto.fromDomainObject(book.getGenre()),
-                AuthorDto.fromDomainObject(book.getAuthor()));
+                book.getGenre().getId(),
+                book.getAuthor().getId());
     }
 }

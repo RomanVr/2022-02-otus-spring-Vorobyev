@@ -12,7 +12,7 @@ public interface BookService {
 
     long insert(Book book, long author_id, long genre_id);
 
-    long update(Book book);
+    long update(Book book, long author_id, long genre_id);
 
     void deleteById(long id);
 

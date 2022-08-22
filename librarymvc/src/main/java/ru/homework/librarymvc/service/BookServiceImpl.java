@@ -17,9 +17,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
+    private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
-    private final BookRepository bookRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public long insert(Book book, long author_id, long genre_id) {
-        Author author = authorRepository.getById(author_id);
+        Author author = authorRepository.findById(author_id).orElseThrow();
         Genre genre = genreRepository.findById(genre_id).orElseThrow();
         book.setAuthor(author);
         book.setGenre(genre);
@@ -45,8 +45,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public long update(Book book) {
+    public long update(Book newBook, long author_id, long genre_id) {
+        Author author = authorRepository.findById(author_id).orElseThrow();
+        Genre genre = genreRepository.findById(genre_id).orElseThrow();
+        Book book = bookRepository.getById(newBook.getId());
+        book.setBookTitle(newBook.getBookTitle());
+        book.setAuthor(author);
+        book.setGenre(genre);
         return bookRepository.save(book).getId();
+
     }
 
     @Override
@@ -63,7 +70,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByAuthorId(long author_id) {
-        var author = authorRepository.getById(author_id);
+        var author = authorRepository.findById(author_id).orElseThrow();
         Hibernate.initialize(author.getBookList());
         return author.getBookList();
     }
@@ -71,7 +78,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> findBooksByGenreId(long genre_id) {
-        var genre = genreRepository.getById(genre_id);
+        var genre = genreRepository.findById(genre_id).orElseThrow();
         Hibernate.initialize(genre.getBookList());
         return genre.getBookList();
     }

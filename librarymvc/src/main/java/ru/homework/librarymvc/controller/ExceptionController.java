@@ -10,6 +10,6 @@ public class ExceptionController {
     @ExceptionHandler({NotFoundException.class, SqlNotSupported.class})
     public String handleNotFound(Exception ex, Model model) {
         model.addAttribute("errorMsg", ex.getMessage());
-        return "error";
+        return "errorMsg";
     }
 }

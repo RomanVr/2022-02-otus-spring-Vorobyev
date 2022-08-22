@@ -33,7 +33,7 @@
     <div>
         <label for="author-dateOfBirth-input">dateOfBirth:</label>
         <input id="author-dateOfBirth-input" name="dateOfBirth" type="text" th:value="*{dateOfBirth}"
-               value="Author dateOfBirth"/>
+               value="Author dateOfBirth" placeholder="YYYY-MM-DD"/>
         <div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Wrong author dateOfBirth</div>
     </div>
 

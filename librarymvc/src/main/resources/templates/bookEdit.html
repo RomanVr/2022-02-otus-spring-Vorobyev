@@ -26,21 +26,25 @@
 
     <div>
         <label for="book-title-input">book preview:</label>
-        <input id="book-preview-input" name="bookPreview" type="text" th:value="*{preview}" value="Book preview"/>
+        <input id="book-preview-input" name="preview" type="text" th:value="*{preview}" value="Book preview"/>
         <div th:if="${#fields.hasErrors('preview')}" th:errors="*{preview}">Wrong book title</div>
     </div>
 
     <div>
         <label for="book-genre-input">genre:</label>
-        <input id="book-genre-input" name="genre" type="text" th:value="*{genre.genreTitle}" value="Genre"/>
-        <div th:if="${#fields.hasErrors('genre.genreTitle')}" th:errors="*{genre.genreTitle}">Wrong genre title</div>
+        <input id="book-genre-input" name="genre_id" type="text" th:value="*{genre_id}" value="Genre"/>
+        <div th:if="${#fields.hasErrors('genre_id')}" th:errors="*{genre_id}">Wrong genre title</div>
     </div>
 
     <div>
-        <label for="book-author-input">author:</label>
-        <input id="book-author-input" name="author" type="text" th:value="*{author.fullName}" value="author"/>
-        <div th:if="${#fields.hasErrors('author')}" th:errors="*{author.fullName}">Wrong author</div>
+        <label for="book-author-select">author:</label>
+        <select id="book-author-select" th:value="*{author_id}" th:selected="${authorBook.fullName}">
+            <option th:each="author:${authors}" th:value="${author.id}" th:text="${author.fullName}"></option>
+        </select>
+        <!--        <input id="book-author-input" name="author_id" type="text" th:value="*{author_id}" value="author"/>-->
+        <div th:if="${#fields.hasErrors('author_id')}" th:errors="*{author_id}">Wrong author</div>
     </div>
+    <!--//TODO Реализовать выбор option с зиписью id в select-->
 
     <div>
         <button type="submit" th:text="#{save-button-caption}">Save</button>
