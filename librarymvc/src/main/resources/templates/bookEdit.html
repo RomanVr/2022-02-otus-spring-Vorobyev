@@ -6,7 +6,7 @@
 </head>
 <body>
 <h3>
-    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
+    <a href="/" th:text="${'Menu library'}">Menu</a>
 </h3>
 
 <form id="edit-form-book" action="bookEdit.html" th:action="@{edit(id=${book.id})}" th:method="post"
@@ -25,26 +25,28 @@
     </div>
 
     <div>
-        <label for="book-title-input">book preview:</label>
+        <label for="book-preview-input">book preview:</label>
         <input id="book-preview-input" name="preview" type="text" th:value="*{preview}" value="Book preview"/>
         <div th:if="${#fields.hasErrors('preview')}" th:errors="*{preview}">Wrong book title</div>
     </div>
 
     <div>
-        <label for="book-genre-input">genre:</label>
-        <input id="book-genre-input" name="genre_id" type="text" th:value="*{genre_id}" value="Genre"/>
+        <label for="book-genre-select">genre:</label>
+        <select id="book-genre-select" th:field="*{genre_id}">
+            <option th:each="genre:${genres}" th:value="${genre.id}" th:text="${genre.genreTitle}"
+                    th:selected="${book.genre_id == genre.id}"></option>
+        </select>
         <div th:if="${#fields.hasErrors('genre_id')}" th:errors="*{genre_id}">Wrong genre title</div>
     </div>
 
     <div>
         <label for="book-author-select">author:</label>
-        <select id="book-author-select" th:value="*{author_id}" th:selected="${authorBook.fullName}">
-            <option th:each="author:${authors}" th:value="${author.id}" th:text="${author.fullName}"></option>
+        <select id="book-author-select" th:field="*{author_id}">
+            <option th:each="author:${authors}" th:value="${author.id}" th:text="${author.fullName}"
+                    th:selected="${book.author_id == author.id}"></option>
         </select>
-        <!--        <input id="book-author-input" name="author_id" type="text" th:value="*{author_id}" value="author"/>-->
         <div th:if="${#fields.hasErrors('author_id')}" th:errors="*{author_id}">Wrong author</div>
     </div>
-    <!--//TODO Реализовать выбор option с зиписью id в select-->
 
     <div>
         <button type="submit" th:text="#{save-button-caption}">Save</button>

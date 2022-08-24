@@ -45,8 +45,6 @@ public class BookController {
         );
         BookDto bookDto = BookDto.fromDomainObject(book);
         model.addAttribute("book", bookDto);
-        model.addAttribute("authorBook", AuthorDto.fromDomainObject(book.getAuthor()));
-        model.addAttribute("genreBook", GenreDto.fromDomainObject(book.getGenre()));
         model.addAttribute("authors", authorService.getAll()
                 .stream().map(AuthorDto::fromDomainObject)
                 .collect(Collectors.toList()));
@@ -62,6 +60,12 @@ public class BookController {
                            BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("authors", authorService.getAll()
+                    .stream().map(AuthorDto::fromDomainObject)
+                    .collect(Collectors.toList()));
+            model.addAttribute("genres", genreService.getAll()
+                    .stream().map(GenreDto::fromDomainObject)
+                    .collect(Collectors.toList()));
             return "bookEdit";
         }
         bookService.update(book.toDomainObject(), book.getAuthor_id(), book.getGenre_id());
