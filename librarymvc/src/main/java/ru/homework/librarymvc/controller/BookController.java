@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.homework.librarymvc.domain.Book;
 import ru.homework.librarymvc.dto.AuthorDto;
 import ru.homework.librarymvc.dto.BookDto;
+import ru.homework.librarymvc.dto.CommentaryDto;
 import ru.homework.librarymvc.dto.GenreDto;
 import ru.homework.librarymvc.service.AuthorService;
+import ru.homework.librarymvc.service.BookCommentService;
 import ru.homework.librarymvc.service.BookService;
 import ru.homework.librarymvc.service.GenreService;
 
@@ -27,6 +29,8 @@ public class BookController {
     private final AuthorService authorService;
     private final GenreService genreService;
 
+    private final BookCommentService commentService;
+
     @GetMapping("/")
     public String bookList(Model model) {
         List<BookDto> books = bookService
@@ -36,6 +40,19 @@ public class BookController {
                 .collect(Collectors.toList());
         model.addAttribute("books", books);
         return "bookList";
+    }
+
+    @GetMapping("/view")
+    public String bookView(@RequestParam("id") long id, Model model) {
+        Book book = bookService.getById(id).orElseThrow(
+                () -> new NotFoundException("Books", id)
+        );
+        List<CommentaryDto> commentaries = commentService.findCommentsByBookId(id).stream()
+                .map(CommentaryDto::fromDomainObject)
+                .collect(Collectors.toList());
+        model.addAttribute("book", BookDto.fromDomainObject(book));
+        model.addAttribute("commentaries", commentaries);
+        return "bookView";
     }
 
     @GetMapping("/edit")
@@ -69,6 +86,6 @@ public class BookController {
             return "bookEdit";
         }
         bookService.update(book.toDomainObject(), book.getAuthor_id(), book.getGenre_id());
-        return "redirect:/books/";
+        return "redirect:/books/view?id=" + book.getId();
     }
 }

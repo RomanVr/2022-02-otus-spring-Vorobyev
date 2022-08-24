@@ -32,6 +32,9 @@ public class BookDto {
     @NotNull
     private long author_id;
 
+    private AuthorDto author;
+    private GenreDto genre;
+
     public Book toDomainObject() {
         return new Book(
                 id,
@@ -48,6 +51,8 @@ public class BookDto {
                 book.getBookTitle(),
                 book.getPreview(),
                 book.getGenre().getId(),
-                book.getAuthor().getId());
+                book.getAuthor().getId(),
+                AuthorDto.fromDomainObject(book.getAuthor()),
+                GenreDto.fromDomainObject(book.getGenre()));
     }
 }

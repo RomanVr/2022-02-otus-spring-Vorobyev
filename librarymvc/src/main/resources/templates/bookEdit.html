@@ -50,7 +50,7 @@
 
     <div>
         <button type="submit" th:text="#{save-button-caption}">Save</button>
-        <a href="genreList.html" th:href="@{/books/}">
+        <a href="genreList.html" th:href="@{/books/view(id=${book.id})}">
             <button type="button" th:text="#{cancel-button-caption}">Cancel</button>
         </a>
     </div>
