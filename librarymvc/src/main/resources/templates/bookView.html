@@ -47,7 +47,10 @@
     </div>
 
     <h3 th:text="#{comments-table-header}">Comments:</h3>
-
+    <h5>
+        <a th:href="@{/commentaries/new(book_id=${book.id})}" th:text="#{commentary-table-add}">Add new
+            commentary</a>
+    </h5>
     <table>
         <thead>
         <tr>
@@ -60,12 +63,13 @@
             <td th:text="${commentary.id}">1</td>
             <td th:text="${commentary.commentary}">Book commentary</td>
             <td>
-                <a th:href="@{/commentaries/edit(id=${commentary.id})}" href="commentaryEdit.html">
+                <a th:href="@{/commentaries/edit(id=${commentary.id},book_id=${book.id})}" href="commentaryEdit.html">
                     <button type="button" th:text="#{edit-button-caption}">Edit</button>
                 </a>
             </td>
             <td>
-                <form th:action="@{/commentaries/delete(id=${commentary.id})}" action="commentaryEdit.html"
+                <form th:action="@{/commentaries/delete(id=${commentary.id},book_id=${book.id})}"
+                      action="commentaryEdit.html"
                       th:method="delete">
                     <button type="submit" th:text="#{delete-button-caption}">Delete</button>
                 </form>

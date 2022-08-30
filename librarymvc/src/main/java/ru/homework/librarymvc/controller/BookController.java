@@ -88,4 +88,9 @@ public class BookController {
         bookService.update(book.toDomainObject(), book.getAuthor_id(), book.getGenre_id());
         return "redirect:/books/view?id=" + book.getId();
     }
+
+    /*TODO
+     *  Добавить создание книги
+     *  Добавить удаление книги
+     * */
 }

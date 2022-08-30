@@ -2,35 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Commentary edit</title>
+    <title>New commentary</title>
 </head>
 <body>
 <h3>
     <a href="/" th:text="${'Menu library'}">Menu</a>
 </h3>
+
 <h3>
     <span th:text="'Book: ' + ${book.bookTitle}">Book</span>
 </h3>
 
-<h3 th:text="#{comment-form-header}">Commentary info:</h3>
-
-<form id="edit-form-comment" action="commentaryEdit.html" th:action="@{edit(id=${commentary.id})}" th:method="post"
+<form id="edit-form-commentary" action="commentaryNew.html" th:action="@{/commentaries/}" th:method="post"
       th:object="${commentary}">
+    <h3 th:text="#{commentary-form-header}">Commentary new:</h3>
 
     <div>
-        <label for="id-input">ID:</label>
-        <input id="id-input" type="text" readonly th:value="*{id}" value="1"/>
-    </div>
-
-    <div>
-        <label for="comment-name-input">Commentary:</label>
-        <input id="comment-name-input" name="commentary" type="text" th:value="*{commentary}" value="commentary"/>
+        <label for="commentary-name-input">commentary:</label>
+        <input id="commentary-name-input" name="commentary" type="text" th:value="*{commentary}" value="commentary"/>
         <div th:if="${#fields.hasErrors('commentary')}" th:errors="*{commentary}">Wrong commentary</div>
     </div>
 
     <div>
         <label for="book_id-name-input" hidden>Book id:</label>
-        <input hidden id="book_id-name-input" name="book_id" type="text" th:value="*{book_id}" value="book_id"/>
+        <input hidden id="book_id-name-input" name="book_id" type="text" th:value="${book.id}" value="book_id"/>
         <div hidden th:if="${#fields.hasErrors('book_id')}" th:errors="*{book_id}">Wrong book id</div>
     </div>
 
