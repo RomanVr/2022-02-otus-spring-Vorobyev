@@ -2,21 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Book</title>
+    <title>New Book</title>
 </head>
 <body>
 <h3>
     <a href="/" th:text="${'Menu library'}">Menu</a>
 </h3>
 
-<form id="edit-form-book" action="bookEdit.html" th:action="@{edit(id=${book.id})}" th:method="post"
+<form id="edit-form-book" action="bookNew.html" th:action="@{/books/}" th:method="post"
       th:object="${book}">
-    <h3 th:text="#{book-form-header}">Book info:</h3>
-
-    <div>
-        <label for="id-input">ID:</label>
-        <input id="id-input" type="text" readonly th:value="*{id}" value="1"/>
-    </div>
+    <h3 th:text="#{book-form-header}">Book new:</h3>
 
     <div>
         <label for="book-title-input">bookTitle:</label>
@@ -33,8 +28,8 @@
     <div>
         <label for="book-genre-select">genre:</label>
         <select id="book-genre-select" th:field="*{genre_id}">
-            <option th:each="genre:${genres}" th:value="${genre.id}" th:text="${genre.genreTitle}"
-                    th:selected="${book.genre_id == genre.id}"></option>
+            <option th:value="0" th:text="''"></option>
+            <option th:each="genre:${genres}" th:value="${genre.id}" th:text="${genre.genreTitle}"></option>
         </select>
         <div th:if="${#fields.hasErrors('genre_id')}" th:errors="*{genre_id}">Wrong genre title</div>
     </div>
@@ -42,18 +37,20 @@
     <div>
         <label for="book-author-select">author:</label>
         <select id="book-author-select" th:field="*{author_id}">
-            <option th:each="author:${authors}" th:value="${author.id}" th:text="${author.fullName}"
-                    th:selected="${book.author_id == author.id}"></option>
+            <option th:value="0" th:text="''"></option>
+            <option th:each="author:${authors}" th:value="${author.id}" th:text="${author.fullName}"></option>
         </select>
         <div th:if="${#fields.hasErrors('author_id')}" th:errors="*{author_id}">Wrong author</div>
     </div>
 
     <div>
         <button type="submit" th:text="#{save-button-caption}">Save</button>
-        <a href="bookList.html" th:href="@{/books/view(id=${book.id})}">
+        <a href="bookList.html" th:href="@{/books/}">
             <button type="button" th:text="#{cancel-button-caption}">Cancel</button>
         </a>
     </div>
 </form>
+
+
 </body>
 </html>

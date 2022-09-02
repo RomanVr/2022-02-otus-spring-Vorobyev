@@ -55,8 +55,8 @@ public class CommentaryController {
                 () -> new NotFoundException("Commentaries", id)
         );
         CommentaryDto commentaryDto = CommentaryDto.fromDomainObject(commentary);
-        Book book = bookService.getById(id).orElseThrow(
-                () -> new NotFoundException("Books", id)
+        Book book = bookService.getById(book_id).orElseThrow(
+                () -> new NotFoundException("Books", book_id)
         );
         BookDto bookDto = BookDto.fromDomainObject(book);
         model.addAttribute("commentary", commentaryDto);

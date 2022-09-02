@@ -13,15 +13,6 @@
 </h3>
 <div th:object="${book}">
     <div>
-        <a th:href="@{edit(id=${book.id})}" href="bookEdit.html">
-            <button type="button" th:text="#{edit-button-caption}">Edit</button>
-        </a>
-        <form th:action="@{delete(id=${book.id})}" action="bookEdit.html" th:method="delete">
-            <button type="submit" th:text="#{delete-button-caption}">Delete</button>
-        </form>
-    </div>
-
-    <div>
         <label for="id-span">ID:</label>
         <span id="id-span" th:text="*{id}">id</span>
     </div>
@@ -44,6 +35,15 @@
     <div>
         <label for="book-author-span">author:</label>
         <span id="book-author-span" th:text="*{author.fullName}"></span>
+    </div>
+
+    <div>
+        <a th:href="@{edit(id=${book.id})}" href="bookEdit.html">
+            <button type="button" th:text="#{edit-button-caption}">Edit</button>
+        </a>
+        <form th:action="@{delete(id=${book.id})}" action="bookView.html" th:method="delete">
+            <button type="submit" th:text="#{delete-button-caption}">Delete</button>
+        </form>
     </div>
 
     <h3 th:text="#{comments-table-header}">Comments:</h3>

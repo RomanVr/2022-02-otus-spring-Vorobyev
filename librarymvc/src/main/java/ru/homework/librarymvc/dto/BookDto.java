@@ -7,10 +7,7 @@ import lombok.Setter;
 import ru.homework.librarymvc.domain.Book;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -27,9 +24,11 @@ public class BookDto {
     private String preview;
 
     @NotNull
+    @Min(value = 1, message = "{id-field-should-not-be-blank}")
     private long genre_id;
 
     @NotNull
+    @Min(value = 1, message = "{id-field-should-not-be-blank}")
     private long author_id;
 
     private AuthorDto author;

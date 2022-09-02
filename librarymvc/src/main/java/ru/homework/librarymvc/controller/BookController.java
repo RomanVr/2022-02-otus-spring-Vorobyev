@@ -42,6 +42,35 @@ public class BookController {
         return "bookList";
     }
 
+    @GetMapping("/new")
+    public String bookNew(Model model) {
+        model.addAttribute("book", new BookDto());
+        model.addAttribute("authors", authorService.getAll()
+                .stream().map(AuthorDto::fromDomainObject)
+                .collect(Collectors.toList()));
+        model.addAttribute("genres", genreService.getAll()
+                .stream().map(GenreDto::fromDomainObject)
+                .collect(Collectors.toList()));
+        return "bookNew";
+    }
+
+    @Validated
+    @PostMapping("/")
+    public String bookInsert(@Valid @ModelAttribute("book") BookDto book,
+                             BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("authors", authorService.getAll()
+                    .stream().map(AuthorDto::fromDomainObject)
+                    .collect(Collectors.toList()));
+            model.addAttribute("genres", genreService.getAll()
+                    .stream().map(GenreDto::fromDomainObject)
+                    .collect(Collectors.toList()));
+            return "bookNew";
+        }
+        bookService.insert(book.toDomainObject(), book.getAuthor_id(), book.getGenre_id());
+        return "redirect:/books/";
+    }
+
     @GetMapping("/view")
     public String bookView(@RequestParam("id") long id, Model model) {
         Book book = bookService.getById(id).orElseThrow(
@@ -73,7 +102,7 @@ public class BookController {
 
     @Validated
     @PostMapping("/edit")
-    public String saveBook(@Valid @ModelAttribute("book") BookDto book,
+    public String bookSave(@Valid @ModelAttribute("book") BookDto book,
                            BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
@@ -89,8 +118,13 @@ public class BookController {
         return "redirect:/books/view?id=" + book.getId();
     }
 
-    /*TODO
-     *  Добавить создание книги
-     *  Добавить удаление книги
-     * */
+    @DeleteMapping("/delete")
+    public String deleteBook(@RequestParam("id") long id) throws SqlNotSupported {
+        try {
+            bookService.deleteById(id);
+        } catch (Exception ex) {
+            throw new SqlNotSupported("delete", id);
+        }
+        return "redirect:/books/";
+    }
 }
