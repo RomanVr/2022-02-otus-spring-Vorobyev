@@ -5,9 +5,8 @@
     <title>Commentary edit</title>
 </head>
 <body>
-<h3>
-    <a href="/" th:text="${'Menu library'}">Menu</a>
-</h3>
+
+<div th:insert="~{mainPage::menu}"></div>
 <h3>
     <span th:text="'Book: ' + ${book.bookTitle}">Book</span>
 </h3>

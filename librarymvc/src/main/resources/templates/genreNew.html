@@ -5,9 +5,9 @@
     <title>New Genre</title>
 </head>
 <body>
-<h3>
-    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
-</h3>
+
+<div th:insert="~{mainPage::menu}"></div>
+
 <form id="edit-form-genre" action="genreNew.html" th:action="@{/genres/}" th:method="post"
       th:object="${genre}">
     <h3 th:text="#{genre-form-header}">Genre new:</h3>

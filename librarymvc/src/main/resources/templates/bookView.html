@@ -5,12 +5,12 @@
     <title>Book view</title>
 </head>
 <body>
-<h3>
-    <a href="/" th:text="${'Menu library'}">Menu</a>
-</h3>
-<h3>
+
+<div th:insert="~{mainPage::menu}"></div>
+<!--<h3>
     <a href="/books/" th:text="${'Books'}">Books</a>
-</h3>
+</h3>-->
+<h3 th:text="#{book-table-header}">Book view:</h3>
 <div th:object="${book}">
     <div>
         <label for="id-span">ID:</label>

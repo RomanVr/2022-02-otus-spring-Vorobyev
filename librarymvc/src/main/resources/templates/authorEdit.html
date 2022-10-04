@@ -6,9 +6,9 @@
 </head>
 
 <body>
-<h3>
-    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
-</h3>
+
+<div th:insert="~{mainPage::menu}"></div>
+
 <form id="edit-form-author" action="authorEdit.html" th:action="@{edit(id=${author.id})}" th:method="post"
       th:object="${author}">
     <h3 th:text="#{author-form-header}">Author info:</h3>

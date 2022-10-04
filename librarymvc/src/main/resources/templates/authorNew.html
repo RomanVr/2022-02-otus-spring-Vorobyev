@@ -5,9 +5,8 @@
     <title>New Author</title>
 </head>
 <body>
-<h3>
-    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
-</h3>
+
+<div th:insert="~{mainPage::menu}"></div>
 <form id="edit-form-author" action="authorNew.html" th:action="@{/authors/}" th:method="post"
       th:object="${author}">
     <h3 th:text="#{author-form-header}">Author new:</h3>

@@ -5,11 +5,10 @@
     <title>Books</title>
 </head>
 <body>
-<h3>
-    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
-</h3>
 
-<h3 th:text="#{book-table-header}">Books:</h3>
+<div th:insert="~{mainPage::menu}"></div>
+
+<h3 th:text="#{books-table-header}">Books:</h3>
 
 <table>
     <thead>

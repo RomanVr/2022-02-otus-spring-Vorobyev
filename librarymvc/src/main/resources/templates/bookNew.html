@@ -5,10 +5,8 @@
     <title>New Book</title>
 </head>
 <body>
-<h3>
-    <a href="/" th:text="${'Menu library'}">Menu</a>
-</h3>
 
+<div th:insert="~{mainPage::menu}"></div>
 <form id="edit-form-book" action="bookNew.html" th:action="@{/books/}" th:method="post"
       th:object="${book}">
     <h3 th:text="#{book-form-header}">Book new:</h3>

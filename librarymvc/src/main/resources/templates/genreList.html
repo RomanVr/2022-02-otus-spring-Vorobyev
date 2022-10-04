@@ -5,9 +5,8 @@
     <title>Genres</title>
 </head>
 <body>
-<h3>
-    <div><a href="/" th:text="${'Menu library'}">Menu</a></div>
-</h3>
+
+<div th:insert="~{mainPage::menu}"></div>
 
 <h3 th:text="#{genre-table-header}">Genres:</h3>
 
